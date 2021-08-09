@@ -7,27 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		131D31FB26C0E8550006A9AD /* PrismUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D31FA26C0E8550006A9AD /* PrismUIApp.swift */; };
-		131D31FD26C0E8550006A9AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D31FC26C0E8550006A9AD /* ContentView.swift */; };
-		131D31FF26C0E8560006A9AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 131D31FE26C0E8560006A9AD /* Assets.xcassets */; };
-		131D320226C0E8560006A9AD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 131D320126C0E8560006A9AD /* Preview Assets.xcassets */; };
-		131D320426C0E8560006A9AD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131D320326C0E8560006A9AD /* Persistence.swift */; };
-		131D320726C0E8560006A9AD /* PrismUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 131D320526C0E8560006A9AD /* PrismUI.xcdatamodeld */; };
+		1319711426F3DAD300471846 /* PrismSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711326F3DAD300471846 /* PrismSwiftUIApp.swift */; };
+		1319711626F3DAD300471846 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711526F3DAD300471846 /* ContentView.swift */; };
+		1319711826F3DAD400471846 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711726F3DAD400471846 /* Assets.xcassets */; };
+		1319711B26F3DAD400471846 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711A26F3DAD400471846 /* Preview Assets.xcassets */; };
+		1319711D26F3DAD400471846 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711C26F3DAD400471846 /* Persistence.swift */; };
+		1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		131D31F726C0E8550006A9AD /* PrismUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		131D31FA26C0E8550006A9AD /* PrismUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismUIApp.swift; sourceTree = "<group>"; };
-		131D31FC26C0E8550006A9AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		131D31FE26C0E8560006A9AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		131D320126C0E8560006A9AD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		131D320326C0E8560006A9AD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		131D320626C0E8560006A9AD /* PrismUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PrismUI.xcdatamodel; sourceTree = "<group>"; };
-		131D320826C0E8560006A9AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1319711026F3DAD300471846 /* PrismSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1319711326F3DAD300471846 /* PrismSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismSwiftUIApp.swift; sourceTree = "<group>"; };
+		1319711526F3DAD300471846 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1319711726F3DAD400471846 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1319711A26F3DAD400471846 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1319711C26F3DAD400471846 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		1319711F26F3DAD400471846 /* PrismSwiftUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PrismSwiftUI.xcdatamodel; sourceTree = "<group>"; };
+		1319712126F3DAD400471846 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1319712226F3DAD400471846 /* PrismSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrismSwiftUI.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		131D31F426C0E8550006A9AD /* Frameworks */ = {
+		1319710D26F3DAD300471846 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,40 +38,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		131D31EE26C0E8550006A9AD = {
+		1319710726F3DAD300471846 = {
 			isa = PBXGroup;
 			children = (
-				131D31F926C0E8550006A9AD /* PrismUI */,
-				131D31F826C0E8550006A9AD /* Products */,
+				1319711226F3DAD300471846 /* PrismSwiftUI */,
+				1319711126F3DAD300471846 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		131D31F826C0E8550006A9AD /* Products */ = {
+		1319711126F3DAD300471846 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				131D31F726C0E8550006A9AD /* PrismUI.app */,
+				1319711026F3DAD300471846 /* PrismSwiftUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		131D31F926C0E8550006A9AD /* PrismUI */ = {
+		1319711226F3DAD300471846 /* PrismSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				131D31FA26C0E8550006A9AD /* PrismUIApp.swift */,
-				131D31FC26C0E8550006A9AD /* ContentView.swift */,
-				131D31FE26C0E8560006A9AD /* Assets.xcassets */,
-				131D320326C0E8560006A9AD /* Persistence.swift */,
-				131D320826C0E8560006A9AD /* Info.plist */,
-				131D320526C0E8560006A9AD /* PrismUI.xcdatamodeld */,
-				131D320026C0E8560006A9AD /* Preview Content */,
+				1319711326F3DAD300471846 /* PrismSwiftUIApp.swift */,
+				1319711526F3DAD300471846 /* ContentView.swift */,
+				1319711726F3DAD400471846 /* Assets.xcassets */,
+				1319711C26F3DAD400471846 /* Persistence.swift */,
+				1319712126F3DAD400471846 /* Info.plist */,
+				1319712226F3DAD400471846 /* PrismSwiftUI.entitlements */,
+				1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */,
+				1319711926F3DAD400471846 /* Preview Content */,
 			);
-			path = PrismUI;
+			path = PrismSwiftUI;
 			sourceTree = "<group>";
 		};
-		131D320026C0E8560006A9AD /* Preview Content */ = {
+		1319711926F3DAD400471846 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				131D320126C0E8560006A9AD /* Preview Assets.xcassets */,
+				1319711A26F3DAD400471846 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -78,38 +80,38 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		131D31F626C0E8550006A9AD /* PrismUI */ = {
+		1319710F26F3DAD300471846 /* PrismSwiftUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 131D320B26C0E8560006A9AD /* Build configuration list for PBXNativeTarget "PrismUI" */;
+			buildConfigurationList = 1319712526F3DAD400471846 /* Build configuration list for PBXNativeTarget "PrismSwiftUI" */;
 			buildPhases = (
-				131D31F326C0E8550006A9AD /* Sources */,
-				131D31F426C0E8550006A9AD /* Frameworks */,
-				131D31F526C0E8550006A9AD /* Resources */,
+				1319710C26F3DAD300471846 /* Sources */,
+				1319710D26F3DAD300471846 /* Frameworks */,
+				1319710E26F3DAD300471846 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = PrismUI;
-			productName = PrismUI;
-			productReference = 131D31F726C0E8550006A9AD /* PrismUI.app */;
+			name = PrismSwiftUI;
+			productName = PrismSwiftUI;
+			productReference = 1319711026F3DAD300471846 /* PrismSwiftUI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		131D31EF26C0E8550006A9AD /* Project object */ = {
+		1319710826F3DAD300471846 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
-					131D31F626C0E8550006A9AD = {
-						CreatedOnToolsVersion = 12.5;
+					1319710F26F3DAD300471846 = {
+						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
 			};
-			buildConfigurationList = 131D31F226C0E8550006A9AD /* Build configuration list for PBXProject "PrismUI" */;
+			buildConfigurationList = 1319710B26F3DAD300471846 /* Build configuration list for PBXProject "PrismSwiftUI" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -117,44 +119,44 @@
 				en,
 				Base,
 			);
-			mainGroup = 131D31EE26C0E8550006A9AD;
-			productRefGroup = 131D31F826C0E8550006A9AD /* Products */;
+			mainGroup = 1319710726F3DAD300471846;
+			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				131D31F626C0E8550006A9AD /* PrismUI */,
+				1319710F26F3DAD300471846 /* PrismSwiftUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		131D31F526C0E8550006A9AD /* Resources */ = {
+		1319710E26F3DAD300471846 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				131D320226C0E8560006A9AD /* Preview Assets.xcassets in Resources */,
-				131D31FF26C0E8560006A9AD /* Assets.xcassets in Resources */,
+				1319711B26F3DAD400471846 /* Preview Assets.xcassets in Resources */,
+				1319711826F3DAD400471846 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		131D31F326C0E8550006A9AD /* Sources */ = {
+		1319710C26F3DAD300471846 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				131D320426C0E8560006A9AD /* Persistence.swift in Sources */,
-				131D320726C0E8560006A9AD /* PrismUI.xcdatamodeld in Sources */,
-				131D31FD26C0E8550006A9AD /* ContentView.swift in Sources */,
-				131D31FB26C0E8550006A9AD /* PrismUIApp.swift in Sources */,
+				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
+				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
+				1319711426F3DAD300471846 /* PrismSwiftUIApp.swift in Sources */,
+				1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		131D320926C0E8560006A9AD /* Debug */ = {
+		1319712326F3DAD400471846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -205,17 +207,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		131D320A26C0E8560006A9AD /* Release */ = {
+		1319712426F3DAD400471846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -260,75 +262,76 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		131D320C26C0E8560006A9AD /* Debug */ = {
+		1319712626F3DAD400471846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PrismSwiftUI/PrismSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"PrismUI/Preview Content\"";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"PrismSwiftUI/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PrismUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = PrismSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismUI;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		131D320D26C0E8560006A9AD /* Release */ = {
+		1319712726F3DAD400471846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PrismSwiftUI/PrismSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"PrismUI/Preview Content\"";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"PrismSwiftUI/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PrismUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = PrismSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismUI;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		131D31F226C0E8550006A9AD /* Build configuration list for PBXProject "PrismUI" */ = {
+		1319710B26F3DAD300471846 /* Build configuration list for PBXProject "PrismSwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				131D320926C0E8560006A9AD /* Debug */,
-				131D320A26C0E8560006A9AD /* Release */,
+				1319712326F3DAD400471846 /* Debug */,
+				1319712426F3DAD400471846 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		131D320B26C0E8560006A9AD /* Build configuration list for PBXNativeTarget "PrismUI" */ = {
+		1319712526F3DAD400471846 /* Build configuration list for PBXNativeTarget "PrismSwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				131D320C26C0E8560006A9AD /* Debug */,
-				131D320D26C0E8560006A9AD /* Release */,
+				1319712626F3DAD400471846 /* Debug */,
+				1319712726F3DAD400471846 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -336,17 +339,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		131D320526C0E8560006A9AD /* PrismUI.xcdatamodeld */ = {
+		1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				131D320626C0E8560006A9AD /* PrismUI.xcdatamodel */,
+				1319711F26F3DAD400471846 /* PrismSwiftUI.xcdatamodel */,
 			);
-			currentVersion = 131D320626C0E8560006A9AD /* PrismUI.xcdatamodel */;
-			path = PrismUI.xcdatamodeld;
+			currentVersion = 1319711F26F3DAD400471846 /* PrismSwiftUI.xcdatamodel */;
+			path = PrismSwiftUI.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
 	};
-	rootObject = 131D31EF26C0E8550006A9AD /* Project object */;
+	rootObject = 1319710826F3DAD300471846 /* Project object */;
 }
