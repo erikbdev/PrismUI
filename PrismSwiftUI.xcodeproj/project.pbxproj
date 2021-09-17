@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,28 @@
 		1319711B26F3DAD400471846 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711A26F3DAD400471846 /* Preview Assets.xcassets */; };
 		1319711D26F3DAD400471846 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711C26F3DAD400471846 /* Persistence.swift */; };
 		1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */; };
+		136D5F3426F415980003A744 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 136D5F3326F415980003A744 /* Sparkle */; };
+		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
+		13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* Device+Image.swift */; };
+		13D6594A26F460BB00C1D39A /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */; };
+		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
+		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
+		13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		13DFD04726F3DBA200F4C273 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1319711026F3DAD300471846 /* PrismSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -25,6 +46,11 @@
 		1319711F26F3DAD400471846 /* PrismSwiftUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PrismSwiftUI.xcdatamodel; sourceTree = "<group>"; };
 		1319712126F3DAD400471846 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1319712226F3DAD400471846 /* PrismSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrismSwiftUI.entitlements; sourceTree = "<group>"; };
+		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		13D6594726F44D7300C1D39A /* Device+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Image.swift"; sourceTree = "<group>"; };
+		13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
+		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
+		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
+				136D5F3426F415980003A744 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +71,7 @@
 			children = (
 				1319711226F3DAD300471846 /* PrismSwiftUI */,
 				1319711126F3DAD300471846 /* Products */,
+				13DFD04326F3DBA200F4C273 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,8 +86,10 @@
 		1319711226F3DAD300471846 /* PrismSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				1319711326F3DAD300471846 /* PrismSwiftUIApp.swift */,
-				1319711526F3DAD300471846 /* ContentView.swift */,
+				13D6594D26F4618600C1D39A /* Router */,
+				13D6594626F44CAB00C1D39A /* Supporting Files */,
+				136D5F3626F419040003A744 /* UI */,
+				136D5F3526F4187D0003A744 /* Core */,
 				1319711726F3DAD400471846 /* Assets.xcassets */,
 				1319711C26F3DAD400471846 /* Persistence.swift */,
 				1319712126F3DAD400471846 /* Info.plist */,
@@ -77,6 +108,64 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		136D5F3526F4187D0003A744 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1319711326F3DAD300471846 /* PrismSwiftUIApp.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		136D5F3626F419040003A744 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1319711526F3DAD300471846 /* ContentView.swift */,
+				13D6594C26F460D200C1D39A /* Sidebar */,
+				13D6594B26F460BE00C1D39A /* PerKeyKeyboardView */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		13D6594626F44CAB00C1D39A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				13D6594726F44D7300C1D39A /* Device+Image.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		13D6594B26F460BE00C1D39A /* PerKeyKeyboardView */ = {
+			isa = PBXGroup;
+			children = (
+				13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */,
+			);
+			path = PerKeyKeyboardView;
+			sourceTree = "<group>";
+		};
+		13D6594C26F460D200C1D39A /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				136D5F3A26F41FBB0003A744 /* DevicesView.swift */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		13D6594D26F4618600C1D39A /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				13D6594E26F4618F00C1D39A /* DeviceRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		13DFD04326F3DBA200F4C273 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13DFD04426F3DBA200F4C273 /* PrismKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -87,12 +176,16 @@
 				1319710C26F3DAD300471846 /* Sources */,
 				1319710D26F3DAD300471846 /* Frameworks */,
 				1319710E26F3DAD300471846 /* Resources */,
+				13DFD04726F3DBA200F4C273 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = PrismSwiftUI;
+			packageProductDependencies = (
+				136D5F3326F415980003A744 /* Sparkle */,
+			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismSwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -120,6 +213,9 @@
 				Base,
 			);
 			mainGroup = 1319710726F3DAD300471846;
+			packageReferences = (
+				136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,8 +244,12 @@
 			files = (
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
+				13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismSwiftUIApp.swift in Sources */,
+				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */,
+				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
+				13D6594A26F460BB00C1D39A /* PerKeyKeyboardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +437,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.26.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		136D5F3326F415980003A744 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */ = {
