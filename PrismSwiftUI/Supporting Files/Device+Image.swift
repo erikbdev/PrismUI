@@ -8,9 +8,9 @@
 import Foundation
 import PrismKit
 
-extension Device {
+extension PrismDevice {
     var image: String {
-        switch model {
+        switch ssDevice.model {
         case .perKey, .perKeyGS65:
             return "PerKeyKeyboard"
         default:

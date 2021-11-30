@@ -15,6 +15,7 @@
 		1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1319711E26F3DAD400471846 /* PrismSwiftUI.xcdatamodeld */; };
 		136D5F3426F415980003A744 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 136D5F3326F415980003A744 /* Sparkle */; };
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
+		13A39B6526F7C55800EA2DEE /* PerKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* PerKeyView.swift */; };
 		13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* Device+Image.swift */; };
 		13D6594A26F460BB00C1D39A /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
@@ -47,6 +48,7 @@
 		1319712126F3DAD400471846 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1319712226F3DAD400471846 /* PrismSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrismSwiftUI.entitlements; sourceTree = "<group>"; };
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		13A39B6426F7C55800EA2DEE /* PerKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyView.swift; sourceTree = "<group>"; };
 		13D6594726F44D7300C1D39A /* Device+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Image.swift"; sourceTree = "<group>"; };
 		13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */,
+				13A39B6426F7C55800EA2DEE /* PerKeyView.swift */,
 			);
 			path = PerKeyKeyboardView;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */,
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
 				13D6594A26F460BB00C1D39A /* PerKeyKeyboardView.swift in Sources */,
+				13A39B6526F7C55800EA2DEE /* PerKeyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

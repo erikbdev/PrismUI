@@ -31,10 +31,7 @@ struct ContentView: View {
     }
 
     private func toggleSidebar() { // 2
-        #if os(iOS)
-        #else
         NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-        #endif
     }
 }
 

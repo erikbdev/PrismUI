@@ -10,8 +10,8 @@ import PrismKit
 import SwiftUI
 
 class DeviceRouter {
-    static func route(device: Device) -> AnyView {
-        if let device = device as? PerKeyKeyboardDevice {
+    static func route(device: PrismDevice) -> AnyView {
+        if device.ssDevice.model == .perKeyGS65 || device.ssDevice.model == .perKey {
             return AnyView(PerKeyKeyboardView(device: device))
         }
         

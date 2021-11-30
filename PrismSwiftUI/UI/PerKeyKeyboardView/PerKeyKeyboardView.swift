@@ -9,13 +9,16 @@ import SwiftUI
 import PrismKit
 
 struct PerKeyKeyboardView: View {
-    @Binding var device: PerKeyKeyboardDevice
+    @Binding var device: PrismDevice
 
-    init (device: PerKeyKeyboardDevice) {
+    init (device: PrismDevice) {
         self._device = .constant(device)
     }
 
     var body: some View {
-        Text("\(device.name ) is currently connected")
+        if device.ssDevice.model == .perKeyGS65 {
+            
+        }
+        Text("\(device.name) is currently connected")
     }
 }

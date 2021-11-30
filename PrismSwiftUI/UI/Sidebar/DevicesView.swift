@@ -9,15 +9,15 @@ import SwiftUI
 import PrismKit
 
 struct DevicesView: View {
-    @Binding private var devices: [Device]
+    @Binding private var devices: [PrismDevice]
 
-    init(devices: Binding<[Device]> = .constant([])) {
+    init(devices: Binding<[PrismDevice]> = .constant([])) {
         self._devices = devices
     }
 
     var body: some View {
         List {
-            ForEach(devices, id: \.id) { device in
+            ForEach(devices, id: \.self) { device in
                 NavigationLink (
                     destination: DeviceRouter.route(device: device),
                     label: {
