@@ -16,7 +16,7 @@
 		136D5F3426F415980003A744 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 136D5F3326F415980003A744 /* Sparkle */; };
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
 		13A39B6526F7C55800EA2DEE /* PerKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* PerKeyView.swift */; };
-		13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* Device+Image.swift */; };
+		13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* SSDevice+Image.swift */; };
 		13D6594A26F460BB00C1D39A /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
 		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
@@ -49,7 +49,7 @@
 		1319712226F3DAD400471846 /* PrismSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrismSwiftUI.entitlements; sourceTree = "<group>"; };
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		13A39B6426F7C55800EA2DEE /* PerKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyView.swift; sourceTree = "<group>"; };
-		13D6594726F44D7300C1D39A /* Device+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Image.swift"; sourceTree = "<group>"; };
+		13D6594726F44D7300C1D39A /* SSDevice+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSDevice+Image.swift"; sourceTree = "<group>"; };
 		13D6594926F460BB00C1D39A /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
 		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +88,7 @@
 		1319711226F3DAD300471846 /* PrismSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				132024AF27581418006AA60F /* Utils */,
 				13D6594D26F4618600C1D39A /* Router */,
 				13D6594626F44CAB00C1D39A /* Supporting Files */,
 				136D5F3626F419040003A744 /* UI */,
@@ -108,6 +109,13 @@
 				1319711A26F3DAD400471846 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		132024AF27581418006AA60F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		136D5F3526F4187D0003A744 /* Core */ = {
@@ -131,7 +139,7 @@
 		13D6594626F44CAB00C1D39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				13D6594726F44D7300C1D39A /* Device+Image.swift */,
+				13D6594726F44D7300C1D39A /* SSDevice+Image.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -247,7 +255,7 @@
 			files = (
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
-				13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */,
+				13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismSwiftUIApp.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismSwiftUI.xcdatamodeld in Sources */,

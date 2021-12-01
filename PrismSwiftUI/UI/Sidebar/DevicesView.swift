@@ -9,9 +9,9 @@ import SwiftUI
 import PrismKit
 
 struct DevicesView: View {
-    @Binding private var devices: [PrismDevice]
+    @Binding private var devices: [SSDevice]
 
-    init(devices: Binding<[PrismDevice]> = .constant([])) {
+    init(devices: Binding<[SSDevice]> = .constant([])) {
         self._devices = devices
     }
 
