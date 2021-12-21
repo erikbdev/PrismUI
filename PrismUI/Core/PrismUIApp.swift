@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct PrismSwiftUIApp: App {
+struct PrismUIApp: App {
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {

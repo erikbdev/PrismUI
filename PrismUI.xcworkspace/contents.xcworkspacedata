@@ -5,6 +5,6 @@
       location = "group:../PrismKit/PrismKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:PrismSwiftUI.xcodeproj">
+      location = "container:/Users/erikb/Documents/Coding/projects/PrismProject/PrismSwiftUI/PrismUI.xcodeproj">
    </FileRef>
 </Workspace>
