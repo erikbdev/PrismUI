@@ -18,6 +18,7 @@
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
 		137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */; };
 		137117562762FA3700B5BABF /* PrismDriver+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117552762FA3700B5BABF /* PrismDriver+Combine.swift */; };
+		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
 		1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F619276AABAD00BF526E /* ColourWheelView.swift */; };
 		1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */; };
 		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
@@ -27,6 +28,8 @@
 		13A6744A276D533F00F6287F /* ColourBrightnessSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */; };
 		13A6744C276D5ECB00F6287F /* ThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744B276D5ECB00F6287F /* ThumbView.swift */; };
 		13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744E276D6E0100F6287F /* KeySettingsView.swift */; };
+		13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */; };
+		13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E7277182EA000A047A /* SSKey+Utils.swift */; };
 		13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78B42758537F00BC8F07 /* DevicesViewModel.swift */; };
 		13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78B927585D0F00BC8F07 /* DeviceViewModel.swift */; };
 		13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78BB275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift */; };
@@ -76,6 +79,8 @@
 		13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourBrightnessSliderView.swift; sourceTree = "<group>"; };
 		13A6744B276D5ECB00F6287F /* ThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbView.swift; sourceTree = "<group>"; };
 		13A6744E276D6E0100F6287F /* KeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsView.swift; sourceTree = "<group>"; };
+		13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsViewModel.swift; sourceTree = "<group>"; };
+		13B9B9E7277182EA000A047A /* SSKey+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSKey+Utils.swift"; sourceTree = "<group>"; };
 		13CB78B42758537F00BC8F07 /* DevicesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewModel.swift; sourceTree = "<group>"; };
 		13CB78B927585D0F00BC8F07 /* DeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewModel.swift; sourceTree = "<group>"; };
 		13CB78BB275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardDeviceViewModel.swift; sourceTree = "<group>"; };
@@ -91,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1372CC9C27724F110093171A /* OrderedCollections in Frameworks */,
 				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +156,7 @@
 				131DBDC7275A992900BCD134 /* RGB+Color.swift */,
 				137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */,
 				137117552762FA3700B5BABF /* PrismDriver+Combine.swift */,
+				13B9B9E7277182EA000A047A /* SSKey+Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -205,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				13A6744E276D6E0100F6287F /* KeySettingsView.swift */,
+				13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */,
 			);
 			path = KeySettings;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 			);
 			name = PrismUI;
 			packageProductDependencies = (
+				1372CC9B27724F110093171A /* OrderedCollections */,
 			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismUI.app */;
@@ -319,6 +328,7 @@
 			mainGroup = 1319710726F3DAD300471846;
 			packageReferences = (
 				136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
@@ -347,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
+				13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */,
 				1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */,
 				13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
@@ -361,6 +372,7 @@
 				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
 				13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */,
 				13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */,
+				13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */,
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
 				13D6594A26F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift in Sources */,
 				137117562762FA3700B5BABF /* PrismDriver+Combine.swift in Sources */,
@@ -568,7 +580,23 @@
 				minimumVersion = 1.26.0;
 			};
 		};
+		1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1372CC9B27724F110093171A /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1319711E26F3DAD400471846 /* PrismUI.xcdatamodeld */ = {

@@ -18,33 +18,44 @@ struct PerKeyKeyboardDeviceView: View {
     }
 
     var body: some View {
-        VStack {
+        ZStack {
             if viewModel.finishedLoading {
                 KeyboardLayout
             } else {
                 Text("Loading keys...")
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: {
+            withAnimation {
+                viewModel.apply(.onTouchOutside)
+            }
+        })
+        .toolbar {
+            Button {
+                showingPopover.toggle()
+            } label: {
+                Image(systemName: "eyedropper.halffull")
+            }
+            .disabled(viewModel.selected.count == 0)
+            Spacer()
+    
+            Picker("", selection: $viewModel.mouseMode) {
+                Image(systemName: "cursorarrow").tag(0)
+                Image(systemName: "cursorarrow.rays").tag(1)
+            }
+            .pickerStyle(.segmented)
+        }
         .onAppear(perform: {
             viewModel.apply(.onAppear)
         })
         .sheet(isPresented: $showingPopover, content: {
-            KeySettings(ssKey: .constant(viewModel.selected.first!))
-        })
-    }
-
-    @ViewBuilder
-    private func KeySettings(ssKey: Binding<SSKey>) -> some View {
-        HStack {
-            VStack {
-                ColourPickerView(color: ssKey.main.hsv)
-                    .frame(width: 250, height: 300, alignment: .center)
-                Button("Close") {
-                    showingPopover.toggle()
-                }
+            KeySettingsView(keyModels: viewModel.selected,
+                            isPresented: $showingPopover) {
+                viewModel.apply(.onSubmit)
             }
-        }
-        .padding()
+        })
     }
 
     @ViewBuilder

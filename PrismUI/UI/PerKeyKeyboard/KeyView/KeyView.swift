@@ -14,10 +14,13 @@ struct KeyView: View {
     var body: some View {
         ZStack {
             VStack {
-                Circle()
-                    .fill(viewModel.ssKey.main.color)
-                    .frame(width: 12, height: 12)
-                    .padding(4)
+                // memory leak
+//                Circle()
+//                    .fill(Color(red: viewModel.ssKey.main.red,
+//                                green: viewModel.ssKey.main.green,
+//                                blue: viewModel.ssKey.main.blue))
+//                    .frame(width: 12, height: 12)
+//                    .padding(4)
                 Text("\(viewModel.ssKey.name)")
                     .frame(alignment: .center)
             }

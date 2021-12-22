@@ -14,7 +14,10 @@ struct PrismUIApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }.commands {
+        }
+        .windowStyle(.titleBar)
+        .windowToolbarStyle(.unified)
+        .commands {
             SidebarCommands()
         }
     }

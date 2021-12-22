@@ -5,9 +5,9 @@
 //  Created by Erik Bautista on 12/1/21.
 //
 
-import Foundation
 import PrismKit
 import Combine
+import OrderedCollections
 
 final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     typealias InputType = Input
@@ -15,24 +15,37 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     // MARK: Input
     enum Input {
         case onAppear
+        case onSubmit
+        case onTouchOutside
     }
 
     func apply(_ input: Input) {
         switch input {
         case .onAppear:
             onAppearSubject.send()
+        case .onSubmit:
+            onSubmitSubject.send()
+        case .onTouchOutside:
+            onTouchOutsideSubject.send()
         }
     }
 
-    @Published var updateKeyboard = false
     @Published var finishedLoading = false
-    @Published var selected = Set<SSKey>()
+    @Published var selected = OrderedSet<KeyViewModel>()
     @Published var keyModels = [KeyViewModel]()
+    @Published var mouseMode = 0
 
     private(set) var keyboardMap: [[CGFloat]] = []
     private(set) var keyboardRegionAndKeyCodes: [[(UInt8, UInt8)]] = []
 
     private let onAppearSubject = PassthroughSubject<Void, Never>()
+    private let onSubmitSubject = PassthroughSubject<Void, Never>()
+    private let onTouchOutsideSubject = PassthroughSubject<Void, Never>()
+    private let onSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
+    private let onDeSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
+    private let onSelectSameKeysSubject = PassthroughSubject<KeyViewModel, Never>()
+
+    private var allowSameSelection = true
 
     override init(ssDevice: SSDevice) {
         super.init(ssDevice: ssDevice)
@@ -40,7 +53,23 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         bindOutputs()
     }
 
+    private func clearSelection() {
+        for keyModel in keyModels {
+            keyModel.selected = false
+        }
+    }
+
     private func bindInputs() {
+        onSelectedSubject.sink { [weak self] keyViewModel in
+            self?.selected.append(keyViewModel)
+        }
+        .store(in: &cancellables)
+
+        onDeSelectedSubject.sink { [weak self] keyViewModel in
+            self?.selected.remove(keyViewModel)
+        }
+        .store(in: &cancellables)
+
         onAppearSubject.sink { [weak self] _ in
             self?.loadKeyboardMap()
             self?.loadKeyboardRegionAndKeyCodes()
@@ -48,6 +77,27 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
             self?.finishedLoading = true
         }
         .store(in: &cancellables)
+
+        onSubmitSubject.sink { [weak self] _ in
+            self?.update()
+        }
+        .store(in: &cancellables)
+
+        onTouchOutsideSubject.sink { [weak self] _ in
+            self?.clearSelection()
+        }
+        .store(in: &cancellables)
+  
+        onSelectSameKeysSubject
+            .sink { [weak self] keyModel in
+                self?.allowSameSelection = false
+                self?.handleSameKeySelection(keyModel: keyModel)
+                // This delays when same selection is set so that only one key can match with other values
+                DispatchQueue.main.asyncAfter(deadline: .now().advanced(by: .milliseconds(100))) {
+                    self?.allowSameSelection = true
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func prepareKeyViewModel() {
@@ -66,9 +116,12 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
                         .sink(receiveValue: { [weak self] isSelected in
                             guard let `self` = self else { return }
                             if isSelected {
-                                self.selected.insert(keyViewModel.ssKey)
+                                if self.mouseMode == 1 && self.allowSameSelection {
+                                    self.onSelectSameKeysSubject.send(keyViewModel)
+                                }
+                                self.onSelectedSubject.send(keyViewModel)
                             } else {
-                                self.selected.remove(keyViewModel.ssKey)
+                                self.onDeSelectedSubject.send(keyViewModel)
                             }
                         })
                         .store(in: &cancellables)
@@ -104,7 +157,15 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         }
     }
 
-    func update(force: Bool = true) {
+    private func handleSameKeySelection(keyModel: KeyViewModel) {
+        print("Handle selection for: \(keyModel.ssKey.name)")
+        for key in keyModels {
+            key.selected = key.ssKey.sameEffect(as: keyModel.ssKey)
+            key.objectWillChange.send()
+        }
+    }
+
+    private func update(force: Bool = true) {
         ssDevice.update(force: force)
     }
 }

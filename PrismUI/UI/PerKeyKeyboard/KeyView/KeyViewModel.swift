@@ -9,10 +9,22 @@ import PrismKit
 import Combine
 
 final class KeyViewModel: BaseViewModel {
-    var ssKey: SSKey
+    @Published var ssKey: SSKey
     @Published var selected = false
 
     init(ssKey: SSKey) {
         self.ssKey = ssKey
+    }
+}
+
+extension KeyViewModel: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ssKey.region)
+        hasher.combine(ssKey.keycode)
+    }
+
+    static func == (lhs: KeyViewModel, rhs: KeyViewModel) -> Bool {
+        lhs.ssKey.region == rhs.ssKey.region &&
+        lhs.ssKey.keycode == rhs.ssKey.keycode
     }
 }
