@@ -11,8 +11,6 @@ struct ColourBrightnessSliderView: View {
     @Binding var color: HSV
     @Binding var position: CGFloat
     var range: ClosedRange<CGFloat>
-    @State var lastOffset: CGFloat = 0
-    @State var isTouchingKnob = false
 
     var leadingOffset: CGFloat = 8
     var trailingOffset: CGFloat = 8
@@ -30,18 +28,10 @@ struct ColourBrightnessSliderView: View {
                                                                    brightness: 1)],
                                        startPoint: .leading,
                                        endPoint: .trailing))
-                Circle()
-                    .fill(Color(hue: color.hue / 360.0,
-                                saturation: color.saturation,
-                                brightness: color.brightness))
+                ThumbView(color: $color.rgb)
                     .frame(width: geometry.size.height,
                            height: geometry.size.height)
-                    .overlay(
-                        Circle()
-                            .strokeBorder(Color(red: 1, green: 1, blue: 1), lineWidth: 2)
-                    )
                     .position(x: geometry.size.width * color.brightness, y: geometry.size.height / 2)
-                    .shadow(radius: 8, x: 0, y: 2)
                     .gesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged({ value in

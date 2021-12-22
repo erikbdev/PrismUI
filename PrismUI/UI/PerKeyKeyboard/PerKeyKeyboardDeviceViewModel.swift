@@ -8,6 +8,7 @@
 import PrismKit
 import Combine
 import OrderedCollections
+import SwiftUI
 
 final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     typealias InputType = Input
@@ -50,12 +51,13 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     override init(ssDevice: SSDevice) {
         super.init(ssDevice: ssDevice)
         bindInputs()
-        bindOutputs()
     }
 
     private func clearSelection() {
-        for keyModel in keyModels {
-            keyModel.selected = false
+        withAnimation(.easeIn(duration: 0.15)) {
+            for keyModel in keyModels {
+                keyModel.selected = false
+            }
         }
     }
 
@@ -100,6 +102,22 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
             .store(in: &cancellables)
     }
 
+//    private func generateStructKey() -> [SSKeyStruct] {
+//        var data: [SSKeyStruct] = []
+//
+//        let keyboardKeyNames = ssDevice.model == .perKey ? SSPerKeyProperties.perKeyNames : SSPerKeyProperties.perKeyGS65KeyNames
+//        let keycodeArray = ssDevice.model == .perKey ? SSPerKeyProperties.perKeyRegionKeyCodes : SSPerKeyProperties.perKeyGS65RegionKeyCodes
+//
+//        for (rowIndex, row) in keycodeArray.enumerated() {
+//            for (columnIndex, value) in row.enumerated() {
+//                let keySymbol = keyboardKeyNames[rowIndex][columnIndex]
+//                let key = SSKeyStruct(name: keySymbol, region: value.0, keycode: value.1)
+//                data.append(key)
+//            }
+//        }
+//        return data
+//    }
+
     private func prepareKeyViewModel() {
         guard let property = ssDevice.properties as? SSPerKeyProperties else { return }
 
@@ -131,10 +149,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         }
     }
 
-    private func bindOutputs() {
-        // TODO: Empty Output
-    }
-
     private func loadKeyboardMap() {
         switch (model) {
         case .perKey:
@@ -158,10 +172,10 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     }
 
     private func handleSameKeySelection(keyModel: KeyViewModel) {
-        print("Handle selection for: \(keyModel.ssKey.name)")
-        for key in keyModels {
-            key.selected = key.ssKey.sameEffect(as: keyModel.ssKey)
-            key.objectWillChange.send()
+        withAnimation(.easeIn(duration: 0.15)) {
+            for key in keyModels {
+                key.selected = key.ssKey.sameEffect(as: keyModel.ssKey)
+            }
         }
     }
 

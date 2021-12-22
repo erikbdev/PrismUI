@@ -21,6 +21,7 @@
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
 		1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F619276AABAD00BF526E /* ColourWheelView.swift */; };
 		1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */; };
+		1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */; };
 		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
 		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
 		13A67446276D469700F6287F /* HSB+toRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67445276D469700F6287F /* HSB+toRGB.swift */; };
@@ -72,6 +73,7 @@
 		137117552762FA3700B5BABF /* PrismDriver+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrismDriver+Combine.swift"; sourceTree = "<group>"; };
 		1381F619276AABAD00BF526E /* ColourWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourWheelView.swift; sourceTree = "<group>"; };
 		1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularGradientHueView.swift; sourceTree = "<group>"; };
+		1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSliderView.swift; sourceTree = "<group>"; };
 		13A39B6426F7C55800EA2DEE /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
 		13A67445276D469700F6287F /* HSB+toRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HSB+toRGB.swift"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		1381F617276AAB9800BF526E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				1398CDBA2772FE9F005A0C4E /* MultiColorSlider */,
 				1381F618276AAB9E00BF526E /* ColourPicker */,
 			);
 			path = Components;
@@ -206,6 +209,14 @@
 				13A6744B276D5ECB00F6287F /* ThumbView.swift */,
 			);
 			path = ColourPicker;
+			sourceTree = "<group>";
+		};
+		1398CDBA2772FE9F005A0C4E /* MultiColorSlider */ = {
+			isa = PBXGroup;
+			children = (
+				1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */,
+			);
+			path = MultiColorSlider;
 			sourceTree = "<group>";
 		};
 		13A6744D276D6DDF00F6287F /* KeySettings */ = {
@@ -373,6 +384,7 @@
 				13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */,
 				13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */,
 				13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */,
+				1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */,
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
 				13D6594A26F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift in Sources */,
 				137117562762FA3700B5BABF /* PrismDriver+Combine.swift in Sources */,

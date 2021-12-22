@@ -39,6 +39,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     @Published var disableColorPicker = false
 
+    @Published var allowUpdatingDevice = true
+
     private var allowEdits = false
     private let onAppearSubject = PassthroughSubject<Void, Never>()
 
@@ -107,6 +109,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Steady Mode
 
     private func switchToSteady() {
+        allowUpdatingDevice = true
         currentColor = HSV(hue: 0, saturation: 1, brightness: 1)
         handleSteadyMode()
     }
@@ -127,7 +130,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Color Shift
 
     private func switchToColorShift() {
-        
+        allowUpdatingDevice = false
     }
 
     private func handleColorShift() {
@@ -138,7 +141,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Breathing
 
     private func switchToBreathing() {
-        
+        allowUpdatingDevice = false
+
     }
 
     private func handleBreathing() {
@@ -149,7 +153,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Reactive
 
     private func switchToReactive() {
-        
+        allowUpdatingDevice = false
+
     }
 
     private func handleReactive() {
@@ -159,6 +164,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     // MARK: - Disabled
     private func switchToDisabled() {
+        allowUpdatingDevice = false
 
     }
 
@@ -171,5 +177,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private func handleMixed() {
         disableColorPicker = true
+        allowUpdatingDevice = false
     }
 }

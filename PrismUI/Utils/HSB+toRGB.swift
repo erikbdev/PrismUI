@@ -38,6 +38,14 @@ extension HSV {
     }
 
     var rgb: RGB {
-        return HSV.toRGB(h: hue, s: saturation, b: brightness)
+        get {
+            return HSV.toRGB(h: hue, s: saturation, b: brightness)
+        }
+        set {
+            let newHSV = RGB.toHSV(r: newValue.red, g: newValue.green, b: newValue.blue)
+            hue = newHSV.hue
+            saturation = newHSV.saturation
+            brightness = newHSV.brightness
+        }
     }
 }

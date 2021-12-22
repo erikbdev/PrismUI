@@ -27,10 +27,18 @@ struct KeySettingsView: View {
             Button(action: {
                 isPresented = false
             }, label: {
-                Image(systemName: "x.circle.fill")
-                    .font(.system(size: 22))
+                Circle()
+                    .fill(Color(.tertiaryLabelColor))
+                    .frame(width: 28, height: 28, alignment: .center)
+                    .overlay(
+                        Image(systemName: "xmark")
+                            .font(.system(size: 15, weight: .heavy, design: .rounded))
+                            .foregroundColor(.secondary)
+                            .frame(width: 28, height: 28, alignment: .center)
+                    )
             })
-                .buttonStyle(.plain)
+            .buttonStyle(PlainButtonStyle())
+            .accessibilityLabel(Text("Close"))
 
             ColourPickerView(color: $viewModel.currentColor)
                 .disabled(viewModel.disableColorPicker)
@@ -46,13 +54,24 @@ struct KeySettingsView: View {
                 }
             }
 
+            if viewModel.mode == 1 || viewModel.mode == 2 {
+                MultiColorSliderView(colorPositions: .init(
+                    [
+                        ColorPosition(rgb: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
+                        ColorPosition(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
+                        ColorPosition(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
+
+                    ]))
+                    .frame(height: 26)
+            }
+
             HStack {
                 if #available(macOS 12.0, *) {
                     Button("Save to Device") {
                         onSubmit()
                         isPresented = false
                     }
-                    .disabled(viewModel.disableColorPicker)
+                    .disabled(!viewModel.allowUpdatingDevice)
                     .controlSize(.large)
                     .buttonStyle(.bordered)
                     .tint(Color.primary)
@@ -61,7 +80,7 @@ struct KeySettingsView: View {
                         onSubmit()
                         isPresented = false
                     }
-                    .disabled(viewModel.disableColorPicker)
+                    .disabled(!viewModel.allowUpdatingDevice)
                     .controlSize(.large)
                     .buttonStyle(.bordered)
                 }
