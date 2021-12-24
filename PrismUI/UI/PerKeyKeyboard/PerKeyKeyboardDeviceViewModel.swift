@@ -119,8 +119,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
 //    }
 
     private func prepareKeyViewModel() {
-//        guard let property = ssDevice.properties as? SSPerKeyProperties else { return }
-
         // Populate values
         for (rowIndex, row) in keyboardRegionAndKeyCodes.enumerated() {
             for (columnIndex, element) in row.enumerated() {
@@ -145,7 +143,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
                     })
                     .store(in: &cancellables)
                 keyModels.append(keyViewModel)
-//                }
             }
         }
     }

@@ -11,36 +11,17 @@ import PrismKit
 
 struct KeySettingsView: View {
     @ObservedObject var viewModel: KeySettingsViewModel
-    @Binding var isPresented: Bool
     var onSubmit: () -> ()
-    
+
     init (keyModels: OrderedSet<KeyViewModel>,
-          isPresented: Binding<Bool>,
           onSubmit: @escaping () -> ()) {
         let viewModel = KeySettingsViewModel(keyModels: keyModels)
-        _isPresented = isPresented
         _viewModel = .init(wrappedValue: viewModel)
         self.onSubmit = onSubmit
     }
 
     var body: some View {
         VStack(alignment: .trailing) {
-            Button(action: {
-                isPresented = false
-            }, label: {
-                Circle()
-                    .fill(Color(.init(hue: 0, saturation: 0, brightness: 0.5, alpha: 0.25)))
-                    .frame(width: 28, height: 28, alignment: .center)
-                    .overlay(
-                        Image(systemName: "xmark")
-                            .font(.system(size: 15, weight: .heavy, design: .rounded))
-                            .foregroundColor(.secondary)
-                            .frame(width: 28, height: 28, alignment: .center)
-                    )
-            })
-                .buttonStyle(PlainButtonStyle())
-                .accessibilityLabel(Text("Close"))
-
             LazyVStack(alignment: .leading) {
                 Section {
                     Text("Effect")
@@ -66,6 +47,40 @@ struct KeySettingsView: View {
                     ColourPickerView(color: $viewModel.currentColor)
                         .frame(width: 275, height: 275)
                         .disabled(viewModel.disableColorPicker)
+
+                    if viewModel.currentMode == .reactive {
+                        HStack {
+                            // Active colors
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.black.opacity(0.50), lineWidth: viewModel.thumbSelected == 0 ? 8 : 0)
+                                .background(Color(red: viewModel.activeColor.red,
+                                            green: viewModel.activeColor.green,
+                                                  blue: viewModel.activeColor.blue)
+                                                .cornerRadius(8))
+                                .frame(width: 38, height: 38)
+                                .onTapGesture {
+                                    viewModel.apply(.onReactiveTouch(index: 0))
+                                }
+                            Text("Active Color")
+                                .frame(maxWidth: .infinity)
+
+                            // Resting Color
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.black.opacity(0.25), lineWidth: viewModel.thumbSelected == 1 ? 8 : 0)
+                                .background(Color(red: viewModel.restingColor.red,
+                                            green: viewModel.restingColor.green,
+                                            blue: viewModel.restingColor.blue)
+                                                .cornerRadius(8))
+                                .frame(width: 38, height: 38)
+                                .onTapGesture {
+                                    viewModel.apply(.onReactiveTouch(index: 1))
+                                }
+
+                            Text("Rest Color")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .padding()
+                    }
 
                     // Multi Slider
                     if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing {
@@ -128,7 +143,6 @@ struct KeySettingsView: View {
                 if #available(macOS 12.0, *) {
                     Button("Save to Device") {
                         onSubmit()
-                        isPresented = false
                     }
                     .disabled(!viewModel.allowUpdatingDevice)
                     .controlSize(.large)
@@ -137,14 +151,12 @@ struct KeySettingsView: View {
                 } else {
                     Button("Save to Device") {
                         onSubmit()
-                        isPresented = false
                     }
                     .disabled(!viewModel.allowUpdatingDevice)
                     .controlSize(.large)
                     .buttonStyle(.bordered)
                 }
             }
-//            .padding()
         }
         .frame(width: 275, alignment: .center)
         .padding()
@@ -156,6 +168,6 @@ struct KeySettingsView: View {
 
 struct KeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        KeySettingsView(keyModels: [], isPresented: .constant(false), onSubmit: {})
+        KeySettingsView(keyModels: [], onSubmit: {})
     }
 }

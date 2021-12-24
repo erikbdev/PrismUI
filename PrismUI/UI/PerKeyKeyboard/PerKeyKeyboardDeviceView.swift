@@ -11,7 +11,6 @@ import PrismKit
 
 struct PerKeyKeyboardDeviceView: View {
     @ObservedObject private var viewModel: PerKeyKeyboardDeviceViewModel
-    @State private var showingPopover = false
 
     init (ssDevice: SSDevice) {
         let viewModel = PerKeyKeyboardDeviceViewModel(ssDevice: ssDevice)
@@ -21,32 +20,28 @@ struct PerKeyKeyboardDeviceView: View {
     var body: some View {
         ZStack {
             if viewModel.finishedLoading {
-//                HSplitView() {
-//                    KeySettingsView(keyModels: [], isPresented: .constant(false)) {
-//
-//                    }
+                HSplitView {
+                    ScrollView(.vertical, showsIndicators: true) {
+                        KeySettingsView(keyModels: viewModel.selected) {
+                            viewModel.apply(.onSubmit)
+                        }
+                    }
+                    .padding()
                     KeyboardLayout
-//                }
+                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .contentShape(Rectangle())
+                        .onTapGesture(perform: {
+                            withAnimation {
+                                viewModel.apply(.onTouchOutside)
+                            }
+                        })
+                }
             } else {
                 Text("Loading keys...")
             }
         }
-        .cornerRadius(8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .contentShape(Rectangle())
-        .onTapGesture(perform: {
-            withAnimation {
-                viewModel.apply(.onTouchOutside)
-            }
-        })
         .toolbar {
-            Button {
-                showingPopover.toggle()
-            } label: {
-                Image(systemName: "eyedropper.halffull")
-            }
-            .disabled(viewModel.selected.count == 0)
-    
             Picker("", selection: $viewModel.mouseMode) {
                 Image(systemName: "cursorarrow").tag(0)
                 Image(systemName: "cursorarrow.rays").tag(1)
@@ -55,11 +50,6 @@ struct PerKeyKeyboardDeviceView: View {
         }
         .onAppear(perform: {
             viewModel.apply(.onAppear)
-        })
-        .sheet(isPresented: $showingPopover, content: {
-            KeySettingsView(keyModels: viewModel.selected, isPresented: $showingPopover) {
-                viewModel.apply(.onSubmit)
-            }
         })
     }
 
@@ -89,3 +79,9 @@ struct PerKeyKeyboardDeviceView: View {
         .padding(20)
     }
 }
+
+//struct PerKeyKeyboardDeviceView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        PerKeyKeyboardDeviceView(ssDevice: SSDevice.demo))
+//    }
+//}
