@@ -5,10 +5,8 @@
 //  Created by Erik Bautista on 12/1/21.
 //
 
-import Foundation
-import PrismKit
 import Combine
-import AppKit
+import PrismKit
 
 
 final class DevicesViewModel: BaseViewModel, UniDirectionalDataFlowType {

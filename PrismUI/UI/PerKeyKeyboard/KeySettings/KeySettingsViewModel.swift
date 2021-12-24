@@ -23,26 +23,47 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         }
     }
 
+    // MARK: - Device restrictions
+
+
+    // MARK: - Main Data
+
     @Published var keyModels: OrderedSet<KeyViewModel>
-
-    @Published var currentColor = HSV(hue: 0, saturation: 0, brightness: 1) {
-        didSet {
-            handleColorChanged()
-        }
+    @Published var currentColor = HSB(hue: 0, saturation: 0, brightness: 1) {
+        didSet { handleColorChanged(newColor: currentColor) }
     }
-
-    @Published var mode: Int = 0 {
-        didSet {
-            handleModeChanged()
-        }
+    @Published var currentMode: SSKeyStruct.SSKeyModes = .steady {
+        didSet { handleModeChanged(newMode: currentMode) }
     }
-
     @Published var disableColorPicker = false
-
-    @Published var allowUpdatingDevice = true
-
-    private var allowEdits = false
+    @Published var allowUpdatingDevice = true // Decides whether the update button should be active or not
+    private var allowModelEdits = false // Decides whether or not models are able to update the new models with data
     private let onAppearSubject = PassthroughSubject<Void, Never>()
+
+    // MARK: - Effects
+
+    // Common Effect Settings
+
+    @Published var speed: CGFloat = 3000 // Speed Settings
+    @Published var speedRange: ClosedRange<CGFloat> = 1000...30000
+
+    // Common Color Shift and Breathing
+    @Published var colorSelectors = [ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 1.0), position: 0),
+                                ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)] // Just for testing, shouldn't be shown
+    @Published var thumbSelected: Int = -1
+
+    // Color Shift Settings
+
+    @Published var waveModeOn = false
+    @Published var waveDirection: SSKeyEffectStruct.SSPerKeyDirection = .xy
+    @Published var waveControl: SSKeyEffectStruct.SSPerKeyControl = .inward
+    @Published var pulse: CGFloat = 100
+    @Published var origin: SSKeyEffectStruct.SSPoint = SSKeyEffectStruct.SSPoint() // TODO: Add origin for colorShift
+
+    // Reactive Settings
+
+    @Published var activeColor = HSB(hue: 0, saturation: 1, brightness: 1, alpha: 1.0)
+    @Published var restingColor = HSB(hue: 0, saturation: 0, brightness: 0, alpha: 1.0)
 
     init(keyModels: OrderedSet<KeyViewModel>) {
         self.keyModels = keyModels
@@ -55,54 +76,69 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         onAppearSubject
             .sink { [weak self] _ in
                 guard let `self` = self else { return }
-                let allSatisfy = self.keyModels.allSatisfy({ $0.ssKey.sameEffect(as: self.keyModels.first!.ssKey) })
+                guard let firstKeyModel = self.keyModels.first else { return }
+                let allSatisfy = self.keyModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
 
                 // Set main color picker based on mode
                 if allSatisfy, let firstKeyModel = self.keyModels.first {
-                    self.mode = firstKeyModel.ssKey.mode.rawValue
+                    self.currentMode = firstKeyModel.ssKey.mode
                     self.currentColor = firstKeyModel.ssKey.main.hsv
                 } else {
-                    self.currentColor = HSV(hue: 0, saturation: 0, brightness: 1)
-                    self.mode = 5
+                    self.currentColor = HSB(hue: 0, saturation: 0, brightness: 1)
+                    self.currentMode = .mixed
                 }
-                self.allowEdits = true
+                self.allowModelEdits = true
+            }
+            .store(in: &cancellables)
+
+        $thumbSelected
+            .sink { [weak self] index in
+                guard let `self` = self else { return }
+                guard index != -1 else { return }
+                switch self.currentMode {
+                case .colorShift:
+                    self.currentColor = self.colorSelectors[index].rgb.hsv
+                    break
+                default:
+                    break
+                }
             }
             .store(in: &cancellables)
     }
 
-    private func handleColorChanged() {
-        switch mode {
-        case SSKey.SSKeyModes.steady.rawValue:
-            handleSteadyMode()
-        case SSKey.SSKeyModes.colorShift.rawValue:
-            handleColorShift()
-        case SSKey.SSKeyModes.breathing.rawValue:
-            handleBreathing()
-        case SSKey.SSKeyModes.reactive.rawValue:
-            handleReactive()
-        case SSKey.SSKeyModes.disabled.rawValue:
+    private func handleColorChanged(newColor: HSB) {
+        switch currentMode {
+        case .steady:
+            handleSteadyMode(newColor: newColor)
+        case .colorShift:
+            handleColorShift(newColor: newColor)
+        case .breathing:
+            handleBreathing(newColor: newColor)
+        case .reactive:
+            handleReactive(newColor: newColor)
+        case .disabled:
             handleDisabled()
         default:
             break
         }
     }
 
-    private func handleModeChanged() {
+    private func handleModeChanged(newMode: SSKeyStruct.SSKeyModes) {
         commonSwitch()
 
-        switch mode {
-        case SSKey.SSKeyModes.steady.rawValue:
+        switch newMode {
+        case SSKeyStruct.SSKeyModes.steady:
             switchToSteady()
-        case SSKey.SSKeyModes.colorShift.rawValue:
+        case SSKeyStruct.SSKeyModes.colorShift:
             switchToColorShift()
-        case SSKey.SSKeyModes.breathing.rawValue:
+        case SSKeyStruct.SSKeyModes.breathing:
             switchToBreathing()
-        case SSKey.SSKeyModes.reactive.rawValue:
+        case SSKeyStruct.SSKeyModes.reactive:
             switchToReactive()
-        case SSKey.SSKeyModes.disabled.rawValue:
+        case SSKeyStruct.SSKeyModes.disabled:
             switchToDisabled()
         default:
-            handleMixed()
+            switchToMixed()
         }
     }
 
@@ -110,32 +146,54 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private func switchToSteady() {
         allowUpdatingDevice = true
-        currentColor = HSV(hue: 0, saturation: 1, brightness: 1)
-        handleSteadyMode()
+        currentColor = HSB(hue: 0, saturation: 1, brightness: 1)
     }
 
-    private func handleSteadyMode() {
-        guard allowEdits else { return }
+    private func handleSteadyMode(newColor: HSB) {
+        guard allowModelEdits else { return }
         keyModels.forEach { keyModel in
             keyModel.ssKey.mode = .steady
-            keyModel.ssKey.main = currentColor.rgb
-            keyModel.objectWillChange.send()
+            keyModel.ssKey.main = newColor.rgb
+//            keyModel.objectWillChange.send()
         }
     }
 
     private func commonSwitch() {
         disableColorPicker = false
+        thumbSelected = -1
     }
 
     // MARK: - Color Shift
 
     private func switchToColorShift() {
         allowUpdatingDevice = false
+
+        speed = 3000
+        speedRange = 1000...30000
+        waveModeOn = false
+        waveControl = .inward
+        waveDirection = .xy
+        pulse = 100
+        colorSelectors = [
+            ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.88), position: 0),
+            ColorSelector(rgb: .init(red: 1.0, green: 0xea/0xff, blue: 0.0), position: 0.32),
+            ColorSelector(rgb: .init(red: 0.0, green: 0xcc/0xff, blue: 1.0), position: 0.76)
+        ]
     }
 
-    private func handleColorShift() {
-        guard allowEdits else { return }
+    private func handleColorShift(newColor: HSB) {
+        if thumbSelected != -1 {
+            colorSelectors[thumbSelected].rgb = newColor.rgb
+        }
 
+        guard allowModelEdits else { return }
+
+        keyModels.forEach { keyModel in
+//            let keyEffect = SSKeyEffectStruct(identifier: 0, transitions: [])
+            keyModel.ssKey.mode = .colorShift
+//            keyModel.ssKey.effect = keyEffect
+//            keyModel.objectWillChange.send()
+        }
     }
 
     // MARK: - Breathing
@@ -145,8 +203,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     }
 
-    private func handleBreathing() {
-        guard allowEdits else { return }
+    private func handleBreathing(newColor: HSB) {
+        guard allowModelEdits else { return }
 
     }
 
@@ -157,8 +215,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     }
 
-    private func handleReactive() {
-        guard allowEdits else { return }
+    private func handleReactive(newColor: HSB) {
+        guard allowModelEdits else { return }
 
     }
 
@@ -169,13 +227,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleDisabled() {
-        guard allowEdits else { return }
+        guard allowModelEdits else { return }
 
     }
 
     // MARK: - Mixed
 
-    private func handleMixed() {
+    private func switchToMixed() {
         disableColorPicker = true
         allowUpdatingDevice = false
     }

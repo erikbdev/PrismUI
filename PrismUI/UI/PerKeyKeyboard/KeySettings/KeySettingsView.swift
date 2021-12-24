@@ -7,12 +7,13 @@
 
 import SwiftUI
 import OrderedCollections
+import PrismKit
 
 struct KeySettingsView: View {
     @ObservedObject var viewModel: KeySettingsViewModel
     @Binding var isPresented: Bool
     var onSubmit: () -> ()
-
+    
     init (keyModels: OrderedSet<KeyViewModel>,
           isPresented: Binding<Bool>,
           onSubmit: @escaping () -> ()) {
@@ -28,7 +29,7 @@ struct KeySettingsView: View {
                 isPresented = false
             }, label: {
                 Circle()
-                    .fill(Color(.tertiaryLabelColor))
+                    .fill(Color(.init(hue: 0, saturation: 0, brightness: 0.5, alpha: 0.25)))
                     .frame(width: 28, height: 28, alignment: .center)
                     .overlay(
                         Image(systemName: "xmark")
@@ -37,32 +38,90 @@ struct KeySettingsView: View {
                             .frame(width: 28, height: 28, alignment: .center)
                     )
             })
-            .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(Text("Close"))
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(Text("Close"))
 
-            ColourPickerView(color: $viewModel.currentColor)
-                .disabled(viewModel.disableColorPicker)
+            LazyVStack(alignment: .leading) {
+                Section {
+                    Text("Effect")
+                        .fontWeight(.bold)
+    
+                    Picker("", selection: $viewModel.currentMode) {
+                        ForEach(SSKeyStruct.SSKeyModes.allCases, id: \.self) {
+                            if $0 == .mixed {
+                                if viewModel.currentMode == .mixed {
+                                    Text($0.description)
+                                }
+                            } else {
+                                Text($0.description)
+                            }
+                        }
+                    }
+                    .labelsHidden()
+                    .padding([.bottom])
 
-            Picker("Mode", selection: $viewModel.mode) {
-                Text("Steady").tag(0)
-                Text("ColorShift").tag(1)
-                Text("Breathing").tag(2)
-                Text("Reactive").tag(3)
-                Text("Disabled").tag(4)
-                if viewModel.mode >= 5 {
-                    Text("Mixed").tag(5)
+                    // Color Picker
+                    Text("Color Picker")
+                        .fontWeight(.bold)
+                    ColourPickerView(color: $viewModel.currentColor)
+                        .frame(width: 275, height: 275)
+                        .disabled(viewModel.disableColorPicker)
+
+                    // Multi Slider
+                    if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing {
+                        MultiColorSliderView(selectors: $viewModel.colorSelectors,
+                                             selected: $viewModel.thumbSelected)
+                            .frame(height: 26)
+                            .padding([.bottom])
+                            .padding([.leading, .trailing], 26.0 / 2)
+                    }
+
+                    // Speed Slider
+                    if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing || viewModel.currentMode == .reactive {
+                        Text("Speed")
+                            .fontWeight(.bold)
+                            .padding(0.0)
+                        Slider(value: $viewModel.speed, in: viewModel.speedRange)
+                            .labelsHidden()
+                    }
+
+                    if viewModel.currentMode == .colorShift {
+                        // Wave Toggle
+                        Text("Wave Mode")
+                            .fontWeight(.bold)
+                        Toggle("Wave Mode", isOn: $viewModel.waveModeOn)
+                            .labelsHidden()
+
+                        // Wave Direction
+                        Text("Direction")
+                            .fontWeight(.bold)
+                        Picker("", selection: $viewModel.waveDirection) {
+                            ForEach(SSKeyEffectStruct.SSPerKeyDirection.allCases, id: \.self) {
+                                Text($0.description)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.segmented)
+
+                        // Wave Control
+                        Text("Control")
+                            .fontWeight(.bold)
+                        Picker("", selection: $viewModel.waveControl) {
+                            ForEach(SSKeyEffectStruct.SSPerKeyControl.allCases, id: \.self) {
+                                Text($0.description)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.segmented)
+
+                        // Pulse
+                        Text("Pulse")
+                            .fontWeight(.bold)
+                            .padding(0.0)
+                        Slider(value: $viewModel.pulse, in: 30...1000)
+                            .labelsHidden()
+                    }
                 }
-            }
-
-            if viewModel.mode == 1 || viewModel.mode == 2 {
-                MultiColorSliderView(colorPositions: .init(
-                    [
-                        ColorPosition(rgb: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
-                        ColorPosition(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
-                        ColorPosition(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
-
-                    ]))
-                    .frame(height: 26)
             }
 
             HStack {
@@ -85,9 +144,9 @@ struct KeySettingsView: View {
                     .buttonStyle(.bordered)
                 }
             }
-            .padding()
+//            .padding()
         }
-        .frame(width: 275, height: 450, alignment: .center)
+        .frame(width: 275, alignment: .center)
         .padding()
         .onAppear(perform: {
             viewModel.apply(.onAppear)

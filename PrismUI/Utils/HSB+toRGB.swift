@@ -8,7 +8,7 @@
 import SwiftUI
 import PrismKit
 
-extension HSV {
+extension HSB {
     static func toRGB(h: CGFloat, s: CGFloat, b: CGFloat) -> RGB {
         if s == 0 { return RGB(red: b, green: b, blue: b) } // Achromatic grey
 
@@ -39,7 +39,7 @@ extension HSV {
 
     var rgb: RGB {
         get {
-            return HSV.toRGB(h: hue, s: saturation, b: brightness)
+            return HSB.toRGB(h: hue, s: saturation, b: brightness)
         }
         set {
             let newHSV = RGB.toHSV(r: newValue.red, g: newValue.green, b: newValue.blue)

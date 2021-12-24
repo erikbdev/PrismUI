@@ -40,6 +40,7 @@
 		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
 		13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2D804275880CC0014883B /* KeyViewModel.swift */; };
+		13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -91,6 +92,7 @@
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
 		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E2D804275880CC0014883B /* KeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyViewModel.swift; sourceTree = "<group>"; };
+		13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */,
 				137117552762FA3700B5BABF /* PrismDriver+Combine.swift */,
 				13B9B9E7277182EA000A047A /* SSKey+Utils.swift */,
+				13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -182,9 +185,9 @@
 		136D5F3626F419040003A744 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				13CB78B827585C0500BC8F07 /* Device */,
-				13CB78B727585BDD00BC8F07 /* Devices */,
 				13CB78B627585BD400BC8F07 /* Main */,
+				13CB78B727585BDD00BC8F07 /* Devices */,
+				13CB78B827585C0500BC8F07 /* Device */,
 				13D6594B26F460BE00C1D39A /* PerKeyKeyboard */,
 			);
 			path = UI;
@@ -388,6 +391,7 @@
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
 				13D6594A26F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift in Sources */,
 				137117562762FA3700B5BABF /* PrismDriver+Combine.swift in Sources */,
+				13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */,
 				13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */,
 				13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */,
 				13A6744C276D5ECB00F6287F /* ThumbView.swift in Sources */,

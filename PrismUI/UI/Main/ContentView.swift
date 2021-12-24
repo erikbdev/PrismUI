@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppKit
 import PrismKit
 
 struct ContentView: View {

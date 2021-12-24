@@ -9,7 +9,7 @@ struct ColourWheelView: View {
     /// Draws at a specified radius.
 
     /// The HSV colour. Is a binding as it can change and the view will update when it does.
-    @Binding var color: HSV
+    @Binding var color: HSB
     private let thumbSize: CGFloat = 60
 
     var body: some View {
@@ -65,7 +65,7 @@ struct ColourWheelView: View {
                         let saturation = min(distance(center, value.location) / (minSize(geometry) / 2), 1)
 
                         /// set the colour which will notify the views.
-                        self.color = HSV(hue: hue, saturation: saturation, brightness: color.brightness)
+                        self.color = HSB(hue: hue, saturation: saturation, brightness: color.brightness)
                     }
             )
         }
@@ -75,7 +75,7 @@ struct ColourWheelView: View {
     private func minSize(_ geometry: GeometryProxy) -> CGFloat {
         return min(geometry.size.width, geometry.size.height)
     }
-    
+
     private func atan2To360(_ angle: CGFloat) -> CGFloat {
         var result = angle
         if result < 0 {
@@ -93,7 +93,7 @@ struct ColourWheelView: View {
 
 struct NewColourWheel_Previews: PreviewProvider {
     static var previews: some View {
-        ColourWheelView(color: .constant(HSV(hue: 0, saturation: 0, brightness: 1)))
+        ColourWheelView(color: .constant(HSB(hue: 0, saturation: 0, brightness: 1)))
             .frame(width: 250, height: 250, alignment: .center)
     }
 }

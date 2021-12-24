@@ -8,15 +8,25 @@
 import SwiftUI
 import PrismKit
 
-struct ColorPosition {
+struct ColorSelector {
     var rgb: RGB
     var position: CGFloat // Value from 0 to 1.0
+    var yOffset: CGFloat = -1
 }
 
-extension ColorPosition: Hashable { }
+extension ColorSelector: Identifiable, Hashable {
+    var id: Int {
+        var hasher = Hasher()
+        hasher.combine(rgb)
+        hasher.combine(position)
+        hasher.combine(yOffset)
+        return hasher.finalize()
+    }
+}
 
 struct MultiColorSliderView: View {
-    @State var colorPositions: [ColorPosition]
+    @Binding var selectors: [ColorSelector]
+    @Binding var selected: Int
 
     var body: some View {
         GeometryReader { geometry in
@@ -24,30 +34,54 @@ struct MultiColorSliderView: View {
                 // Background gradient
                 Capsule()
                     .fill(
-                        LinearGradient(stops: colorPositions
+                        LinearGradient(stops: selectors
                                         .sorted(by: { $0.position < $1.position })
-                                        .map({ .init(color: $0.rgb.color,
-                                                                         location: $0.position) }),
+                                        .map({ .init(color: Color(red: $0.rgb.red, green: $0.rgb.green, blue: $0.rgb.blue),
+                                                     location: $0.position) }),
                                        startPoint: .leading,
                                        endPoint: .trailing)
                     )
+                    .onTapGesture {
+                        // TODO: Add another thumb if clicked anywhere in capsule.
+                    }
 
-                ForEach(0..<colorPositions.count) { index in
-//                if let element = $colorPositions.first {
-                    ThumbView(color: $colorPositions[index].rgb)
+                ForEach($selectors.indices, id: \.self) { index in
+                    ThumbView(color: $selectors[index].rgb.wrappedValue)
+                        .overlay(Circle()
+                                    .strokeBorder(.black.opacity(0.5),
+                                                  lineWidth: selected == index ? 3 : 0)
+                        )
                         .frame(width: geometry.size.height,
                                height: geometry.size.height)
-                        .position(x: geometry.size.width * $colorPositions[index].wrappedValue.position, y: geometry.size.height / 2)
+                        .position(x: getThumbPosition(size: geometry.size,
+                                                      position: $selectors[index].position.wrappedValue),
+                                  y: getThumbYOffset(geometry: geometry, selector: $selectors[index]))
+                        .onTapGesture {
+//                            withAnimation(.easeIn(duration: 0.10)) {
+                                if selected == -1 {
+                                    selected = index
+                                } else if selected == index {
+                                    selected = -1
+                                } else {
+                                    selected = index
+                                }
+//                            }
+                        }
                         .gesture(
-                            DragGesture(minimumDistance: 0)
+                            DragGesture(minimumDistance: 0.001)
                                 .onChanged({ value in
-                                    var dragOffsetWidth = value.location.x / geometry.size.width
-                                    if dragOffsetWidth < 0 {
-                                        dragOffsetWidth = 0
-                                    } else if dragOffsetWidth > 1.0 {
-                                        dragOffsetWidth = 1.0
+                                    selected = -1
+                                    handleThumbPositionChanged(geometry: geometry,
+                                                               value: value,
+                                                               element: $selectors[index])
+                                })
+                                .onEnded({ value in
+                                    let containerHeight = geometry.size.height
+
+                                    if value.location.y - (containerHeight / 2) > containerHeight * 2 {
+                                        guard selectors.count > 1 else { return }
+                                        selectors.remove(at: index)
                                     }
-                                    $colorPositions[index].position.wrappedValue = dragOffsetWidth
                                 })
                         )
                 }
@@ -55,16 +89,64 @@ struct MultiColorSliderView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }
+
+    private func getThumbYOffset(geometry: GeometryProxy, selector: Binding<ColorSelector>) -> CGFloat {
+        if selector.yOffset.wrappedValue == -1 {
+            return geometry.size.height / 2
+        }
+
+        return selector.yOffset.wrappedValue
+    }
+
+    private func handleThumbPositionChanged(geometry: GeometryProxy,
+                                            value: DragGesture.Value,
+                                            element: Binding<ColorSelector>) {
+        let containerWidth = geometry.size.width
+
+        var dragOffsetWidth = value.location.x / (containerWidth)
+        if dragOffsetWidth < 0 {
+            dragOffsetWidth = 0
+        } else if dragOffsetWidth > 1.0 {
+            dragOffsetWidth = 1.0
+        }
+        element.position.wrappedValue = dragOffsetWidth
+
+        // TODO: Handle Y axis if dragged outside
+        guard selectors.count > 1 else { return }
+        let containerHeight = geometry.size.height
+
+//        withAnimation {
+            if value.location.y - containerHeight / 2 > containerHeight * 2 {
+                element.yOffset.wrappedValue = value.location.y
+            } else {
+                element.yOffset.wrappedValue = geometry.size.height / 2
+//            }
+        }
+    }
+
+    // TODO: Fix issue with slider not centering with mouse in the future.
+    private func getThumbPosition(size: CGSize, position: CGFloat) -> CGFloat {
+        let thumbRadius = size.height / 2
+        let lowerBound = thumbRadius
+        let midBound = size.width - size.height
+        let upperBound = thumbRadius
+
+        var location: CGFloat = 0
+        location += lowerBound
+        location += midBound * position
+        location += upperBound
+        return size.width * position
+    }
 }
 
 struct MultiColorSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        MultiColorSliderView(colorPositions: .init(
+        MultiColorSliderView(selectors: .constant(
             [
-                ColorPosition(rgb: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
-//                ColorPosition(color: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
-//                ColorPosition(color: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
-            ]))
+                ColorSelector(rgb: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
+                ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
+                ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
+            ]), selected: .constant(-1))
             .frame(width: 400, height: 40)
     }
 }

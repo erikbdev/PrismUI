@@ -119,32 +119,33 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
 //    }
 
     private func prepareKeyViewModel() {
-        guard let property = ssDevice.properties as? SSPerKeyProperties else { return }
+//        guard let property = ssDevice.properties as? SSPerKeyProperties else { return }
 
-        for row in keyboardRegionAndKeyCodes {
-            for element in row {
-                if let key = property.keys.first(where: {
-                    $0.region == element.0 &&
-                    $0.keycode == element.1
-                }) {
-                    let keyViewModel = KeyViewModel(ssKey: key)
-                    keyViewModel.$selected
-                        .removeDuplicates()
-                        .receive(on: RunLoop.main)
-                        .sink(receiveValue: { [weak self] isSelected in
-                            guard let `self` = self else { return }
-                            if isSelected {
-                                if self.mouseMode == 1 && self.allowSameSelection {
-                                    self.onSelectSameKeysSubject.send(keyViewModel)
-                                }
-                                self.onSelectedSubject.send(keyViewModel)
-                            } else {
-                                self.onDeSelectedSubject.send(keyViewModel)
+        // Populate values
+        for (rowIndex, row) in keyboardRegionAndKeyCodes.enumerated() {
+            for (columnIndex, element) in row.enumerated() {
+                let keyboardKeyNames = model == .perKey ? SSPerKeyProperties.perKeyNames : SSPerKeyProperties.perKeyGS65KeyNames
+                let key = SSKeyStruct(name: keyboardKeyNames[rowIndex][columnIndex],
+                                      region: element.0,
+                                      keycode: element.1)
+                let keyViewModel = KeyViewModel(ssKey: key)
+                keyViewModel.$selected
+                    .removeDuplicates()
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: { [weak self] isSelected in
+                        guard let `self` = self else { return }
+                        if isSelected {
+                            if self.mouseMode == 1 && self.allowSameSelection {
+                                self.onSelectSameKeysSubject.send(keyViewModel)
                             }
-                        })
-                        .store(in: &cancellables)
-                    keyModels.append(keyViewModel)
-                }
+                            self.onSelectedSubject.send(keyViewModel)
+                        } else {
+                            self.onDeSelectedSubject.send(keyViewModel)
+                        }
+                    })
+                    .store(in: &cancellables)
+                keyModels.append(keyViewModel)
+//                }
             }
         }
     }
@@ -180,6 +181,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     }
 
     private func update(force: Bool = true) {
-        ssDevice.update(force: force)
+        ssDevice.update(data: [keyModels.map{ $0.ssKey }], force: force)
     }
 }

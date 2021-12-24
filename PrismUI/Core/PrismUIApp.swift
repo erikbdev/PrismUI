@@ -15,8 +15,8 @@ struct PrismUIApp: App {
         WindowGroup {
             ContentView()
         }
-        .windowStyle(.titleBar)
         .windowToolbarStyle(.unified)
+        .windowStyle(.titleBar)
         .commands {
             SidebarCommands()
         }

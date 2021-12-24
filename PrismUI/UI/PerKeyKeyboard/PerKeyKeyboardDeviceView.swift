@@ -8,6 +8,7 @@
 import SwiftUI
 import PrismKit
 
+
 struct PerKeyKeyboardDeviceView: View {
     @ObservedObject private var viewModel: PerKeyKeyboardDeviceViewModel
     @State private var showingPopover = false
@@ -20,11 +21,17 @@ struct PerKeyKeyboardDeviceView: View {
     var body: some View {
         ZStack {
             if viewModel.finishedLoading {
-                KeyboardLayout
+//                HSplitView() {
+//                    KeySettingsView(keyModels: [], isPresented: .constant(false)) {
+//
+//                    }
+                    KeyboardLayout
+//                }
             } else {
                 Text("Loading keys...")
             }
         }
+        .cornerRadius(8)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contentShape(Rectangle())
         .onTapGesture(perform: {
@@ -39,7 +46,6 @@ struct PerKeyKeyboardDeviceView: View {
                 Image(systemName: "eyedropper.halffull")
             }
             .disabled(viewModel.selected.count == 0)
-            Spacer()
     
             Picker("", selection: $viewModel.mouseMode) {
                 Image(systemName: "cursorarrow").tag(0)
@@ -51,8 +57,7 @@ struct PerKeyKeyboardDeviceView: View {
             viewModel.apply(.onAppear)
         })
         .sheet(isPresented: $showingPopover, content: {
-            KeySettingsView(keyModels: viewModel.selected,
-                            isPresented: $showingPopover) {
+            KeySettingsView(keyModels: viewModel.selected, isPresented: $showingPopover) {
                 viewModel.apply(.onSubmit)
             }
         })
@@ -71,8 +76,8 @@ struct PerKeyKeyboardDeviceView: View {
                                     $0.ssKey.region == viewModel.keyboardRegionAndKeyCodes[i][j].0 &&
                                     $0.ssKey.keycode == viewModel.keyboardRegionAndKeyCodes[i][j].1
                                 })!)
-                                    .frame(width: 50 * viewModel.keyboardMap[i][j],
-                                           height: 50)
+                                    .frame(width: 60 * viewModel.keyboardMap[i][j],
+                                           height: 60)
                             }
                         }
                     }

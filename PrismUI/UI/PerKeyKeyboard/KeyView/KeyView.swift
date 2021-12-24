@@ -13,11 +13,18 @@ struct KeyView: View {
 
     var body: some View {
         Text("\(viewModel.ssKey.name)")
+            .fontWeight(.heavy)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .background(
                 Rectangle()
-                    .strokeBorder(viewModel.ssKey.main.color, lineWidth: viewModel.selected ? 3 : 0)
-                    .background(Rectangle().fill(viewModel.ssKey.main.color.opacity(0.4)))
+                    .strokeBorder(Color(red: viewModel.ssKey.main.red,
+                                        green: viewModel.ssKey.main.green,
+                                        blue: viewModel.ssKey.main.blue),
+                                  lineWidth: viewModel.selected ? 3 : 0)
+                    .background(Rectangle().fill(Color(red: viewModel.ssKey.main.red,
+                                                       green: viewModel.ssKey.main.green,
+                                                       blue: viewModel.ssKey.main.blue)
+                                                    .opacity(0.4)))
             )
             .cornerRadius(4)
             .onTapGesture {
