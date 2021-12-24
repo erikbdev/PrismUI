@@ -181,6 +181,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     }
 
     private func update(force: Bool = true) {
-        ssDevice.update(data: [keyModels.map{ $0.ssKey }], force: force)
+        ssDevice.update(data: keyModels.map{ $0.ssKey }, force: force)
     }
 }
