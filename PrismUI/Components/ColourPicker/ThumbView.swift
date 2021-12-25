@@ -21,8 +21,9 @@ struct ThumbView: View {
                     Circle()
                         .strokeBorder(Color(red: 1, green: 1, blue: 1), lineWidth: geometry.size.width / 10)
                 )
-                .shadow(radius: 8, x: 0, y: 2)
         }
+        .clipped()
+        .shadow(radius: 4)
     }
 }
 

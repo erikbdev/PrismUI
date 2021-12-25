@@ -28,6 +28,8 @@ struct ColourBrightnessSliderView: View {
                                                                    brightness: 1)],
                                        startPoint: .top,
                                        endPoint: .bottom))
+                    .shadow(radius: 8)
+
                 ThumbView(color: color.rgb)
                     .frame(width: geometry.size.width,
                            height: geometry.size.width)
@@ -48,7 +50,6 @@ struct ColourBrightnessSliderView: View {
                     )
             }
             .rotationEffect(Angle(degrees: 180))
-            .shadow(radius: 20)
         }
     }
 }

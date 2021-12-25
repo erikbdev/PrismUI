@@ -22,7 +22,7 @@ struct ColourWheelView: View {
                     .blur(radius: 8)
                     .clipShape(Circle())
                     /// Outer shadow.
-                    .shadow(radius: 15)
+                    .shadow(radius: 8)
 
                 /// Saturation value
                 RadialGradient(gradient: Gradient(colors: [.white, .black]),

@@ -80,22 +80,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func bindInputs() {
-        onAppearSubject
-            .sink { [weak self] _ in
-                guard let `self` = self else { return }
-                guard let firstKeyModel = self.keyModels.first else { return }
-                let allSatisfy = self.keyModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
-
-                // Set main color picker based on mode
-                if allSatisfy, let firstKeyModel = self.keyModels.first {
-                    self.currentMode = firstKeyModel.ssKey.mode
-                    self.currentColor = firstKeyModel.ssKey.main.hsv
-                } else {
-                    self.currentColor = HSB(hue: 0, saturation: 0, brightness: 0)
-                    self.currentMode = .mixed
-                    self.disableColorPicker = true
-                }
-                self.allowModelEdits = true
+        $keyModels
+            .sink { [weak self] newData in
+                self?.handleKeysSelectedChanged()
             }
             .store(in: &cancellables)
 
@@ -122,6 +109,22 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 }
             }
             .store(in: &cancellables)
+    }
+
+    private func handleKeysSelectedChanged() {
+        guard let firstKeyModel = keyModels.first else { return }
+        let allSatisfy = keyModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
+
+        // Set main color picker based on mode
+        if allSatisfy, let firstKeyModel = self.keyModels.first {
+            currentMode = firstKeyModel.ssKey.mode
+            currentColor = firstKeyModel.ssKey.main.hsv
+        } else {
+            currentColor = HSB(hue: 0, saturation: 0, brightness: 0)
+            currentMode = .mixed
+            disableColorPicker = true
+        }
+        allowModelEdits = true
     }
 
     private func handleColorChanged() {

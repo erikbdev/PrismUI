@@ -41,6 +41,7 @@ struct MultiColorSliderView: View {
                                        startPoint: .leading,
                                        endPoint: .trailing)
                     )
+                    .shadow(radius: 0, x: 0, y: 0)
                     .onTapGesture {
                         // TODO: Add another thumb if clicked anywhere in capsule.
                     }
@@ -86,6 +87,7 @@ struct MultiColorSliderView: View {
                         )
                 }
             }
+            .shadow(radius: 0, x: 0, y: 0)
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }

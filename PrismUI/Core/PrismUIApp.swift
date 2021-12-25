@@ -14,6 +14,7 @@ struct PrismUIApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .background(ColorManager.background) // Main background window
         }
         .windowToolbarStyle(.unified)
         .windowStyle(.titleBar)

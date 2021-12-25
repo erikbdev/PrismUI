@@ -102,21 +102,44 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
             .store(in: &cancellables)
     }
 
-//    private func generateStructKey() -> [SSKeyStruct] {
-//        var data: [SSKeyStruct] = []
-//
-//        let keyboardKeyNames = ssDevice.model == .perKey ? SSPerKeyProperties.perKeyNames : SSPerKeyProperties.perKeyGS65KeyNames
-//        let keycodeArray = ssDevice.model == .perKey ? SSPerKeyProperties.perKeyRegionKeyCodes : SSPerKeyProperties.perKeyGS65RegionKeyCodes
-//
-//        for (rowIndex, row) in keycodeArray.enumerated() {
-//            for (columnIndex, value) in row.enumerated() {
-//                let keySymbol = keyboardKeyNames[rowIndex][columnIndex]
-//                let key = SSKeyStruct(name: keySymbol, region: value.0, keycode: value.1)
-//                data.append(key)
-//            }
-//        }
-//        return data
-//    }
+    // MARK: - Public Functions
+
+    func getKeyModelFromGrid(row: Int, col: Int) -> KeyViewModel? {
+        let regionAndKeyCode = keyboardRegionAndKeyCodes[row][col]
+        return keyModels.first(where: {
+            $0.ssKey.region == regionAndKeyCode.0 &&
+            $0.ssKey.keycode == regionAndKeyCode.1
+        })
+    }
+
+    func calcWidthForKey(width: CGFloat) -> CGFloat {
+        return (model == .perKeyGS65 ? 60 : 50) * width
+    }
+
+    func calcHeightForKeycode(keycode: UInt8) -> CGFloat {
+        return model == .perKeyGS65 ? 60 : keycode == 0x57 || keycode == 0x56 ? 108 : 50
+    }
+
+    // Fix Offset for views for perKey large
+    func calcOffsetForKeycode(row: Int, keycode: UInt8) -> CGFloat {
+        if model == .perKeyGS65 {
+            return 0
+        }
+
+        if keycode == 0x57 {
+            return -58
+        } else if keycode == 0x56 {
+            return 0
+        }
+
+        if row <= 3 {
+            return 58
+        }
+
+        return 0
+    }
+
+    // MARK: - Private Functions
 
     private func prepareKeyViewModel() {
         // Populate values
