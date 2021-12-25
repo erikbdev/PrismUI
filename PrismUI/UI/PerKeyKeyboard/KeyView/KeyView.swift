@@ -17,14 +17,17 @@ struct KeyView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .background(
                 Rectangle()
-                    .strokeBorder(Color(red: viewModel.ssKey.main.red,
+                    .strokeBorder(
+                        Color(red: viewModel.ssKey.main.red,
+                              green: viewModel.ssKey.main.green,
+                              blue: viewModel.ssKey.main.blue),
+                        lineWidth: viewModel.selected ? 3 : 0)
+                    .background(
+                        Rectangle()
+                            .fill(Color(red: viewModel.ssKey.main.red,
                                         green: viewModel.ssKey.main.green,
-                                        blue: viewModel.ssKey.main.blue),
-                                  lineWidth: viewModel.selected ? 3 : 0)
-                    .background(Rectangle().fill(Color(red: viewModel.ssKey.main.red,
-                                                       green: viewModel.ssKey.main.green,
-                                                       blue: viewModel.ssKey.main.blue)
-                                                    .opacity(0.4)))
+                                        blue: viewModel.ssKey.main.blue)
+                                    .opacity(0.4)))
             )
             .cornerRadius(4)
             .onTapGesture {

@@ -47,6 +47,7 @@ struct KeySettingsView: View {
                     ColourPickerView(color: $viewModel.currentColor)
                         .frame(width: 275, height: 275)
                         .disabled(viewModel.disableColorPicker)
+                        .padding(.bottom)
 
                     if viewModel.currentMode == .reactive {
                         HStack {
@@ -85,7 +86,8 @@ struct KeySettingsView: View {
                     // Multi Slider
                     if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing {
                         MultiColorSliderView(selectors: $viewModel.colorSelectors,
-                                             selected: $viewModel.thumbSelected)
+                                             selected: $viewModel.thumbSelected,
+                                             backgroundType: $viewModel.gradientSliderMode)
                             .frame(height: 26)
                             .padding([.bottom])
                             .padding([.leading, .trailing], 26.0 / 2)

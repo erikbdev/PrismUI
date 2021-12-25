@@ -23,6 +23,7 @@
 		137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */; };
 		137117562762FA3700B5BABF /* PrismDriver+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117552762FA3700B5BABF /* PrismDriver+Combine.swift */; };
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
+		137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B872627779CE3003A4953 /* View+OnTouch.swift */; };
 		1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F619276AABAD00BF526E /* ColourWheelView.swift */; };
 		1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */; };
 		1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */; };
@@ -80,6 +81,7 @@
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniDirectionalDataFlow.swift; sourceTree = "<group>"; };
 		137117552762FA3700B5BABF /* PrismDriver+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrismDriver+Combine.swift"; sourceTree = "<group>"; };
+		137B872627779CE3003A4953 /* View+OnTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTouch.swift"; sourceTree = "<group>"; };
 		1381F619276AABAD00BF526E /* ColourWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourWheelView.swift; sourceTree = "<group>"; };
 		1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularGradientHueView.swift; sourceTree = "<group>"; };
 		1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSliderView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				13D6594726F44D7300C1D39A /* SSDevice+Image.swift */,
 				133E49C327769071006B976B /* ColorManager.swift */,
 				133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */,
+				137B872627779CE3003A4953 /* View+OnTouch.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				13A67448276D4B7D00F6287F /* ColourPickerView.swift in Sources */,
 				13A67446276D469700F6287F /* HSB+toRGB.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
+				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				133E49C427769071006B976B /* ColorManager.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
