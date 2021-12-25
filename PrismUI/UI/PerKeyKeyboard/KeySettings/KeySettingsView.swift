@@ -13,7 +13,7 @@ struct KeySettingsView: View {
     @ObservedObject var viewModel: KeySettingsViewModel
     var onSubmit: () -> ()
 
-    init (keyModels: OrderedSet<KeyViewModel>,
+    init (keyModels: Set<KeyViewModel>,
           onSubmit: @escaping () -> ()) {
         let viewModel = KeySettingsViewModel(keyModels: keyModels)
         _viewModel = .init(wrappedValue: viewModel)
@@ -67,9 +67,9 @@ struct KeySettingsView: View {
                             // Resting Color
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.black.opacity(0.25), lineWidth: viewModel.thumbSelected == 1 ? 8 : 0)
-                                .background(Color(red: viewModel.restingColor.red,
-                                            green: viewModel.restingColor.green,
-                                            blue: viewModel.restingColor.blue)
+                                .background(Color(red: viewModel.restColor.red,
+                                            green: viewModel.restColor.green,
+                                            blue: viewModel.restColor.blue)
                                                 .cornerRadius(8))
                                 .frame(width: 38, height: 38)
                                 .onTapGesture {

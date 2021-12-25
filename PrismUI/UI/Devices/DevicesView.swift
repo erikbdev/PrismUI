@@ -15,7 +15,8 @@ struct DevicesView: View {
         List(viewModel.devices, id: \.self) { device in
             DevicesRowView(device: device)
         }
-        .listStyle(SidebarListStyle())
+        .listStyle(.sidebar)
+        .frame(minWidth: 225)
         .onAppear {
             viewModel.apply(.onAppear)
         }

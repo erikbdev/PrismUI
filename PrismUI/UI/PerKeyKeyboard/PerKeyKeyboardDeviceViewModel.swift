@@ -5,10 +5,8 @@
 //  Created by Erik Bautista on 12/1/21.
 //
 
-import PrismKit
 import Combine
-import OrderedCollections
-import SwiftUI
+import PrismKit
 
 final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     typealias InputType = Input
@@ -16,31 +14,33 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     // MARK: Input
     enum Input {
         case onAppear
-        case onSubmit
         case onTouchOutside
+        case onUpdateDevice
     }
 
     func apply(_ input: Input) {
         switch input {
         case .onAppear:
             onAppearSubject.send()
-        case .onSubmit:
-            onSubmitSubject.send()
+        case .onUpdateDevice:
+            onUpdateDeviceSubject.send()
         case .onTouchOutside:
             onTouchOutsideSubject.send()
         }
     }
 
     @Published var finishedLoading = false
-    @Published var selected = OrderedSet<KeyViewModel>()
+    @Published var selected = Set<KeyViewModel>()
     @Published var keyModels = [KeyViewModel]()
     @Published var mouseMode = 0
+    @Published var containerDragShapeStart: CGPoint = .zero
+    @Published var containerDragShapeEnd: CGSize = .zero
 
     private(set) var keyboardMap: [[CGFloat]] = []
     private(set) var keyboardRegionAndKeyCodes: [[(UInt8, UInt8)]] = []
 
     private let onAppearSubject = PassthroughSubject<Void, Never>()
-    private let onSubmitSubject = PassthroughSubject<Void, Never>()
+    private let onUpdateDeviceSubject = PassthroughSubject<Void, Never>()
     private let onTouchOutsideSubject = PassthroughSubject<Void, Never>()
     private let onSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
     private let onDeSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
@@ -50,20 +50,21 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
 
     override init(ssDevice: SSDevice) {
         super.init(ssDevice: ssDevice)
+        loadKeyboardMap()
+        loadKeyboardRegionAndKeyCodes()
+        prepareKeyViewModel()
         bindInputs()
     }
 
     private func clearSelection() {
-        withAnimation(.easeIn(duration: 0.15)) {
-            for keyModel in keyModels {
-                keyModel.selected = false
-            }
+        for keyModel in keyModels {
+            keyModel.selected = false
         }
     }
 
     private func bindInputs() {
         onSelectedSubject.sink { [weak self] keyViewModel in
-            self?.selected.append(keyViewModel)
+            self?.selected.insert(keyViewModel)
         }
         .store(in: &cancellables)
 
@@ -72,15 +73,12 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         }
         .store(in: &cancellables)
 
-        onAppearSubject.sink { [weak self] _ in
-            self?.loadKeyboardMap()
-            self?.loadKeyboardRegionAndKeyCodes()
-            self?.prepareKeyViewModel()
-            self?.finishedLoading = true
+        onAppearSubject.sink { _ in
+            // TODO: Add onAppearSubject stuff
         }
         .store(in: &cancellables)
 
-        onSubmitSubject.sink { [weak self] _ in
+        onUpdateDeviceSubject.sink { [weak self] _ in
             self?.update()
         }
         .store(in: &cancellables)
@@ -193,10 +191,8 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     }
 
     private func handleSameKeySelection(keyModel: KeyViewModel) {
-        withAnimation(.easeIn(duration: 0.15)) {
-            for key in keyModels {
-                key.selected = key.ssKey.sameEffect(as: keyModel.ssKey)
-            }
+        for key in keyModels {
+            key.selected = key.ssKey.sameEffect(as: keyModel.ssKey)
         }
     }
 

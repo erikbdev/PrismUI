@@ -69,7 +69,7 @@ struct MultiColorSliderView: View {
 //                            }
                         }
                         .gesture(
-                            DragGesture(minimumDistance: 0.001)
+                            DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
                                     selected = -1
                                     handleThumbPositionChanged(geometry: geometry,

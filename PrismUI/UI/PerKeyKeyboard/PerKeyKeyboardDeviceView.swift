@@ -11,6 +11,7 @@ import PrismKit
 
 struct PerKeyKeyboardDeviceView: View {
     @ObservedObject private var viewModel: PerKeyKeyboardDeviceViewModel
+    @State private var phase: CGFloat = 0
 
     init (ssDevice: SSDevice) {
         let viewModel = PerKeyKeyboardDeviceViewModel(ssDevice: ssDevice)
@@ -19,30 +20,51 @@ struct PerKeyKeyboardDeviceView: View {
 
     var body: some View {
         ZStack {
-            if viewModel.finishedLoading {
-                HStack {
-                    ScrollView {
-                        KeySettingsView(keyModels: viewModel.selected) {
-                            viewModel.apply(.onSubmit)
-                        }
+            HStack {
+                ScrollView {
+                    KeySettingsView(keyModels: viewModel.selected) {
+                        viewModel.apply(.onUpdateDevice)
                     }
-                    .background(ColorManager.contentOverBackground)
-                    .cornerRadius(12)
-                    .padding(24)
-                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
-
-                    KeyboardLayout
-                        .cornerRadius(8)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .contentShape(Rectangle())
-                        .onTapGesture(perform: {
-                            withAnimation {
-                                viewModel.apply(.onTouchOutside)
-                            }
-                        })
                 }
-            } else {
-                Text("Loading keys...")
+                .background(ColorManager.contentOverBackground)
+                .cornerRadius(12)
+                .padding(24)
+                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
+
+                KeyboardLayout
+                    .cornerRadius(8)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: {
+                        withAnimation {
+                            viewModel.apply(.onTouchOutside)
+                        }
+                    })
+                    .gesture(
+                        DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
+                            .onChanged({ value in
+                                viewModel.containerDragShapeStart = value.startLocation
+                                viewModel.containerDragShapeEnd = value.translation
+                                
+                            })
+                            .onEnded({ value in
+                                viewModel.containerDragShapeStart = .zero
+                                viewModel.containerDragShapeEnd = .zero
+                            })
+                    )
+                // TODO: Add overlay to select multiple by dragging
+//                    .overlay(
+//                        Rectangle()
+//                            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [10], dashPhase: phase))
+//                            .onAppear {
+//                                withAnimation(.linear.repeatForever(autoreverses: false)) {
+//                                    phase -= 20
+//                                }
+//                            }
+//                            .frame(width: viewModel.containerDragShapeEnd.width + viewModel.containerDragShapeStart.x,
+//                                   height: viewModel.containerDragShapeEnd.height + viewModel.containerDragShapeStart.y)
+//                            .position(viewModel.containerDragShapeStart)
+//                    )
             }
         }
         .navigationTitle(viewModel.ssDevice.name)
