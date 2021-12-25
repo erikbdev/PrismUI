@@ -20,15 +20,17 @@ struct PerKeyKeyboardDeviceView: View {
     var body: some View {
         ZStack {
             if viewModel.finishedLoading {
-                HSplitView {
-                    ScrollView(.vertical, showsIndicators: true) {
+                HStack {
+                    ScrollView {
                         KeySettingsView(keyModels: viewModel.selected) {
                             viewModel.apply(.onSubmit)
                         }
                     }
                     .background(ColorManager.contentOverBackground)
                     .cornerRadius(12)
-                    .padding()
+                    .padding(24)
+                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
+
                     KeyboardLayout
                         .cornerRadius(8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -45,11 +47,26 @@ struct PerKeyKeyboardDeviceView: View {
         }
         .navigationTitle(viewModel.ssDevice.name)
         .toolbar {
-            Picker("", selection: $viewModel.mouseMode) {
-                Image(systemName: "cursorarrow").tag(0)
-                Image(systemName: "cursorarrow.rays").tag(1)
+            ToolbarItemGroup {
+                // Presets
+//                Picker("", selection: .constant(0)) {
+//                    Text("Preset 1").tag(0)
+//                    Text("Preset 2").tag(1)
+//                    Text("Preset 3").tag(2)
+//                    Text("Preset 4").tag(3)
+//                    Text("Preset 5").tag(4)
+//                }
+//                .pickerStyle(.menu)
+//                .labelsHidden()
+
+                Spacer()
+                Picker("", selection: $viewModel.mouseMode) {
+                    Image(systemName: "cursorarrow").tag(0)
+                    Image(systemName: "cursorarrow.rays").tag(1)
+                    Image(systemName: "rectangle.dashed").tag(2)
+                }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
         }
         .onAppear(perform: {
             viewModel.apply(.onAppear)
