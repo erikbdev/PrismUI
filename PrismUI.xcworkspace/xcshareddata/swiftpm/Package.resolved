@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "CombineExt",
+        "repositoryURL": "https://github.com/CombineCommunity/CombineExt",
+        "state": {
+          "branch": null,
+          "revision": "0880829102152185190064fd17847a7c681d2127",
+          "version": "1.5.1"
+        }
+      },
+      {
         "package": "Sparkle",
         "repositoryURL": "https://github.com/sparkle-project/Sparkle.git",
         "state": {

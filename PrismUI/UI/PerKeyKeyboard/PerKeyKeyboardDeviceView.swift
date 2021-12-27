@@ -10,7 +10,7 @@ import PrismKit
 
 
 struct PerKeyKeyboardDeviceView: View {
-    @ObservedObject private var viewModel: PerKeyKeyboardDeviceViewModel
+    @StateObject private var viewModel: PerKeyKeyboardDeviceViewModel
     @State private var phase: CGFloat = 0
 
     init (ssDevice: SSDevice) {
@@ -22,7 +22,8 @@ struct PerKeyKeyboardDeviceView: View {
         ZStack {
             HStack {
                 ScrollView {
-                    KeySettingsView(keyModels: viewModel.selected) {
+                    // Passing down viewmodel rather than recreating it
+                    KeySettingsView(viewModel: viewModel.keySettingsViewModel) {
                         viewModel.apply(.onUpdateDevice)
                     }
                 }
@@ -83,9 +84,10 @@ struct PerKeyKeyboardDeviceView: View {
 
                 Spacer()
                 Picker("", selection: $viewModel.mouseMode) {
-                    Image(systemName: "cursorarrow").tag(0)
-                    Image(systemName: "cursorarrow.rays").tag(1)
-                    Image(systemName: "rectangle.dashed").tag(2)
+                    ForEach(PerKeyKeyboardDeviceViewModel.MouseMode.allCases, id: \.self) { mode in
+                        Image(systemName: mode.rawValue)
+
+                    }
                 }
                 .pickerStyle(.segmented)
             }

@@ -27,7 +27,7 @@ struct DevicesView: View {
 
         var body: some View {
             NavigationLink (
-                destination: DeviceRouter.route(ssDevice: device),
+                destination: LazyView(DeviceRouter.route(ssDevice: device)),
                 label: {
                     Image(device.image)
                     Text(device.name)
@@ -40,5 +40,15 @@ struct DevicesView: View {
 struct DeviceList_Previews: PreviewProvider {
     static var previews: some View {
         DevicesView()
+    }
+}
+
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: Content {
+        build()
     }
 }

@@ -10,15 +10,12 @@ import OrderedCollections
 import PrismKit
 
 struct KeySettingsView: View {
-    @ObservedObject var viewModel: KeySettingsViewModel
+    @StateObject var viewModel: KeySettingsViewModel
     var onSubmit: () -> ()
 
-    init (keyModels: Set<KeyViewModel>,
-          onSubmit: @escaping () -> ()) {
-        let viewModel = KeySettingsViewModel(keyModels: keyModels)
-        _viewModel = .init(wrappedValue: viewModel)
-        self.onSubmit = onSubmit
-    }
+//    init (onSubmit: @escaping () -> ()) {
+//        self.onSubmit = onSubmit
+//    }
 
     var body: some View {
         VStack(alignment: .trailing) {
@@ -170,6 +167,6 @@ struct KeySettingsView: View {
 
 struct KeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        KeySettingsView(keyModels: [], onSubmit: {})
+        KeySettingsView(viewModel: .init(keyModels: []), onSubmit: {})
     }
 }

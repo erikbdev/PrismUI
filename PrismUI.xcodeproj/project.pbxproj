@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13185A16277905AC00D881F5 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 13185A15277905AC00D881F5 /* CombineExt */; };
+		13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */; };
 		1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711326F3DAD300471846 /* PrismUIApp.swift */; };
 		1319711626F3DAD300471846 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711526F3DAD300471846 /* ContentView.swift */; };
 		1319711826F3DAD400471846 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711726F3DAD400471846 /* Assets.xcassets */; };
@@ -63,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+CombineLatestMany.swift"; sourceTree = "<group>"; };
 		1319711026F3DAD300471846 /* PrismUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1319711326F3DAD300471846 /* PrismUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismUIApp.swift; sourceTree = "<group>"; };
 		1319711526F3DAD300471846 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1372CC9C27724F110093171A /* OrderedCollections in Frameworks */,
+				13185A16277905AC00D881F5 /* CombineExt in Frameworks */,
 				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +181,7 @@
 				133E49C327769071006B976B /* ColorManager.swift */,
 				133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */,
 				137B872627779CE3003A4953 /* View+OnTouch.swift */,
+				13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 			name = PrismUI;
 			packageProductDependencies = (
 				1372CC9B27724F110093171A /* OrderedCollections */,
+				13185A15277905AC00D881F5 /* CombineExt */,
 			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismUI.app */;
@@ -350,6 +356,7 @@
 			packageReferences = (
 				136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */,
+				13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */,
 			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
@@ -410,6 +417,7 @@
 				13A67444276D44C800F6287F /* HSB.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+Color.swift in Sources */,
 				133E49C027768A89006B976B /* Published+Extension.swift in Sources */,
+				13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */,
 				137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +608,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineExt";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
@@ -619,6 +635,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		13185A15277905AC00D881F5 /* CombineExt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */;
+			productName = CombineExt;
+		};
 		1372CC9B27724F110093171A /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */;
