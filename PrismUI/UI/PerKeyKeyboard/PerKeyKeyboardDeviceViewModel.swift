@@ -68,7 +68,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         $selectionArray
             .filter({ _ in !self.multipleSelectionChangesActive })
             .sink {[weak self] newValue in
-                self?.keySettingsViewModel.keyModels = newValue
+                self?.keySettingsViewModel.selectedKeyModels = newValue
             }
             .store(in: &cancellables)
 

@@ -24,10 +24,10 @@ struct KeySettingsView: View {
                     Text("Effect")
                         .fontWeight(.bold)
     
-                    Picker("", selection: $viewModel.currentMode) {
+                    Picker("", selection: $viewModel.selectedMode) {
                         ForEach(SSKeyStruct.SSKeyModes.allCases, id: \.self) {
                             if $0 == .mixed {
-                                if viewModel.currentMode == .mixed {
+                                if viewModel.selectedMode == .mixed {
                                     Text($0.description)
                                 }
                             } else {
@@ -41,12 +41,12 @@ struct KeySettingsView: View {
                     // Color Picker
                     Text("Color Picker")
                         .fontWeight(.bold)
-                    ColourPickerView(color: $viewModel.currentColor)
+                    ColourPickerView(color: $viewModel.selectedColor)
                         .frame(width: 275, height: 275)
                         .disabled(viewModel.disableColorPicker)
                         .padding(.bottom)
 
-                    if viewModel.currentMode == .reactive {
+                    if viewModel.selectedMode == .reactive {
                         HStack {
                             // Active colors
                             RoundedRectangle(cornerRadius: 8)
@@ -81,7 +81,7 @@ struct KeySettingsView: View {
                     }
 
                     // Multi Slider
-                    if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing {
+                    if viewModel.selectedMode == .colorShift || viewModel.selectedMode == .breathing {
                         MultiColorSliderView(selectors: $viewModel.colorSelectors,
                                              selected: $viewModel.thumbSelected,
                                              backgroundType: $viewModel.gradientSliderMode)
@@ -91,7 +91,7 @@ struct KeySettingsView: View {
                     }
 
                     // Speed Slider
-                    if viewModel.currentMode == .colorShift || viewModel.currentMode == .breathing || viewModel.currentMode == .reactive {
+                    if viewModel.selectedMode == .colorShift || viewModel.selectedMode == .breathing || viewModel.selectedMode == .reactive {
                         Text("Speed")
                             .fontWeight(.bold)
                             .padding(0.0)
@@ -99,7 +99,7 @@ struct KeySettingsView: View {
                             .labelsHidden()
                     }
 
-                    if viewModel.currentMode == .colorShift {
+                    if viewModel.selectedMode == .colorShift {
                         // Wave Toggle
                         Text("Wave Mode")
                             .fontWeight(.bold)

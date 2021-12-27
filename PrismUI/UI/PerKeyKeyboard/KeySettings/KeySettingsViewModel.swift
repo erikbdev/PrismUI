@@ -33,24 +33,26 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     // MARK: - Main Data
 
-    @Published var keyModels: Set<KeyViewModel>
-    @Published var currentColor = HSB(hue: 0, saturation: 1, brightness: 1)
-    @Published var currentMode: SSKeyStruct.SSKeyModes = .steady
+    @Published var selectedKeyModels: Set<KeyViewModel>
+    @Published var selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
+    @Published var selectedMode: SSKeyStruct.SSKeyModes = .steady
     @Published var disableColorPicker = false
 
     // Decides whether the update button should be active or not
     @Published var allowUpdatingDevice = true
 
-    // If there are keys selection and the view has not reflected the data from the keys, this is true,
-    // else it is false.
-    private var settingViewFromSelection = false
+    private var skipDefaultValuesForMode = false
+
+    // If the `selectedKeyModels` array is changed, we want to copy the value from the model to our view, but
+    // we do not want our view inputs to change our model while this is happening.
+    private var settingModelToView = false
 
     // If mode is changed, it will reset all values but we do not want to
     // get notified until the last value is reset so we can update the model
-    private var modeCurrentlyChanging = false
+    private var modeChanging = false
 
-    // This prevents ColorChanged being called repeatedly if a thumb was selected
-    // and was setting the thumbs color to the color picker.
+    // If our thumbSelection changes, we want to set the color of the thumb to the color
+    // picker, but we do not want to allow the color picker to change the color for the initial state.
     private var thumbColorSet = false
 
     // MARK: - Effects
@@ -81,30 +83,37 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     @Published var restColor = RGB(red: 0.0, green: 0.0, blue: 0.0)
 
     init(keyModels: Set<KeyViewModel>) {
-        self.keyModels = keyModels
+        self.selectedKeyModels = keyModels
         super.init()
 
         bindInputs()
     }
 
     private func bindInputs() {
-        // Observe selectedMode and change view state
-        $currentMode
+        // Observe selectedMode and change view state on main thread.
+        $selectedMode
+            .filter({ [weak self] _ in
+                let skip = self?.skipDefaultValuesForMode == false
+                if skip {
+                    self?.skipDefaultValuesForMode = false // Handled skip, so set to false
+                }
+                return skip
+            })
             .receive(on: RunLoop.main)
             .sink { newMode in
-                print("Will Change Mode")
+//                print("Will Change Mode")
                 self.handleModeChanged(newMode: newMode)
-                print("Changed Mode")
+//                print("Changed Mode")
             }
             .store(in: &cancellables)
 
-        // Steady Mode
-        $currentColor
+        // Steady Mode on background thread.
+        $selectedColor
             .filter({ [weak self] _ in
-                self?.currentMode == .steady && self?.modeCurrentlyChanging == false && self?.settingViewFromSelection == false
+                self?.selectedMode == .steady && self?.modeChanging == false && self?.settingModelToView == false
             })
             .sink { [weak self] newColor in
-                print("Handle steady mode")
+//                print("Handle steady mode")
                 self?.handleSteadyMode(newColor: newColor)
             }
             .store(in: &cancellables)
@@ -113,7 +122,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $colorSelectors
             .combineLatest($speed, $waveModeOn, $waveDirection, $waveControl, $pulse)
             .filter({ [weak self] _ in
-                self?.currentMode == .colorShift && self?.modeCurrentlyChanging == false && self?.settingViewFromSelection == false
+                self?.selectedMode == .colorShift && self?.modeChanging == false && self?.settingModelToView == false
             })
             .sink { [weak self] (newColorSelectors,
                                  newSpeed,
@@ -121,7 +130,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                  newWaveDirection,
                                  newWaveControl,
                                  newPulse) in
-                print("Handle ColorShift")
+//                print("Handle ColorShift")
                 self?.handleColorShift(newSelectors: newColorSelectors, newSpeed: newSpeed)
             }
             .store(in: &cancellables)
@@ -130,10 +139,10 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $colorSelectors
             .combineLatest($speed)
             .filter({ [weak self] _ in
-                self?.currentMode == .breathing && self?.modeCurrentlyChanging == false && self?.settingViewFromSelection == false
+                self?.selectedMode == .breathing && self?.modeChanging == false && self?.settingModelToView == false
             })
             .sink { [weak self] (newColorSelectors, newSpeed) in
-                print("Handle Breathing")
+//                print("Handle Breathing")
                 self?.handleBreathing(newSelectors: newColorSelectors, newSpeed: newSpeed)
             }
             .store(in: &cancellables)
@@ -142,26 +151,29 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $activeColor
             .combineLatest($restColor, $speed)
             .filter({ [weak self] _ in
-                self?.currentMode == .reactive && self?.modeCurrentlyChanging == false && self?.settingViewFromSelection == false
+                self?.selectedMode == .reactive && self?.modeChanging == false && self?.settingModelToView == false
             })
             .sink { [weak self] (newActive, newRest, newSpeed) in
-                print("Handle Reactive")
+//                print("Handle Reactive")
                 self?.handleReactive(newActiveColor: newActive, newRestColor: newRest, newSpeed: newSpeed)
             }
             .store(in: &cancellables)
 
         // Disabled Mode
-        $currentMode
-            .filter({ [weak self] mode in mode == .disabled && self?.modeCurrentlyChanging == false && self?.settingViewFromSelection == false })
-            .sink { mode in
-                print("Handle Disabled, mode: \(mode)")
+        $selectedMode
+            .filter({ [weak self] mode in mode == .disabled && self?.modeChanging == false && self?.settingModelToView == false })
+            .sink { [weak self] _ in
+//                print("Handle Disabled")
+                self?.handleDisabled()
             }
             .store(in: &cancellables)
 
         onReactiveTouchSubject
+            .receive(on: RunLoop.main)
             .sink { [weak self] index in
-                print("Reactive touched")
+//                print("Will handle reactive touched")
                 self?.thumbSelected = self?.thumbSelected == index ? -1 : index
+//                print("Did handle reactive touched")
             }
             .store(in: &cancellables)
 
@@ -169,72 +181,82 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $thumbSelected
             .filter({ $0 != -1 })
             .receive(on: RunLoop.main)
-            .sink { [weak self] (index) in
-                guard let `self` = self else { return }
-                print("Handle thumb selected.")
-                switch self.currentMode {
-                case .colorShift, .breathing:
-                    self.thumbColorSet = true // This omits repeated currentColor for thumb
-                    self.currentColor = self.colorSelectors[index].rgb.hsv
-                case .reactive:
-                    self.thumbColorSet = true // This omits repeated currentColor for thumb
-                    if index == 0 {
-                        self.currentColor = self.activeColor.hsv
-                    } else {
-                        self.currentColor = self.restColor.hsv
-                    }
-                default:
-                    break
-                }
+            .sink { [weak self] newIndex in
+//                print("Will handle thumb selected.")
+                self?.handleThumbSelected(newIndex: newIndex)
+//                print("Did handle thumb selected.")
             }
             .store(in: &cancellables)
 
         // Handle color picker changed if thumb is selected
-        $currentColor
+        $selectedColor
+            .filter({ [weak self] _ in self?.thumbSelected != -1 })
             .receive(on: RunLoop.main)
-            .sink { [weak self] (color) in
-                guard let `self` = self else { return }
-                guard !self.thumbColorSet else { self.thumbColorSet = false; return }
-                let selected = self.thumbSelected
-                guard selected != -1 else { return }
-                print("Handle color changed for thumb.")
-                switch self.currentMode {
-                case .breathing, .colorShift:
-                    self.colorSelectors[selected].rgb = color.rgb
-                case .reactive:
-                    if selected == 0 {
-                        self.activeColor = color.rgb
-                    } else {
-                        self.restColor = color.rgb
-                    }
-                default:
-                    break
-                }
+            .sink { [weak self] newColor in
+//                print("Will handle color changed for thumb")
+                self?.handleColorChangedForThumb(newColor: newColor)
+//                print("Did handle color changed for thumb")
             }
             .store(in: &cancellables)
 
         // TODO: Get settings to reflect based on selection
-//        $keyModels
-//            .removeDuplicates()
-//            .sink { [weak self] newData in
+        $selectedKeyModels
+            .removeDuplicates()
+            .sink { [weak self] newData in
 //                print("Will Handle Key selection changed")
-//                self?.handleKeysSelectedChanged(newModels: newData)
+                self?.handleKeysSelectedChanged(newModels: newData)
 //                print("Did handle Key selectioin changed")
-//            }
-//            .store(in: &cancellables)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func handleThumbSelected(newIndex: Int) {
+        switch selectedMode {
+        case .colorShift, .breathing:
+            thumbColorSet = true // This omits repeated currentColor for thumb
+            selectedColor = self.colorSelectors[newIndex].rgb.hsv
+        case .reactive:
+            self.thumbColorSet = true // This omits repeated currentColor for thumb
+            if newIndex == 0 {
+                selectedColor = activeColor.hsv
+            } else {
+                selectedColor = restColor.hsv
+            }
+        default:
+            break
+        }
+    }
+
+    private func handleColorChangedForThumb(newColor: HSB) {
+        guard !self.thumbColorSet else { self.thumbColorSet = false; return }
+        let selected = self.thumbSelected
+        print("Handle color changed for thumb.")
+        switch self.selectedMode {
+        case .breathing, .colorShift:
+            self.colorSelectors[selected].rgb = newColor.rgb
+        case .reactive:
+            if selected == 0 {
+                self.activeColor = newColor.rgb
+            } else {
+                self.restColor = newColor.rgb
+            }
+        default:
+            break
+        }
     }
 
     private func handleKeysSelectedChanged(newModels: Set<KeyViewModel>) {
         guard let firstKeyModel = newModels.first else { return }
         let allSatisfy = newModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
-        settingViewFromSelection = true
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
-            currentMode = firstKeyModel.ssKey.mode
+            skipDefaultValuesForMode = true
+            settingModelToView = true
+
+            selectedMode = firstKeyModel.ssKey.mode
             switch firstKeyModel.ssKey.mode {
             case .steady:
-                currentColor = firstKeyModel.ssKey.main.hsv
-                break
+                selectedColor = firstKeyModel.ssKey.main.hsv
             case .reactive:
                 activeColor = firstKeyModel.ssKey.active
                 restColor = firstKeyModel.ssKey.main
@@ -243,15 +265,15 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 break
             }
         } else {
-            currentMode = .mixed
-            currentColor = HSB(hue: 0, saturation: 0, brightness: 0)
+            selectedMode = .mixed
+            selectedColor = HSB(hue: 0, saturation: 0, brightness: 0)
             disableColorPicker = true
         }
-        settingViewFromSelection = false
+        settingModelToView = false
     }
 
     private func handleModeChanged(newMode: SSKeyStruct.SSKeyModes) {
-        modeCurrentlyChanging = true
+        modeChanging = true
         commonSwitch()
 
         switch newMode {
@@ -275,12 +297,12 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func switchToSteady() {
         allowUpdatingDevice = true
 
-        modeCurrentlyChanging = false // This will allow to update keys to this mode
-        currentColor = HSB(hue: 0, saturation: 1, brightness: 1)
+        modeChanging = false // This will allow to update keys to this mode
+        selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
     }
 
     private func handleSteadyMode(newColor: HSB) {
-        keyModels.forEach { keyModel in
+        selectedKeyModels.forEach { keyModel in
             keyModel.ssKey.mode = .steady
             keyModel.ssKey.main = newColor.rgb
         }
@@ -307,12 +329,12 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         waveModeOn = false
         waveControl = .inward
         waveDirection = .xy
-        modeCurrentlyChanging = false // This will allow to update keys to this mode
+        modeChanging = false // This will allow to update keys to this mode
         pulse = 100
     }
 
     private func handleColorShift(newSelectors: [ColorSelector], newSpeed: CGFloat) {
-        keyModels.forEach { keyModel in
+        selectedKeyModels.forEach { keyModel in
         }
     }
 
@@ -324,14 +346,14 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         gradientSliderMode = .breathing
         speed = 4000
         speedRange = 2000...30000
-        modeCurrentlyChanging = false // This will allow to update keys to this mode
+        modeChanging = false // This will allow to update keys to this mode
         colorSelectors = [
             ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)
         ]
     }
 
     private func handleBreathing(newSelectors: [ColorSelector], newSpeed: CGFloat) {
-        guard settingViewFromSelection else { return }
+        // Set any changes to our view model
     }
 
     // MARK: - Reactive
@@ -339,18 +361,18 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func switchToReactive() {
         allowUpdatingDevice = true
 
-        currentColor = HSB(hue: 0, saturation: 1, brightness: 1)
+        selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
 
         // These value changes will notify our listeners
         speedRange = 100...1000
         speed = 300
         restColor = .init(red: 0, green: 0, blue: 0)
-        modeCurrentlyChanging = false // This will allow to update keys to this mode
+        modeChanging = false // This will allow to update keys to this mode
         activeColor = .init(red: 1.0, green: 0, blue: 0)
     }
 
     private func handleReactive(newActiveColor: RGB, newRestColor: RGB, newSpeed: CGFloat) {
-        keyModels.forEach { keyVM in
+        selectedKeyModels.forEach { keyVM in
             keyVM.ssKey.mode = .reactive
             keyVM.ssKey.main = restColor
             keyVM.ssKey.active = activeColor
@@ -363,11 +385,11 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func switchToDisabled() {
         allowUpdatingDevice = true
         disableColorPicker = true
-        currentColor = .init(hue: 0, saturation: 0, brightness: 0)
+        selectedColor = .init(hue: 0, saturation: 0, brightness: 0)
     }
 
     private func handleDisabled() {
-        keyModels.forEach { keyViewModel in
+        selectedKeyModels.forEach { keyViewModel in
             keyViewModel.ssKey.mode = .disabled
         }
     }
