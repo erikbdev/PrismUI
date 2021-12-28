@@ -133,7 +133,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         for (rowIndex, row) in keyboardRegionAndKeyCodes.enumerated() {
             for (columnIndex, element) in row.enumerated() {
                 let keyboardKeyNames = model == .perKey ? SSPerKeyProperties.perKeyNames : SSPerKeyProperties.perKeyGS65KeyNames
-                let key = SSKeyStruct(name: keyboardKeyNames[rowIndex][columnIndex],
+                let key = SSKey(name: keyboardKeyNames[rowIndex][columnIndex],
                                       region: element.0,
                                       keycode: element.1)
                 let keyViewModel = KeyViewModel(ssKey: key)

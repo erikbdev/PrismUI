@@ -9,8 +9,8 @@ import Foundation
 import PrismKit
 
 
-extension SSKeyStruct {
-    func sameEffect(as ssKey: SSKeyStruct) -> Bool {
+extension SSKey {
+    func sameEffect(as ssKey: SSKey) -> Bool {
         return mode == ssKey.mode &&
         main == ssKey.main &&
         active == ssKey.active &&

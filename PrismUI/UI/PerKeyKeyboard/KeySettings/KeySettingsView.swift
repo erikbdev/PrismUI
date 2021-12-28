@@ -25,7 +25,7 @@ struct KeySettingsView: View {
                         .fontWeight(.bold)
     
                     Picker("", selection: $viewModel.selectedMode) {
-                        ForEach(SSKeyStruct.SSKeyModes.allCases, id: \.self) {
+                        ForEach(SSKey.SSKeyModes.allCases, id: \.self) {
                             if $0 == .mixed {
                                 if viewModel.selectedMode == .mixed {
                                     Text($0.description)
@@ -103,30 +103,32 @@ struct KeySettingsView: View {
                         // Wave Toggle
                         Text("Wave Mode")
                             .fontWeight(.bold)
-                        Toggle("Wave Mode", isOn: $viewModel.waveModeOn)
+                        Toggle("Wave Mode", isOn: $viewModel.waveActive)
                             .labelsHidden()
 
                         // Wave Direction
                         Text("Direction")
                             .fontWeight(.bold)
                         Picker("", selection: $viewModel.waveDirection) {
-                            ForEach(SSKeyEffectStruct.SSPerKeyDirection.allCases, id: \.self) {
+                            ForEach(SSKeyEffect.SSPerKeyDirection.allCases, id: \.self) {
                                 Text($0.description)
                             }
                         }
                         .labelsHidden()
                         .pickerStyle(.segmented)
+                        .disabled(!viewModel.waveActive)
 
                         // Wave Control
                         Text("Control")
                             .fontWeight(.bold)
                         Picker("", selection: $viewModel.waveControl) {
-                            ForEach(SSKeyEffectStruct.SSPerKeyControl.allCases, id: \.self) {
+                            ForEach(SSKeyEffect.SSPerKeyControl.allCases, id: \.self) {
                                 Text($0.description)
                             }
                         }
                         .labelsHidden()
                         .pickerStyle(.segmented)
+                        .disabled(!viewModel.waveActive)
 
                         // Pulse
                         Text("Pulse")
@@ -134,6 +136,7 @@ struct KeySettingsView: View {
                             .padding(0.0)
                         Slider(value: $viewModel.pulse, in: 30...1000)
                             .labelsHidden()
+                            .disabled(!viewModel.waveActive)
                     }
                 }
             }

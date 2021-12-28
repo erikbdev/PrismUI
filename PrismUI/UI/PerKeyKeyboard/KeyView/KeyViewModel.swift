@@ -9,10 +9,10 @@ import PrismKit
 import Combine
 
 final class KeyViewModel: BaseViewModel {
-    @Published var ssKey: SSKeyStruct
+    @Published var ssKey: SSKey
     @Published var selected = false
 
-    init(ssKey: SSKeyStruct) {
+    init(ssKey: SSKey) {
         self.ssKey = ssKey
     }
 }

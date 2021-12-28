@@ -35,7 +35,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     @Published var selectedKeyModels: Set<KeyViewModel>
     @Published var selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
-    @Published var selectedMode: SSKeyStruct.SSKeyModes = .steady
+    @Published var selectedMode: SSKey.SSKeyModes = .steady
     @Published var disableColorPicker = false
 
     // Decides whether the update button should be active or not
@@ -71,11 +71,11 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     // MARK: Color Shift Settings
 
-    @Published var waveModeOn = false
-    @Published var waveDirection: SSKeyEffectStruct.SSPerKeyDirection = .xy
-    @Published var waveControl: SSKeyEffectStruct.SSPerKeyControl = .inward
+    @Published var waveActive = false
+    @Published var waveDirection: SSKeyEffect.SSPerKeyDirection = .xy
+    @Published var waveControl: SSKeyEffect.SSPerKeyControl = .inward
     @Published var pulse: CGFloat = 100
-    @Published var origin: SSKeyEffectStruct.SSPoint = SSKeyEffectStruct.SSPoint() // TODO: Add origin for colorShift
+    @Published var origin: SSKeyEffect.SSPoint = SSKeyEffect.SSPoint() // TODO: Add origin for colorShift
 
     // MARK: Reactive Settings
 
@@ -120,7 +120,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
         // Color Shift Mode
         $colorSelectors
-            .combineLatest($speed, $waveModeOn, $waveDirection, $waveControl, $pulse)
+            .combineLatest($speed, $waveActive, $waveDirection, $waveControl, $pulse, $origin)
             .filter({ [weak self] _ in
                 self?.selectedMode == .colorShift && self?.modeChanging == false && self?.settingModelToView == false
             })
@@ -129,13 +129,15 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                  newWave,
                                  newWaveDirection,
                                  newWaveControl,
-                                 newPulse) in
+                                 newPulse,
+                                 newOrigin) in
 //                print("Handle ColorShift")
                 self?.handleColorShift(newSelectors: newColorSelectors,
                                        newSpeed: newSpeed,
                                        newWave: newWave,
                                        newWaveDirection: newWaveDirection,
                                        newWaveControl: newWaveControl,
+                                       newOrigin: newOrigin,
                                        newPulse: newPulse)
             }
             .store(in: &cancellables)
@@ -264,10 +266,30 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             switch firstKeyModel.ssKey.mode {
             case .steady:
                 selectedColor = firstKeyModel.ssKey.main.hsv
+            case .colorShift:
+                if let effect = firstKeyModel.ssKey.effect {
+                    colorSelectors = effect.transitions
+                        .compactMap({ ColorSelector(rgb: $0.color, position: $0.position) })
+                    speed = CGFloat(effect.duration)
+                    waveActive = effect.waveActive
+                    waveDirection = effect.direction
+                    waveControl = effect.control
+                    origin = effect.origin
+                    pulse = CGFloat(effect.pulse)
+                }
+            case .breathing:
+                if let effect = firstKeyModel.ssKey.effect {
+                    colorSelectors = effect.transitions
+                        .enumerated()
+                        .filter({ $0.offset % 2 == 0 })
+                        .compactMap({ $0.element })
+                        .compactMap({ ColorSelector(rgb: $0.color, position: $0.position) })
+                    speed = CGFloat(effect.duration)
+                }
             case .reactive:
+                speed = CGFloat(firstKeyModel.ssKey.duration)
                 activeColor = firstKeyModel.ssKey.active
                 restColor = firstKeyModel.ssKey.main
-                speed = CGFloat(firstKeyModel.ssKey.duration)
             default:
                 break
             }
@@ -279,20 +301,20 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         settingModelToView = false
     }
 
-    private func handleModeChanged(newMode: SSKeyStruct.SSKeyModes) {
+    private func handleModeChanged(newMode: SSKey.SSKeyModes) {
         modeChanging = true
         commonSwitch()
 
         switch newMode {
-        case SSKeyStruct.SSKeyModes.steady:
+        case SSKey.SSKeyModes.steady:
             switchToSteady()
-        case SSKeyStruct.SSKeyModes.colorShift:
+        case SSKey.SSKeyModes.colorShift:
             switchToColorShift()
-        case SSKeyStruct.SSKeyModes.breathing:
+        case SSKey.SSKeyModes.breathing:
             switchToBreathing()
-        case SSKeyStruct.SSKeyModes.reactive:
+        case SSKey.SSKeyModes.reactive:
             switchToReactive()
-        case SSKeyStruct.SSKeyModes.disabled:
+        case SSKey.SSKeyModes.disabled:
             switchToDisabled()
         default:
             switchToMixed()
@@ -323,7 +345,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Color Shift
 
     private func switchToColorShift() {
-        allowUpdatingDevice = false
+        allowUpdatingDevice = true
 
         gradientSliderMode = .gradient
         colorSelectors = [
@@ -333,7 +355,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         ]
         speed = 3000
         speedRange = 1000...30000
-        waveModeOn = false
+        waveActive = false
         waveControl = .inward
         waveDirection = .xy
         modeChanging = false // This will allow to update keys to this mode
@@ -343,18 +365,38 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func handleColorShift(newSelectors: [ColorSelector],
                                   newSpeed: CGFloat,
                                   newWave: Bool,
-                                  newWaveDirection: SSKeyEffectStruct.SSPerKeyDirection,
-                                  newWaveControl: SSKeyEffectStruct.SSPerKeyControl,
+                                  newWaveDirection: SSKeyEffect.SSPerKeyDirection,
+                                  newWaveControl: SSKeyEffect.SSPerKeyControl,
+                                  newOrigin: SSKeyEffect.SSPoint,
                                   newPulse: CGFloat) {
-        // TODO: Handle effect for color shift
+        // TODO: Handle generating id for effect
+        let transitions = newSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+            .sorted(by: { $0.position < $1.position })
+
+        guard transitions.count > 0 else { return }
+
+        var effect = SSKeyEffect(id: 0,
+                                 transitions: transitions)
+
+        effect.start = transitions[0].color
+        effect.duration = UInt16(newSpeed)
+        effect.waveActive = newWave
+        effect.direction = newWaveDirection
+        effect.control = newWaveControl
+        effect.origin = newOrigin
+        effect.pulse = UInt16(newPulse)
+
         selectedKeyModels.forEach { keyModel in
+            keyModel.ssKey.mode = .colorShift
+            keyModel.ssKey.effect = effect
+            keyModel.ssKey.main = effect.start
         }
     }
 
     // MARK: - Breathing
 
     private func switchToBreathing() {
-        allowUpdatingDevice = false
+        allowUpdatingDevice = true
 
         gradientSliderMode = .breathing
         speed = 4000
@@ -366,8 +408,41 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleBreathing(newSelectors: [ColorSelector], newSpeed: CGFloat) {
-        // TODO: Handle effect for breathing
+        // TODO: Add missing values to the selector
+        let baseTransitions = newSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+            .sorted(by: { $0.position < $1.position })
+
+        guard baseTransitions.count > 0 else { return }
+
+        // We add the transitions from baseTransition and also add the half values between
+        // each transition to have the breathing effect.
+        var transitions: [SSKeyEffect.SSPerKeyTransition] = []
+
+        for inx in baseTransitions.indices {
+            let firstSelector = baseTransitions[inx]
+            transitions.append(firstSelector)
+
+            var halfDistance: CGFloat
+            if (inx + 1) < baseTransitions.count {
+                let secondSelector = baseTransitions[inx + 1]
+                halfDistance = (secondSelector.position + firstSelector.position) / 2
+            } else {
+                halfDistance = (1 + firstSelector.position) / 2
+            }
+
+            transitions.append(SSKeyEffect.SSPerKeyTransition(color: RGB(), position: halfDistance))
+        }
+
+        var effect = SSKeyEffect(id: 0,
+                                 transitions: transitions)
+
+        effect.start = transitions[0].color
+        effect.duration = UInt16(newSpeed)
+
         selectedKeyModels.forEach { keyModel in
+            keyModel.ssKey.mode = .breathing
+            keyModel.ssKey.effect = effect
+            keyModel.ssKey.main = effect.start
         }
     }
 
@@ -381,9 +456,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         // These value changes will notify our listeners
         speedRange = 100...1000
         speed = 300
-        restColor = .init(red: 0, green: 0, blue: 0)
+        restColor = RGB(red: 0, green: 0, blue: 0)
         modeChanging = false // This will allow to update keys to this mode
-        activeColor = .init(red: 1.0, green: 0, blue: 0)
+        activeColor = RGB(red: 1.0, green: 0, blue: 0)
     }
 
     private func handleReactive(newActiveColor: RGB, newRestColor: RGB, newSpeed: CGFloat) {
@@ -412,10 +487,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Mixed
 
     private func switchToMixed() {
-        disableColorPicker = true
         allowUpdatingDevice = false
-    }
-
-    private func createEffect() {
+        disableColorPicker = true
     }
 }
