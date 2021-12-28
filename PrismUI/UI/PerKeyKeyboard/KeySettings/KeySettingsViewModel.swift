@@ -41,9 +41,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // Decides whether the update button should be active or not
     @Published var allowUpdatingDevice = true
 
-    private var skipDefaultValuesForMode = false
+    private var skipDefaultValues = false
 
-    // If the `selectedKeyModels` array is changed, we want to copy the value from the model to our view, but
+    // If `selectedKeyModels` array is changed, we want to copy the value from the model to our view, but
     // we do not want our view inputs to change our model while this is happening.
     private var settingModelToView = false
 
@@ -86,18 +86,18 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         self.selectedKeyModels = keyModels
         super.init()
 
-        bindInputs()
+        bind()
     }
 
-    private func bindInputs() {
+    private func bind() {
         // Observe selectedMode and change view state on main thread.
         $selectedMode
             .filter({ [weak self] _ in
-                let skip = self?.skipDefaultValuesForMode == false
-                if skip {
-                    self?.skipDefaultValuesForMode = false // Handled skip, so set to false
+                guard let skipDefaultValue = self?.skipDefaultValues else { return false }
+                if skipDefaultValue {
+                    self?.skipDefaultValues = false // Handled skip, so set to false
                 }
-                return skip
+                return !skipDefaultValue
             })
             .receive(on: RunLoop.main)
             .sink { newMode in
@@ -228,17 +228,17 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleColorChangedForThumb(newColor: HSB) {
-        guard !self.thumbColorSet else { self.thumbColorSet = false; return }
-        let selected = self.thumbSelected
+        guard !thumbColorSet else { thumbColorSet = false; return }
+        let selected = thumbSelected
         print("Handle color changed for thumb.")
-        switch self.selectedMode {
+        switch selectedMode {
         case .breathing, .colorShift:
-            self.colorSelectors[selected].rgb = newColor.rgb
+            colorSelectors[selected].rgb = newColor.rgb
         case .reactive:
             if selected == 0 {
-                self.activeColor = newColor.rgb
+                activeColor = newColor.rgb
             } else {
-                self.restColor = newColor.rgb
+                restColor = newColor.rgb
             }
         default:
             break
@@ -250,7 +250,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         let allSatisfy = newModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
-            skipDefaultValuesForMode = true
+            skipDefaultValues = true
             settingModelToView = true
 
             selectedMode = firstKeyModel.ssKey.mode
