@@ -100,9 +100,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 return !skipDefaultValue
             })
             .receive(on: RunLoop.main)
-            .sink { newMode in
+            .sink { [weak self] newMode in
 //                print("Will Change Mode")
-                self.handleModeChanged(newMode: newMode)
+                self?.handleModeChanged(newMode: newMode)
 //                print("Changed Mode")
             }
             .store(in: &cancellables)
@@ -131,7 +131,12 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                  newWaveControl,
                                  newPulse) in
 //                print("Handle ColorShift")
-                self?.handleColorShift(newSelectors: newColorSelectors, newSpeed: newSpeed)
+                self?.handleColorShift(newSelectors: newColorSelectors,
+                                       newSpeed: newSpeed,
+                                       newWave: newWave,
+                                       newWaveDirection: newWaveDirection,
+                                       newWaveControl: newWaveControl,
+                                       newPulse: newPulse)
             }
             .store(in: &cancellables)
 
@@ -199,7 +204,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             }
             .store(in: &cancellables)
 
-        // TODO: Get settings to reflect based on selection
+        // Get settings to reflect based on selection
         $selectedKeyModels
             .removeDuplicates()
             .sink { [weak self] newData in
@@ -230,7 +235,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func handleColorChangedForThumb(newColor: HSB) {
         guard !thumbColorSet else { thumbColorSet = false; return }
         let selected = thumbSelected
-        print("Handle color changed for thumb.")
+//        print("Handle color changed for thumb.")
         switch selectedMode {
         case .breathing, .colorShift:
             colorSelectors[selected].rgb = newColor.rgb
@@ -246,8 +251,10 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleKeysSelectedChanged(newModels: Set<KeyViewModel>) {
+        thumbSelected = -1
         guard let firstKeyModel = newModels.first else { return }
         let allSatisfy = newModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
+
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
             skipDefaultValues = true
@@ -333,7 +340,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         pulse = 100
     }
 
-    private func handleColorShift(newSelectors: [ColorSelector], newSpeed: CGFloat) {
+    private func handleColorShift(newSelectors: [ColorSelector],
+                                  newSpeed: CGFloat,
+                                  newWave: Bool,
+                                  newWaveDirection: SSKeyEffectStruct.SSPerKeyDirection,
+                                  newWaveControl: SSKeyEffectStruct.SSPerKeyControl,
+                                  newPulse: CGFloat) {
+        // TODO: Handle effect for color shift
         selectedKeyModels.forEach { keyModel in
         }
     }
@@ -353,7 +366,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleBreathing(newSelectors: [ColorSelector], newSpeed: CGFloat) {
-        // Set any changes to our view model
+        // TODO: Handle effect for breathing
+        selectedKeyModels.forEach { keyModel in
+        }
     }
 
     // MARK: - Reactive
@@ -374,8 +389,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func handleReactive(newActiveColor: RGB, newRestColor: RGB, newSpeed: CGFloat) {
         selectedKeyModels.forEach { keyVM in
             keyVM.ssKey.mode = .reactive
-            keyVM.ssKey.main = restColor
-            keyVM.ssKey.active = activeColor
+            keyVM.ssKey.main = newRestColor
+            keyVM.ssKey.active = newActiveColor
             keyVM.ssKey.duration = UInt16(newSpeed)
         }
     }
