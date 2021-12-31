@@ -92,13 +92,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func bind() {
         // Observe selectedMode and change view state on main thread.
         $selectedMode
-            .filter({ [weak self] _ in
-                guard let skipDefaultValue = self?.skipDefaultValues else { return false }
-                if skipDefaultValue {
-                    self?.skipDefaultValues = false // Handled skip, so set to false
-                }
-                return !skipDefaultValue
-            })
             .receive(on: RunLoop.main)
             .sink { [weak self] newMode in
 //                print("Will Change Mode")
@@ -209,6 +202,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         // Get settings to reflect based on selection
         $selectedKeyModels
             .removeDuplicates()
+            .receive(on: RunLoop.main)
             .sink { [weak self] newData in
 //                print("Will Handle Key selection changed")
                 self?.handleKeysSelectedChanged(newModels: newData)
@@ -257,9 +251,10 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         guard let firstKeyModel = newModels.first else { return }
         let allSatisfy = newModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
 
+        skipDefaultValues = true
+
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
-            skipDefaultValues = true
             settingModelToView = true
 
             selectedMode = firstKeyModel.ssKey.mode
@@ -302,6 +297,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleModeChanged(newMode: SSKey.SSKeyModes) {
+        guard !skipDefaultValues else { skipDefaultValues = false; return }
         modeChanging = true
         commonSwitch()
 
@@ -489,5 +485,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     private func switchToMixed() {
         allowUpdatingDevice = false
         disableColorPicker = true
+        selectedColor = HSB()
     }
 }
