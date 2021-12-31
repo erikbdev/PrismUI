@@ -287,9 +287,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                     speed = CGFloat(effect.duration)
                 }
             case .reactive:
-                speed = CGFloat(firstKeyModel.ssKey.duration)
                 activeColor = firstKeyModel.ssKey.active
                 restColor = firstKeyModel.ssKey.main
+                speed = CGFloat(firstKeyModel.ssKey.duration)
             default:
                 break
             }
@@ -414,10 +414,10 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
         guard baseTransitions.count > 0 else { return }
 
-        // We add the transitions from baseTransition and also add the half values between
-        // each transition to have the breathing effect.
         var transitions: [SSKeyEffect.SSPerKeyTransition] = []
 
+        // We add the transitions from baseTransition and also add the half values between
+        // each transition to have the breathing effect.
         for inx in baseTransitions.indices {
             let firstSelector = baseTransitions[inx]
             transitions.append(firstSelector)

@@ -1,5 +1,5 @@
 //
-//  RGB+Color.swift
+//  RGB+toHSB.swift
 //  PrismSwiftUI
 //
 //  Created by Erik Bautista on 12/3/21.
@@ -10,25 +10,6 @@ import PrismKit
 import SwiftUI
 
 extension RGB {
-//    var color: Color {
-//        get {
-//            return Color(red: red, green: green, blue: blue)
-//        }
-//        set {
-//            let colorWithDefaultColorSpace = NSColor(newValue)
-//            guard let nativeColor = colorWithDefaultColorSpace.usingColorSpace(.deviceRGB) else { return }
-//            var r: CGFloat = 0
-//            var g: CGFloat = 0
-//            var b: CGFloat = 0
-//            var a: CGFloat = 0
-//
-//            nativeColor.getRed(&r, green: &g, blue: &b, alpha: &a)
-//            red = r
-//            green = g
-//            blue = b
-//            alpha = a
-//        }
-//    }
 
     static func toHSV(r: CGFloat, g: CGFloat, b: CGFloat) -> HSB {
         let min = r < g ? (r < b ? r : b) : (g < b ? g : b)
@@ -63,5 +44,35 @@ extension RGB {
             blue = newRGB.blue
             alpha = newRGB.alpha
         }
+    }
+
+    static func getColorFromTransition(with percentage: CGFloat, transitions: [ColorSelector]) -> RGB {
+        guard transitions.count > 0 else { return RGB() }
+
+        let from = transitions.last(where: { $0.position <= percentage }) ?? transitions.first
+        let to = transitions.first(where: { $0.position >= percentage }) ?? transitions.first
+
+        if let beforeSelector = from, let afterSelector = to, beforeSelector != afterSelector {
+            var diff = afterSelector.position - beforeSelector.position
+            if diff == 0 {
+                diff = 1.0
+            } else if diff < 0 {
+                diff += 1.0
+            }
+            var relative = afterSelector.position - percentage
+            if relative < 0 {
+                relative += 1.0
+            }
+            let newPosition = 1 - (relative / diff)
+            return RGB.linearGradient(fromColor: beforeSelector.rgb,
+                                      toColor: afterSelector.rgb,
+                                      percent: newPosition)
+        } else if let beforeColor = from {
+            return beforeColor.rgb
+        } else if let afterColor = to {
+            return afterColor.rgb
+        }
+
+        return RGB()
     }
 }

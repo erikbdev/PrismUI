@@ -201,40 +201,31 @@ struct MultiColorSliderView: View {
 
     private func getColorFromGradient(with position: CGFloat) -> RGB {
         guard !selectors.isEmpty else { return .init(red: 0, green: 0, blue: 0) }
-        let sortedTransitions = selectors.sorted(by: { $0.position < $1.position })
+        let baseTransitions = selectors.sorted(by: { $0.position < $1.position })
 
-        var from = sortedTransitions.first
+        var transitions: [ColorSelector] = []
 
-        for element in sortedTransitions {
-            if element.position < position {
-                from = element
+        if backgroundType == .breathing {
+            // We add the transitions from baseTransition and also add the half values between
+            // each transition to have the breathing effect.
+            for inx in baseTransitions.indices {
+                let firstSelector = baseTransitions[inx]
+                transitions.append(firstSelector)
+
+                var halfDistance: CGFloat
+                if (inx + 1) < baseTransitions.count {
+                    let secondSelector = baseTransitions[inx + 1]
+                    halfDistance = (secondSelector.position + firstSelector.position) / 2
+                } else {
+                    halfDistance = (1 + firstSelector.position) / 2
+                }
+
+                transitions.append(ColorSelector(rgb: RGB(), position: halfDistance))
             }
+        } else {
+            transitions = baseTransitions
         }
-
-        var to = sortedTransitions.last
-
-        for element in sortedTransitions.reversed() {
-            if element.position > position {
-                to = element
-            }
-        }
-
-        if let beforeSelector = from, let afterSelector = to, beforeSelector != afterSelector {
-            var diff = afterSelector.position - beforeSelector.position
-            if diff == 0 {
-                diff = 1.0
-            }
-            let relative = afterSelector.position - position
-            let newPosition = 1 - (relative / diff)
-            return RGB.linearGradient(fromColor: beforeSelector.rgb,
-                                      toColor: afterSelector.rgb,
-                                      percent: newPosition)
-        } else if let beforeColor = from {
-            return beforeColor.rgb
-        } else if let afterColor = to {
-            return afterColor.rgb
-        }
-        return RGB(red: 0, green: 0, blue: 0)
+        return RGB.getColorFromTransition(with: position, transitions: transitions)
     }
 }
 
