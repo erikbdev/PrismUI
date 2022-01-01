@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PrismKit
+import OrderedCollections
 
 struct ColorSelector {
     var rgb: RGB
@@ -34,6 +35,8 @@ struct MultiColorSliderView: View {
     @Binding var selected: Int
     @Binding var backgroundType: MultiColorSliderBackgroundStyle
 
+    private let thumbSize = 16.0
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -41,61 +44,36 @@ struct MultiColorSliderView: View {
                 Background
                     .shadow(radius: 0, x: 0, y: 0)
                     .onTouch(type: .ended, limitToBounds: true) { point in
-                        // Add new thumb to the view
-                        selected = -1
-                        let widthPercentage = point.x / geometry.size.width
-                        let color = getColorFromGradient(with: widthPercentage)
-                        let newSelector = ColorSelector(rgb: color, position: widthPercentage)
-                        withAnimation(.easeIn(duration: 0.10)) {
-                            selectors.append(newSelector)
-                        }
+                        handleAddingNewSelector(at: point, geometry: geometry)
                     }
 
                 ForEach($selectors.indices, id: \.self) { index in
-                    ThumbView(color: $selectors[index].rgb.wrappedValue)
-                        .overlay(Circle()
-                                    .strokeBorder(.black.opacity(0.5),
-                                                  lineWidth: selected == index ? 3 : 0)
-                        )
-                        .frame(width: geometry.size.height,
-                               height: geometry.size.height)
+                    ArrowThumbView(color: selectors[index].rgb, selected: selected == index)
+                        .frame(width: thumbSize,
+                               height: thumbSize)
                         .position(x: getThumbPosition(size: geometry.size,
-                                                      position: $selectors[index].position.wrappedValue),
-                                  y: getThumbYOffset(geometry: geometry, selector: $selectors[index]))
+                                                      position: selectors[index].position),
+                                  y: getThumbYOffset(geometry: geometry, selector: selectors[index]))
                         .gesture(
                             TapGesture()
                                 .onEnded({ _ in
-//                            withAnimation(.easeIn(duration: 0.10)) {
-                                    if selected == -1 {
-                                        selected = index
-                                    } else if selected == index {
-                                        selected = -1
-                                    } else {
-                                        selected = index
-                                    }
- //                            }
+                                    handleThumbSelectionChanged(index: index)
                                 })
                         )
                         .gesture(
                             DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
-                                    selected = -1
-                                    handleThumbPositionChanged(geometry: geometry,
-                                                               value: value,
-                                                               element: $selectors[index])
+                                    handleThumbDragged(geometry: geometry,
+                                                       value: value,
+                                                       element: $selectors[index])
                                 })
                                 .onEnded({ value in
-                                    let containerHeight = geometry.size.height
-
-                                    if value.location.y - (containerHeight / 2) > containerHeight * 2 {
-                                        guard selectors.count > 1 else { return }
-                                        selectors.remove(at: index)
-                                    }
+                                    handleThumbDragEnded(at: value, index: index, geometry: geometry)
                                 })
                         )
                 }
             }
-            .shadow(radius: 0, x: 0, y: 0)
+            .shadow(radius: 0)
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }
@@ -103,24 +81,29 @@ struct MultiColorSliderView: View {
     @ViewBuilder
     private var Background: some View {
         if backgroundType == .gradient {
-            Capsule()
+            RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
                 .fill(
                     LinearGradient(stops: getGradientColors()
                                     .map({ .init(color: Color(red: $0.rgb.red, green: $0.rgb.green, blue: $0.rgb.blue),
                                                  location: $0.position) }),
                                    startPoint: .leading,
                                    endPoint: .trailing))
+                .padding(.bottom, thumbSize)
         } else {
-            Capsule()
+            RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
                 .fill(
                     LinearGradient(stops: getBreathingColors()
                                     .map({ .init(color: Color(red: $0.rgb.red, green: $0.rgb.green, blue: $0.rgb.blue),
                                                  location: $0.position) }),
                                    startPoint: .leading,
                                    endPoint: .trailing))
+                .padding(.bottom, thumbSize)
         }
     }
+}
 
+// Color methods
+extension MultiColorSliderView {
     private func getGradientColors() -> [ColorSelector] {
         var newArray: [ColorSelector] = []
         newArray.append(contentsOf: selectors.sorted(by: { $0.position < $1.position }))
@@ -150,21 +133,30 @@ struct MultiColorSliderView: View {
         newArray.append(ColorSelector(rgb: selectors[0].rgb, position: 1.0))
         return newArray
     }
+}
 
-    private func getThumbYOffset(geometry: GeometryProxy, selector: Binding<ColorSelector>) -> CGFloat {
-        if selector.yOffset.wrappedValue == -1 {
-            return geometry.size.height / 2
+// Handlers
+
+extension MultiColorSliderView {
+    private func handleAddingNewSelector(at point: CGPoint, geometry: GeometryProxy) {
+        selected = -1
+        let widthPercentage = point.x / geometry.size.width
+        let color = getColorFromGradient(with: widthPercentage)
+        let newSelector = ColorSelector(rgb: color, position: widthPercentage)
+        withAnimation(.easeIn(duration: 0.10)) {
+            selectors.append(newSelector)
         }
 
-        return selector.yOffset.wrappedValue
     }
 
-    private func handleThumbPositionChanged(geometry: GeometryProxy,
-                                            value: DragGesture.Value,
-                                            element: Binding<ColorSelector>) {
+    private func handleThumbDragged(geometry: GeometryProxy,
+                                    value: DragGesture.Value,
+                                    element: Binding<ColorSelector>) {
+        selected = -1
+
         let containerWidth = geometry.size.width
 
-        var dragOffsetWidth = value.location.x / (containerWidth)
+        var dragOffsetWidth = value.location.x / containerWidth
         if dragOffsetWidth < 0 {
             dragOffsetWidth = 0
         } else if dragOffsetWidth > 1.0 {
@@ -172,24 +164,51 @@ struct MultiColorSliderView: View {
         }
         element.position.wrappedValue = dragOffsetWidth
 
-        // TODO: Handle Y axis if dragged outside
         guard selectors.count > 1 else { return }
         let containerHeight = geometry.size.height
-
-//        withAnimation {
             if value.location.y - containerHeight / 2 > containerHeight * 2 {
                 element.yOffset.wrappedValue = value.location.y
             } else {
-                element.yOffset.wrappedValue = geometry.size.height / 2
-//            }
+                element.yOffset.wrappedValue = thumbSize / 2
         }
     }
 
-    // TODO: Fix issue with slider not centering with mouse in the future.
+    private func handleThumbSelectionChanged(index: Int) {
+        if selected == -1 {
+            selected = index
+        } else if selected == index {
+            selected = -1
+        } else {
+            selected = index
+        }
+    }
+
+    private func handleThumbDragEnded(at value: DragGesture.Value, index: Int, geometry: GeometryProxy) {
+        let containerHeight = geometry.size.height
+
+        if value.location.y - (containerHeight / 2) > containerHeight * 2 {
+            guard selectors.count > 1 else { return }
+            selectors.remove(at: index)
+        }
+
+    }
+}
+
+// Getters
+
+extension MultiColorSliderView {
+    private func getThumbYOffset(geometry: GeometryProxy, selector: ColorSelector) -> CGFloat {
+        if selector.yOffset == -1 {
+            return geometry.size.height - (thumbSize / 2)
+        }
+
+        return selector.yOffset
+    }
+
     private func getThumbPosition(size: CGSize, position: CGFloat) -> CGFloat {
-        let thumbRadius = size.height / 2
+        let thumbRadius = thumbSize / 2
         let lowerBound = thumbRadius
-        let midBound = size.width - size.height
+        let midBound = size.width - thumbSize
         let upperBound = thumbRadius
 
         var location: CGFloat = 0
@@ -201,29 +220,13 @@ struct MultiColorSliderView: View {
 
     private func getColorFromGradient(with position: CGFloat) -> RGB {
         guard !selectors.isEmpty else { return .init(red: 0, green: 0, blue: 0) }
-        let baseTransitions = selectors.sorted(by: { $0.position < $1.position })
 
         var transitions: [ColorSelector] = []
 
         if backgroundType == .breathing {
-            // We add the transitions from baseTransition and also add the half values between
-            // each transition to have the breathing effect.
-            for inx in baseTransitions.indices {
-                let firstSelector = baseTransitions[inx]
-                transitions.append(firstSelector)
-
-                var halfDistance: CGFloat
-                if (inx + 1) < baseTransitions.count {
-                    let secondSelector = baseTransitions[inx + 1]
-                    halfDistance = (secondSelector.position + firstSelector.position) / 2
-                } else {
-                    halfDistance = (1 + firstSelector.position) / 2
-                }
-
-                transitions.append(ColorSelector(rgb: RGB(), position: halfDistance))
-            }
+            transitions = getBreathingColors()
         } else {
-            transitions = baseTransitions
+            transitions = getGradientColors()
         }
         return RGB.getColorFromTransition(with: position, transitions: transitions)
     }
@@ -237,6 +240,6 @@ struct MultiColorSliderView_Previews: PreviewProvider {
                 ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
                 ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
             ]), selected: .constant(-1), backgroundType: .constant(.gradient))
-            .frame(width: 400, height: 40)
+            .frame(width: 400, height: 60)
     }
 }

@@ -15,6 +15,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     enum Input {
         case onAppear
         case onReactiveTouch(index: Int)
+        case onShowOrigin
     }
 
     func apply(_ input: Input) {
@@ -23,6 +24,8 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             onAppearSubject.send()
         case .onReactiveTouch(let index):
             onReactiveTouchSubject.send(index)
+        case .onShowOrigin:
+            onShowOriginSubject.send()
         }
     }
 
@@ -30,12 +33,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private let onAppearSubject = PassthroughSubject<Void, Never>()
     private let onReactiveTouchSubject = PassthroughSubject<Int, Never>()
+    private let onShowOriginSubject = PassthroughSubject<Void, Never>()
 
     // MARK: - Main Data
 
     @Published var selectedKeyModels: Set<KeyViewModel>
     @Published var selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
-    @Published var selectedMode: SSKey.SSKeyModes = .steady
+    @Published var selectedMode: SSKey.SSKeyModes = .colorShift
     @Published var disableColorPicker = false
 
     // Decides whether the update button should be active or not

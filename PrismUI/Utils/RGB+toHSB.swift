@@ -57,11 +57,11 @@ extension RGB {
             if diff == 0 {
                 diff = 1.0
             } else if diff < 0 {
-                diff += 1.0
+                diff -= floor(diff)
             }
             var relative = afterSelector.position - percentage
             if relative < 0 {
-                relative += 1.0
+                relative -= floor(relative)
             }
             let newPosition = 1 - (relative / diff)
             return RGB.linearGradient(fromColor: beforeSelector.rgb,

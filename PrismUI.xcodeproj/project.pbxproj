@@ -16,6 +16,7 @@
 		1319711D26F3DAD400471846 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711C26F3DAD400471846 /* Persistence.swift */; };
 		1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1319711E26F3DAD400471846 /* PrismUI.xcdatamodeld */; };
 		131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBDC7275A992900BCD134 /* RGB+toHSB.swift */; };
+		13334710277FACCA0070F058 /* ArrowThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1333470F277FACCA0070F058 /* ArrowThumbView.swift */; };
 		133E49C22776904C006B976B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 133E49C12776904C006B976B /* Colors.xcassets */; };
 		133E49C427769071006B976B /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E49C327769071006B976B /* ColorManager.swift */; };
 		133E49C62776B58F006B976B /* SSPerKeyProperties+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */; };
@@ -75,6 +76,7 @@
 		1319712126F3DAD400471846 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1319712226F3DAD400471846 /* PrismUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PrismUI.entitlements; sourceTree = "<group>"; };
 		131DBDC7275A992900BCD134 /* RGB+toHSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RGB+toHSB.swift"; sourceTree = "<group>"; };
+		1333470F277FACCA0070F058 /* ArrowThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowThumbView.swift; sourceTree = "<group>"; };
 		133E49C12776904C006B976B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		133E49C327769071006B976B /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSPerKeyProperties+Ext.swift"; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */,
+				1333470F277FACCA0070F058 /* ArrowThumbView.swift */,
 			);
 			path = MultiColorSlider;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
 				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
 				13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */,
+				13334710277FACCA0070F058 /* ArrowThumbView.swift in Sources */,
 				13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */,
 				13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */,
 				1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */,
