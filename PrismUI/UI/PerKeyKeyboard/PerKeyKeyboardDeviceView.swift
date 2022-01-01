@@ -23,9 +23,7 @@ struct PerKeyKeyboardDeviceView: View {
             HStack {
                 ScrollView {
                     // Passing down viewmodel rather than recreating it
-                    KeySettingsView(viewModel: viewModel.keySettingsViewModel) {
-                        viewModel.apply(.onUpdateDevice)
-                    }
+                    KeySettingsView(viewModel: viewModel.keySettingsViewModel)
                 }
                 .background(ColorManager.contentOverBackground)
                 .cornerRadius(12)

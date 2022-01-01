@@ -39,7 +39,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     @Published var selectedKeyModels: Set<KeyViewModel>
     @Published var selectedColor = HSB(hue: 0, saturation: 1, brightness: 1)
-    @Published var selectedMode: SSKey.SSKeyModes = .colorShift
+    @Published var selectedMode: SSKey.SSKeyModes = .steady
     @Published var disableColorPicker = false
 
     // Decides whether the update button should be active or not
@@ -86,8 +86,11 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     @Published var activeColor = RGB(red: 1.0, green: 0.0, blue: 0.0)
     @Published var restColor = RGB(red: 0.0, green: 0.0, blue: 0.0)
 
-    init(keyModels: Set<KeyViewModel>) {
+    var updateDevice: () -> ()
+
+    init(keyModels: Set<KeyViewModel>, updateDevice: @escaping () -> ()) {
         self.selectedKeyModels = keyModels
+        self.updateDevice = updateDevice
         super.init()
 
         bind()
@@ -98,20 +101,22 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $selectedMode
             .receive(on: RunLoop.main)
             .sink { [weak self] newMode in
-//                print("Will Change Mode")
                 self?.handleModeChanged(newMode: newMode)
-//                print("Changed Mode")
             }
             .store(in: &cancellables)
 
-        // Steady Mode on background thread.
+        // Steady Mode
         $selectedColor
             .filter({ [weak self] _ in
-                self?.selectedMode == .steady && self?.modeChanging == false && self?.settingModelToView == false
+                self?.selectedMode == .steady &&
+                self?.modeChanging == false &&
+                self?.settingModelToView == false &&
+                self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] newColor in
-//                print("Handle steady mode")
+                print("Update Steady")
                 self?.handleSteadyMode(newColor: newColor)
+                self?.updateDevice()
             }
             .store(in: &cancellables)
 
@@ -119,7 +124,10 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $colorSelectors
             .combineLatest($speed, $waveActive, $waveDirection, $waveControl, $pulse, $origin)
             .filter({ [weak self] _ in
-                self?.selectedMode == .colorShift && self?.modeChanging == false && self?.settingModelToView == false
+                self?.selectedMode == .colorShift &&
+                self?.modeChanging == false &&
+                self?.settingModelToView == false &&
+                self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newColorSelectors,
                                  newSpeed,
@@ -128,7 +136,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                  newWaveControl,
                                  newPulse,
                                  newOrigin) in
-//                print("Handle ColorShift")
+                print("Update Color Shift")
                 self?.handleColorShift(newSelectors: newColorSelectors,
                                        newSpeed: newSpeed,
                                        newWave: newWave,
@@ -136,6 +144,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                        newWaveControl: newWaveControl,
                                        newOrigin: newOrigin,
                                        newPulse: newPulse)
+                self?.updateDevice()
             }
             .store(in: &cancellables)
 
@@ -143,11 +152,15 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $colorSelectors
             .combineLatest($speed)
             .filter({ [weak self] _ in
-                self?.selectedMode == .breathing && self?.modeChanging == false && self?.settingModelToView == false
+                self?.selectedMode == .breathing &&
+                self?.modeChanging == false &&
+                self?.settingModelToView == false &&
+                self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newColorSelectors, newSpeed) in
-//                print("Handle Breathing")
+                print("Update Breathing")
                 self?.handleBreathing(newSelectors: newColorSelectors, newSpeed: newSpeed)
+                self?.updateDevice()
             }
             .store(in: &cancellables)
 
@@ -155,29 +168,37 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         $activeColor
             .combineLatest($restColor, $speed)
             .filter({ [weak self] _ in
-                self?.selectedMode == .reactive && self?.modeChanging == false && self?.settingModelToView == false
+                self?.selectedMode == .reactive &&
+                self?.modeChanging == false &&
+                self?.settingModelToView == false &&
+                self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newActive, newRest, newSpeed) in
-//                print("Handle Reactive")
+                print("Update Reactive")
                 self?.handleReactive(newActiveColor: newActive, newRestColor: newRest, newSpeed: newSpeed)
+                self?.updateDevice()
             }
             .store(in: &cancellables)
 
         // Disabled Mode
         $selectedMode
-            .filter({ [weak self] mode in mode == .disabled && self?.modeChanging == false && self?.settingModelToView == false })
+            .filter({ [weak self] mode in
+                mode == .disabled &&
+                self?.modeChanging == false &&
+                self?.settingModelToView == false &&
+                self?.selectedKeyModels.count ?? 0 > 0
+            })
             .sink { [weak self] _ in
-//                print("Handle Disabled")
+                print("Update Disabled")
                 self?.handleDisabled()
+                self?.updateDevice()
             }
             .store(in: &cancellables)
 
         onReactiveTouchSubject
             .receive(on: RunLoop.main)
             .sink { [weak self] index in
-//                print("Will handle reactive touched")
                 self?.thumbSelected = self?.thumbSelected == index ? -1 : index
-//                print("Did handle reactive touched")
             }
             .store(in: &cancellables)
 
@@ -186,9 +207,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .filter({ $0 != -1 })
             .receive(on: RunLoop.main)
             .sink { [weak self] newIndex in
-//                print("Will handle thumb selected.")
                 self?.handleThumbSelected(newIndex: newIndex)
-//                print("Did handle thumb selected.")
             }
             .store(in: &cancellables)
 
@@ -197,9 +216,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .filter({ [weak self] _ in self?.thumbSelected != -1 })
             .receive(on: RunLoop.main)
             .sink { [weak self] newColor in
-//                print("Will handle color changed for thumb")
                 self?.handleColorChangedForThumb(newColor: newColor)
-//                print("Did handle color changed for thumb")
             }
             .store(in: &cancellables)
 
@@ -208,9 +225,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] newData in
-//                print("Will Handle Key selection changed")
                 self?.handleKeysSelectedChanged(newModels: newData)
-//                print("Did handle Key selectioin changed")
             }
             .store(in: &cancellables)
     }
@@ -260,8 +275,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
             settingModelToView = true
-
             selectedMode = firstKeyModel.ssKey.mode
+            disableColorPicker = false
+
             switch firstKeyModel.ssKey.mode {
             case .steady:
                 selectedColor = firstKeyModel.ssKey.main.hsv

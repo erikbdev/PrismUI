@@ -24,8 +24,8 @@
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
 		137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */; };
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
-		137998B7277D092200E3C566 /* DisplayLink in Frameworks */ = {isa = PBXBuildFile; productRef = 137998B6277D092200E3C566 /* DisplayLink */; };
 		137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B872627779CE3003A4953 /* View+OnTouch.swift */; };
+		1381F3E2278035380098D45E /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F3E1278035380098D45E /* DisplayLink.swift */; };
 		1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F619276AABAD00BF526E /* ColourWheelView.swift */; };
 		1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */; };
 		1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */; };
@@ -84,6 +84,7 @@
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniDirectionalDataFlow.swift; sourceTree = "<group>"; };
 		137B872627779CE3003A4953 /* View+OnTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTouch.swift"; sourceTree = "<group>"; };
+		1381F3E1278035380098D45E /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
 		1381F619276AABAD00BF526E /* ColourWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourWheelView.swift; sourceTree = "<group>"; };
 		1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularGradientHueView.swift; sourceTree = "<group>"; };
 		1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSliderView.swift; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 				1372CC9C27724F110093171A /* OrderedCollections in Frameworks */,
 				13185A16277905AC00D881F5 /* CombineExt in Frameworks */,
 				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
-				137998B7277D092200E3C566 /* DisplayLink in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +180,7 @@
 				133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */,
 				137B872627779CE3003A4953 /* View+OnTouch.swift */,
 				13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */,
+				1381F3E1278035380098D45E /* DisplayLink.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -324,7 +325,6 @@
 			packageProductDependencies = (
 				1372CC9B27724F110093171A /* OrderedCollections */,
 				13185A15277905AC00D881F5 /* CombineExt */,
-				137998B6277D092200E3C566 /* DisplayLink */,
 			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismUI.app */;
@@ -357,7 +357,6 @@
 				136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */,
 				13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */,
-				137998B5277D092200E3C566 /* XCRemoteSwiftPackageReference "DisplayLink" */,
 			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
@@ -391,6 +390,7 @@
 				1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */,
 				13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
+				1381F3E2278035380098D45E /* DisplayLink.swift in Sources */,
 				13A6744A276D533F00F6287F /* ColourBrightnessSliderView.swift in Sources */,
 				1362C7B227595D01005BDEDD /* BaseViewModel.swift in Sources */,
 				13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */,
@@ -634,14 +634,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		137998B5277D092200E3C566 /* XCRemoteSwiftPackageReference "DisplayLink" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/timdonnelly/DisplayLink";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -654,11 +646,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
-		};
-		137998B6277D092200E3C566 /* DisplayLink */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 137998B5277D092200E3C566 /* XCRemoteSwiftPackageReference "DisplayLink" */;
-			productName = DisplayLink;
 		};
 /* End XCSwiftPackageProductDependency section */
 

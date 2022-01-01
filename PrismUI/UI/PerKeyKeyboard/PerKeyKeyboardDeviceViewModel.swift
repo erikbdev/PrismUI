@@ -42,7 +42,9 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     @Published var containerDragShapeStart: CGPoint = .zero
     @Published var containerDragShapeEnd: CGSize = .zero
 
-    let keySettingsViewModel = KeySettingsViewModel(keyModels: [])
+    lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) {
+        self.apply(.onUpdateDevice)
+    }
 
     private(set) var keyboardMap: [[CGFloat]] = []
     private(set) var keyboardRegionAndKeyCodes: [[(UInt8, UInt8)]] = []
@@ -100,8 +102,11 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         }
         .store(in: &cancellables)
 
-        onUpdateDeviceSubject.sink { [weak self] _ in
-            self?.update()
+        onUpdateDeviceSubject
+            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.global(qos: .default))
+            .sink { [weak self] _ in
+                print("Update Device")
+                self?.update()
         }
         .store(in: &cancellables)
 

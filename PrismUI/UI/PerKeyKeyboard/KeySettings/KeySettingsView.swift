@@ -11,10 +11,8 @@ import PrismKit
 
 struct KeySettingsView: View {
     @StateObject var viewModel: KeySettingsViewModel
-    var onSubmit: () -> ()
-    
+
     var body: some View {
-        //        VStack(alignment: .trailing) {
         VStack(alignment: .leading) {
             Text("Effect")
                 .fontWeight(.bold)
@@ -32,7 +30,7 @@ struct KeySettingsView: View {
             }
             .pickerStyle(.menu)
             .labelsHidden()
-            
+
             // Color Picker
             Text("Color Picker")
                 .fontWeight(.bold)
@@ -91,7 +89,7 @@ struct KeySettingsView: View {
                     .labelsHidden()
                     .padding(.top, -8)
             }
-            
+
             if viewModel.selectedMode == .colorShift {
                 // Wave Toggle
                 HStack {
@@ -170,7 +168,7 @@ struct CustomButtonStyle: ButtonStyle {
 struct KeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            KeySettingsView(viewModel: .init(keyModels: []), onSubmit: {})
+            KeySettingsView(viewModel: .init(keyModels: [], updateDevice: {}))
                 .previewLayout(.sizeThatFits)
         }
     }

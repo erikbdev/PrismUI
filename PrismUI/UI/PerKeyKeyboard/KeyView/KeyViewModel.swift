@@ -7,7 +7,6 @@
 
 import PrismKit
 import Combine
-import DisplayLink
 
 final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
     typealias InputType = Input
@@ -31,7 +30,6 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private var animationCancellable: Cancellable?
     private var startTime: Double = 0
-    private var frameSize = CGRect.zero
     private let model: SSModels
 
     var mode: SSKey.SSKeyModes {
@@ -71,25 +69,12 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     func gradientAnimation(effect: SSKeyEffect) {
         progress = 0.0
-        startTime = 0
+        startTime = -1
 
         animationCancellable = DisplayLink.shared
             .sink(receiveValue: { [weak self] frame in
-                guard let `self` = self else { return }
-                if self.startTime == 0 {
-                    self.startTime = frame.timestamp
-                }
-                let timeInterval = frame.timestamp - self.startTime
-                let calc = CGFloat(effect.duration) / 1000.0
-                var mod: CGFloat = timeInterval / calc
-                if mod > 1.0 {
-                    mod -= floor(mod)
-                } else if mod < 0 {
-                    mod += floor(mod)
-                }
-                self.progress = mod
+                self?.handleFrameChanged(frame: frame, effect: effect)
             })
-
     }
 
     func customWaveAnimation(effect: SSKeyEffect) {
@@ -140,28 +125,36 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
         if directionDelta > 1.0 { directionDelta -= floor(directionDelta) }
 
         progress = directionDelta
-        startTime = 0.0
+        startTime = -1
 
         animationCancellable = DisplayLink.shared
             .sink(receiveValue: { [weak self] frame in
-                guard let `self` = self else { return }
-                let timeInterval = frame.timestamp - self.startTime
-                let calc = CGFloat(effect.duration) / 1000.0
-                let mod = timeInterval / calc
-                var newProgress = self.progress
-
-                if effect.control == .inward {
-                    newProgress += mod
-                } else {
-                    newProgress -= mod
-                }
-
-                if newProgress > 1.0 || newProgress < 0 {
-                    newProgress -= floor(newProgress)
-                }
-                self.progress = newProgress
-                self.startTime = frame.timestamp
+                self?.handleFrameChanged(frame: frame, effect: effect)
             })
+    }
+
+    private func handleFrameChanged(frame: DisplayLink.Frame, effect: SSKeyEffect) {
+        if startTime == -1 {
+            startTime = frame.timestamp
+        } else {
+            let timeInterval = frame.timestamp - startTime
+            if timeInterval < 1/30 { return } // Reduce to 1/30 so cpu doesn't get overwhelmed
+            let calc = CGFloat(effect.duration) / 1000.0
+            let mod = timeInterval / calc
+            var newProgress = progress
+
+            if effect.control == .inward {
+                newProgress += mod
+            } else {
+                newProgress -= mod
+            }
+
+            if newProgress > 1.0 || newProgress < 0 {
+                newProgress -= floor(newProgress)
+            }
+            progress = newProgress
+            startTime = frame.timestamp
+        }
     }
 
     func getColor() -> RGB {

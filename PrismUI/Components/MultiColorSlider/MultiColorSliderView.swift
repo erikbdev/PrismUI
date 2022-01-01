@@ -15,7 +15,11 @@ struct ColorSelector {
     var yOffset: CGFloat = -1
 }
 
-extension ColorSelector: Identifiable, Hashable {
+extension ColorSelector: Identifiable, Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+    }
+
     var id: Int {
         var hasher = Hasher()
         hasher.combine(rgb)
@@ -35,6 +39,14 @@ struct MultiColorSliderView: View {
     @Binding var selected: Int
     @Binding var backgroundType: MultiColorSliderBackgroundStyle
 
+    private var maxSelectors: Int {
+        if backgroundType == .gradient {
+            return 16
+        } else {
+            return 4
+        }
+    }
+
     private let thumbSize = 16.0
 
     var body: some View {
@@ -49,8 +61,8 @@ struct MultiColorSliderView: View {
 
                 ForEach($selectors.indices, id: \.self) { index in
                     ArrowThumbView(color: selectors[index].rgb, selected: selected == index)
-                        .frame(width: thumbSize,
-                               height: thumbSize)
+                        .frame(width: thumbSize, height: thumbSize)
+                        .contentShape(Rectangle())
                         .position(x: getThumbPosition(size: geometry.size,
                                                       position: selectors[index].position),
                                   y: getThumbYOffset(geometry: geometry, selector: selectors[index]))
@@ -63,6 +75,7 @@ struct MultiColorSliderView: View {
                         .gesture(
                             DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
+                                    // TODO: Fix thumb positioin
                                     handleThumbDragged(geometry: geometry,
                                                        value: value,
                                                        element: $selectors[index])
@@ -88,7 +101,7 @@ struct MultiColorSliderView: View {
                                                  location: $0.position) }),
                                    startPoint: .leading,
                                    endPoint: .trailing))
-                .padding(.bottom, thumbSize)
+                .padding(.bottom, thumbSize + 2)
         } else {
             RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
                 .fill(
@@ -97,7 +110,7 @@ struct MultiColorSliderView: View {
                                                  location: $0.position) }),
                                    startPoint: .leading,
                                    endPoint: .trailing))
-                .padding(.bottom, thumbSize)
+                .padding(.bottom, thumbSize + 2)
         }
     }
 }
@@ -105,10 +118,9 @@ struct MultiColorSliderView: View {
 // Color methods
 extension MultiColorSliderView {
     private func getGradientColors() -> [ColorSelector] {
-        var newArray: [ColorSelector] = []
-        newArray.append(contentsOf: selectors.sorted(by: { $0.position < $1.position }))
-        newArray.append(ColorSelector(rgb: selectors[0].rgb, position: 1.0))
-        return newArray
+        var sortedArray = selectors.sorted(by: { $0.position < $1.position })
+        sortedArray.append(ColorSelector(rgb: selectors[0].rgb, position: 1.0))
+        return sortedArray
     }
 
     private func getBreathingColors() -> [ColorSelector] {
@@ -140,13 +152,35 @@ extension MultiColorSliderView {
 extension MultiColorSliderView {
     private func handleAddingNewSelector(at point: CGPoint, geometry: GeometryProxy) {
         selected = -1
+
+        guard selectors.count < maxSelectors else { return }
+
+        // Avoid adding point near or on a selector
         let widthPercentage = point.x / geometry.size.width
+        let widthRange = thumbSize / geometry.size.width
+        let nearSelectors = selectors.filter { selector in
+            let minRange = selector.position - widthRange
+            let maxRange = selector.position + widthRange
+            return widthPercentage >= minRange && widthPercentage <= maxRange
+        }
+        guard nearSelectors.count == 0 else { return }
+
+        // Add selector
         let color = getColorFromGradient(with: widthPercentage)
         let newSelector = ColorSelector(rgb: color, position: widthPercentage)
         withAnimation(.easeIn(duration: 0.10)) {
             selectors.append(newSelector)
         }
+    }
 
+    private func handleThumbSelectionChanged(index: Int) {
+        if selected == -1 {
+            selected = index
+        } else if selected == index {
+            selected = -1
+        } else {
+            selected = index
+        }
     }
 
     private func handleThumbDragged(geometry: GeometryProxy,
@@ -165,32 +199,22 @@ extension MultiColorSliderView {
         element.position.wrappedValue = dragOffsetWidth
 
         guard selectors.count > 1 else { return }
-        let containerHeight = geometry.size.height
-            if value.location.y - containerHeight / 2 > containerHeight * 2 {
-                element.yOffset.wrappedValue = value.location.y
-            } else {
-                element.yOffset.wrappedValue = thumbSize / 2
-        }
-    }
-
-    private func handleThumbSelectionChanged(index: Int) {
-        if selected == -1 {
-            selected = index
-        } else if selected == index {
-            selected = -1
+        let containerHeight = geometry.size.height - thumbSize
+        
+        if value.location.y - containerHeight > containerHeight {
+            element.yOffset.wrappedValue = value.location.y
         } else {
-            selected = index
+            element.yOffset.wrappedValue = geometry.size.height - (thumbSize / 2)
         }
     }
 
     private func handleThumbDragEnded(at value: DragGesture.Value, index: Int, geometry: GeometryProxy) {
-        let containerHeight = geometry.size.height
+        let containerHeight = geometry.size.height - thumbSize
 
-        if value.location.y - (containerHeight / 2) > containerHeight * 2 {
-            guard selectors.count > 1 else { return }
+        guard selectors.count > 1 else { return }
+        if value.location.y - containerHeight > containerHeight {
             selectors.remove(at: index)
         }
-
     }
 }
 
