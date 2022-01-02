@@ -114,7 +114,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] newColor in
-                print("Update Steady")
+//                print("Update Steady")
                 self?.handleSteadyMode(newColor: newColor)
                 self?.updateDevice()
             }
@@ -136,7 +136,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                                  newWaveControl,
                                  newPulse,
                                  newOrigin) in
-                print("Update Color Shift")
+//                print("Update Color Shift")
                 self?.handleColorShift(newSelectors: newColorSelectors,
                                        newSpeed: newSpeed,
                                        newWave: newWave,
@@ -158,7 +158,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newColorSelectors, newSpeed) in
-                print("Update Breathing")
+//                print("Update Breathing")
                 self?.handleBreathing(newSelectors: newColorSelectors, newSpeed: newSpeed)
                 self?.updateDevice()
             }
@@ -174,7 +174,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newActive, newRest, newSpeed) in
-                print("Update Reactive")
+//                print("Update Reactive")
                 self?.handleReactive(newActiveColor: newActive, newRestColor: newRest, newSpeed: newSpeed)
                 self?.updateDevice()
             }
@@ -189,7 +189,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] _ in
-                print("Update Disabled")
+//                print("Update Disabled")
                 self?.handleDisabled()
                 self?.updateDevice()
             }

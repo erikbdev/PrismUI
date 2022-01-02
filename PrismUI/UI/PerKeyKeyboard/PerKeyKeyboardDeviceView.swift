@@ -34,36 +34,36 @@ struct PerKeyKeyboardDeviceView: View {
                     .cornerRadius(8)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
-                    .onTapGesture(perform: {
-                        withAnimation {
-                            viewModel.apply(.onTouchOutside)
-                        }
-                    })
+                    .gesture(
+                        TapGesture()
+                            .onEnded({ _ in
+                                withAnimation {
+                                    viewModel.apply(.onTouchOutside)
+                                }
+                            })
+                    )
                     .gesture(
                         DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
                             .onChanged({ value in
-                                viewModel.containerDragShapeStart = value.startLocation
-                                viewModel.containerDragShapeEnd = value.translation
-                                
+                                viewModel.apply(.onDragOutside(start: value.startLocation, currentPoint: value.location))
                             })
                             .onEnded({ value in
-                                viewModel.containerDragShapeStart = .zero
-                                viewModel.containerDragShapeEnd = .zero
+                                viewModel.apply(.onDragOutside(start: .zero, currentPoint: .zero))
                             })
                     )
-                // TODO: Add overlay to select multiple by dragging
-//                    .overlay(
-//                        Rectangle()
-//                            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [10], dashPhase: phase))
-//                            .onAppear {
-//                                withAnimation(.linear.repeatForever(autoreverses: false)) {
-//                                    phase -= 20
-//                                }
-//                            }
-//                            .frame(width: viewModel.containerDragShapeEnd.width + viewModel.containerDragShapeStart.x,
-//                                   height: viewModel.containerDragShapeEnd.height + viewModel.containerDragShapeStart.y)
-//                            .position(viewModel.containerDragShapeStart)
-//                    )
+                    .overlay(
+                        Rectangle()
+                            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [10], dashPhase: phase))
+                            .onAppear {
+                                withAnimation(.linear.repeatForever(autoreverses: false)) {
+                                    phase -= 20
+                                }
+                            }
+                            .frame(width: viewModel.dragSelectionRect.width,
+                                   height: viewModel.dragSelectionRect.height)
+                            .position(x: viewModel.dragSelectionRect.origin.x,
+                                      y: viewModel.dragSelectionRect.origin.y)
+                    )
             }
         }
         .navigationTitle(viewModel.ssDevice.name)

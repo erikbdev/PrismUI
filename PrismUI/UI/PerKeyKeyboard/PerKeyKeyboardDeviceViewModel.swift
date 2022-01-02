@@ -16,6 +16,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         case onAppear
         case onTouchOutside
         case onUpdateDevice
+        case onDragOutside(start: CGPoint, currentPoint: CGPoint)
     }
 
     func apply(_ input: Input) {
@@ -26,6 +27,8 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
             onUpdateDeviceSubject.send()
         case .onTouchOutside:
             onTouchOutsideSubject.send()
+        case .onDragOutside(start: let start, currentPoint: let currentPoint):
+            onDragOutsideSubject.send((start, currentPoint))
         }
     }
 
@@ -39,8 +42,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     @Published var selectionArray = Set<KeyViewModel>()
     @Published var keyModels = [KeyViewModel]()
     @Published var mouseMode: MouseMode = .single
-    @Published var containerDragShapeStart: CGPoint = .zero
-    @Published var containerDragShapeEnd: CGSize = .zero
+    @Published var dragSelectionRect = CGRect.zero
 
     lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) {
         self.apply(.onUpdateDevice)
@@ -54,6 +56,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     private let onTouchOutsideSubject = PassthroughSubject<Void, Never>()
     private let onSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
     private let onDeSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
+    private let onDragOutsideSubject = PassthroughSubject<(CGPoint, CGPoint), Never>()
 
     private var multipleSelectionChangesActive = false
 
@@ -114,6 +117,31 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
             self?.clearSelection()
         }
         .store(in: &cancellables)
+
+        onDragOutsideSubject
+            .sink { [weak self] (start, current) in
+                guard self?.mouseMode == .drag else { return }
+                let width = abs(current.x - start.x)
+                let height = abs(current.y - start.y)
+
+                var originX = start.x
+                if current.x > start.x {
+                    originX += width / 2
+                } else {
+                    originX -= width / 2
+                }
+
+                var originY = start.y
+                if current.y > start.y {
+                    originY += height / 2
+                } else {
+                    originY -= height / 2
+                }
+
+                self?.dragSelectionRect = CGRect(origin: CGPoint(x: originX, y: originY),
+                                                size: CGSize(width: width, height: height))
+            }
+            .store(in: &cancellables)
     }
 
     private func clearSelection() {
