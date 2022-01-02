@@ -17,7 +17,7 @@ struct KeySettingsView: View {
             Text("Effect")
                 .fontWeight(.bold)
             
-            Picker("", selection: $viewModel.selectedMode) {
+            Picker("", selection: $viewModel.selectedMode.animation(.linear(duration: 0.15))) {
                 ForEach(SSKey.SSKeyModes.allCases, id: \.self) {
                     if $0 == .mixed {
                         if viewModel.selectedMode == .mixed {

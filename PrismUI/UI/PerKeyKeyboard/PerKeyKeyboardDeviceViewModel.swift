@@ -35,7 +35,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     enum MouseMode: String, CaseIterable {
         case single = "cursorarrow"
         case same = "cursorarrow.rays"
-        case drag = "rectangle.dashed"
+        case rectangle = "rectangle.dashed"
     }
 
     @Published var finishedLoading = false
@@ -71,7 +71,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
     private func bindInputs() {
         // This is when the array size changes
         $selectionArray
-            .filter({ _ in !self.multipleSelectionChangesActive })
+            .filter({[weak self] _ in self?.multipleSelectionChangesActive == false })
             .sink {[weak self] newValue in
                 self?.keySettingsViewModel.selectedKeyModels = newValue
             }
@@ -108,7 +108,6 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
         onUpdateDeviceSubject
             .debounce(for: .milliseconds(150), scheduler: DispatchQueue.global(qos: .default))
             .sink { [weak self] _ in
-                print("Update Device")
                 self?.update()
         }
         .store(in: &cancellables)
@@ -120,7 +119,7 @@ final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFl
 
         onDragOutsideSubject
             .sink { [weak self] (start, current) in
-                guard self?.mouseMode == .drag else { return }
+                guard self?.mouseMode == .rectangle else { return }
                 let width = abs(current.x - start.x)
                 let height = abs(current.y - start.y)
 

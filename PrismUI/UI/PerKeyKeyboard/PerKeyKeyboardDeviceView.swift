@@ -83,8 +83,9 @@ struct PerKeyKeyboardDeviceView: View {
                 Spacer()
                 Picker("", selection: $viewModel.mouseMode) {
                     ForEach(PerKeyKeyboardDeviceViewModel.MouseMode.allCases, id: \.self) { mode in
-                        Image(systemName: mode.rawValue)
-
+                        if mode != .rectangle {
+                            Image(systemName: mode.rawValue)
+                        }
                     }
                 }
                 .pickerStyle(.segmented)
@@ -122,9 +123,6 @@ struct PerKeyKeyboardDeviceView: View {
                                         .padding(4)
                                 }
                             }
-                        } else {
-                            Rectangle()
-                                .frame(minWidth: 60, minHeight: 60, maxHeight: 60)
                         }
                     }
                 }
