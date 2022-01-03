@@ -65,16 +65,16 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
         } else {
             customWaveAnimation(effect: effect)
         }
-    }
-
-    func gradientAnimation(effect: SSKeyEffect) {
-        progress = 0.0
-        startTime = -1
 
         animationCancellable = DisplayLink.shared
             .sink(receiveValue: { [weak self] frame in
                 self?.handleFrameChanged(frame: frame, effect: effect)
             })
+    }
+
+    func gradientAnimation(effect: SSKeyEffect) {
+        progress = 0.0
+        startTime = -1
     }
 
     func customWaveAnimation(effect: SSKeyEffect) {
@@ -126,11 +126,6 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
         progress = directionDelta
         startTime = -1
-
-        animationCancellable = DisplayLink.shared
-            .sink(receiveValue: { [weak self] frame in
-                self?.handleFrameChanged(frame: frame, effect: effect)
-            })
     }
 
     private func handleFrameChanged(frame: DisplayLink.Frame, effect: SSKeyEffect) {
@@ -158,10 +153,13 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     func getColor() -> RGB {
-        guard let effect = ssKey.effect else { return RGB() }
-        let transitions = effect.transitions
-        return RGB.getColorFromTransition(with: progress,
-                                          transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) }))
+        if let effect = ssKey.effect {
+            let transitions = effect.transitions
+            return RGB.getColorFromTransition(with: progress,
+                                              transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) }))
+        } else {
+            return ssKey.main
+        }
     }
 }
 

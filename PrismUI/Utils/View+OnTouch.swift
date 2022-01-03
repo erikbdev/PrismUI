@@ -2,8 +2,7 @@
 //  View+OnTouch.swift
 //  PrismUI
 //
-//  Created by Erik Bautista on 12/25/21.
-//
+// From: Hacking With Swift https://www.hackingwithswift.com/quick-start/swiftui/how-to-detect-the-location-of-a-tap-inside-a-view
 
 import SwiftUI
 

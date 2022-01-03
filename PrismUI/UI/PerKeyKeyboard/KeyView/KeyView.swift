@@ -43,16 +43,8 @@ struct KeyView: View {
     }
 
     var keyColor: Color {
-        var color = RGB()
+        let color = viewModel.getColor()
 
-        if viewModel.ssKey.mode == .steady ||
-            viewModel.ssKey.mode == .reactive ||
-            viewModel.ssKey.mode == .disabled {
-            color = viewModel.ssKey.main
-        } else if viewModel.ssKey.mode == .colorShift ||
-                    viewModel.ssKey.mode == .breathing {
-            color = viewModel.getColor()
-        }
         return Color(red: color.red, green: color.green, blue: color.blue)
     }
 }
