@@ -75,6 +75,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     // MARK: Color Shift Settings
 
+    @Published var showOriginModal = false
     @Published var waveActive = false
     @Published var waveDirection: SSKeyEffect.SSPerKeyDirection = .xy
     @Published var waveControl: SSKeyEffect.SSPerKeyControl = .inward
@@ -97,6 +98,18 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func bind() {
+        onAppearSubject
+            .sink { _ in
+                
+            }
+            .store(in: &cancellables)
+
+        onShowOriginSubject
+            .sink { _ in
+                
+            }
+            .store(in: &cancellables)
+
         // Observe selectedMode and change view state on main thread.
         $selectedMode
             .receive(on: RunLoop.main)

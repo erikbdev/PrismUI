@@ -20,6 +20,7 @@
 		133E49C22776904C006B976B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 133E49C12776904C006B976B /* Colors.xcassets */; };
 		133E49C427769071006B976B /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E49C327769071006B976B /* ColorManager.swift */; };
 		133E49C62776B58F006B976B /* SSPerKeyProperties+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */; };
+		135D562D27A1173B00BD8592 /* HSB+toRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135D562B27A1173B00BD8592 /* HSB+toRGB.swift */; };
 		1362C7B227595D01005BDEDD /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1362C7B127595D01005BDEDD /* BaseViewModel.swift */; };
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
 		137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */; };
@@ -31,7 +32,6 @@
 		1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */; };
 		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
 		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
-		13A67446276D469700F6287F /* HSB+toRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67445276D469700F6287F /* HSB+toRGB.swift */; };
 		13A67448276D4B7D00F6287F /* ColourPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67447276D4B7D00F6287F /* ColourPickerView.swift */; };
 		13A6744A276D533F00F6287F /* ColourBrightnessSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */; };
 		13A6744C276D5ECB00F6287F /* ThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744B276D5ECB00F6287F /* ThumbView.swift */; };
@@ -80,6 +80,7 @@
 		133E49C12776904C006B976B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		133E49C327769071006B976B /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		133E49C52776B58F006B976B /* SSPerKeyProperties+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSPerKeyProperties+Ext.swift"; sourceTree = "<group>"; };
+		135D562B27A1173B00BD8592 /* HSB+toRGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HSB+toRGB.swift"; sourceTree = "<group>"; };
 		1362C7B127595D01005BDEDD /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniDirectionalDataFlow.swift; sourceTree = "<group>"; };
@@ -90,7 +91,6 @@
 		1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSliderView.swift; sourceTree = "<group>"; };
 		13A39B6426F7C55800EA2DEE /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
-		13A67445276D469700F6287F /* HSB+toRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HSB+toRGB.swift"; sourceTree = "<group>"; };
 		13A67447276D4B7D00F6287F /* ColourPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourPickerView.swift; sourceTree = "<group>"; };
 		13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourBrightnessSliderView.swift; sourceTree = "<group>"; };
 		13A6744B276D5ECB00F6287F /* ThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbView.swift; sourceTree = "<group>"; };
@@ -170,8 +170,8 @@
 			isa = PBXGroup;
 			children = (
 				13A67443276D44C800F6287F /* HSB.swift */,
-				13A67445276D469700F6287F /* HSB+toRGB.swift */,
 				131DBDC7275A992900BCD134 /* RGB+toHSB.swift */,
+				135D562B27A1173B00BD8592 /* HSB+toRGB.swift */,
 				137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */,
 				13B9B9E7277182EA000A047A /* SSKey+Utils.swift */,
 				13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */,
@@ -395,6 +395,7 @@
 			files = (
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
 				13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */,
+				135D562D27A1173B00BD8592 /* HSB+toRGB.swift in Sources */,
 				1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */,
 				13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
@@ -403,7 +404,6 @@
 				1362C7B227595D01005BDEDD /* BaseViewModel.swift in Sources */,
 				13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */,
 				13A67448276D4B7D00F6287F /* ColourPickerView.swift in Sources */,
-				13A67446276D469700F6287F /* HSB+toRGB.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
