@@ -9,12 +9,12 @@ import SwiftUI
 import PrismKit
 
 
-struct PerKeyKeyboardDeviceView: View {
-    @StateObject private var viewModel: PerKeyKeyboardDeviceViewModel
+struct PerKeyDeviceView: View {
+    @StateObject private var viewModel: PerKeyDeviceViewModel
     @State private var phase: CGFloat = 0
 
     init (ssDevice: SSDevice) {
-        let viewModel = PerKeyKeyboardDeviceViewModel(ssDevice: ssDevice)
+        let viewModel = PerKeyDeviceViewModel(ssDevice: ssDevice)
         _viewModel = .init(wrappedValue: viewModel)
     }
 
@@ -82,7 +82,7 @@ struct PerKeyKeyboardDeviceView: View {
 
                 Spacer()
                 Picker("", selection: $viewModel.mouseMode) {
-                    ForEach(PerKeyKeyboardDeviceViewModel.MouseMode.allCases, id: \.self) { mode in
+                    ForEach(PerKeyDeviceViewModel.MouseMode.allCases, id: \.self) { mode in
                         if mode != .rectangle {
                             Image(systemName: mode.rawValue)
                         }
@@ -135,6 +135,6 @@ struct PerKeyKeyboardDeviceView: View {
 
 //struct PerKeyKeyboardDeviceView_Preview: PreviewProvider {
 //    static var previews: some View {
-//        PerKeyKeyboardDeviceView(ssDevice: SSDevice.demo))
+//        PerKeyDeviceView(ssDevice: SSDevice.demo))
 //    }
 //}

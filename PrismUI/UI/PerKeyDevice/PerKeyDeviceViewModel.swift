@@ -1,5 +1,5 @@
 //
-//  PerKeyKeyboardViewModel.swift
+//  PerKeyDeviceViewModel.swift
 //  PrismSwiftUI
 //
 //  Created by Erik Bautista on 12/1/21.
@@ -8,7 +8,7 @@
 import Combine
 import PrismKit
 
-final class PerKeyKeyboardDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
+final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     typealias InputType = Input
 
     // MARK: Input

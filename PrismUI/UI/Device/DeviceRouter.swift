@@ -13,7 +13,7 @@ class DeviceRouter {
     static func route(ssDevice: SSDevice) -> some View {
         switch ssDevice.model {
         case .perKey, .perKeyGS65:
-            PerKeyKeyboardDeviceView(ssDevice: ssDevice)
+            PerKeyDeviceView(ssDevice: ssDevice)
         case .threeRegion:
             Text("Model not supported")
         case .unknown:

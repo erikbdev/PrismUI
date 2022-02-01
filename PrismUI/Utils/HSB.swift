@@ -5,7 +5,7 @@
 //  Created by Erik Bautista on 12/17/21.
 //
 
-import PrismKit
+import Foundation
 
 public struct HSB: Hashable {
     var hue: CGFloat // Angle in degrees [0,360] or -1 as Undefined

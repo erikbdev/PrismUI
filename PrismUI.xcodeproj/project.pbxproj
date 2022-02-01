@@ -27,22 +27,22 @@
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
 		137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B872627779CE3003A4953 /* View+OnTouch.swift */; };
 		1381F3E2278035380098D45E /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F3E1278035380098D45E /* DisplayLink.swift */; };
-		1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F619276AABAD00BF526E /* ColourWheelView.swift */; };
-		1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */; };
-		1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */; };
+		1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */; };
 		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
 		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
-		13A67448276D4B7D00F6287F /* ColourPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67447276D4B7D00F6287F /* ColourPickerView.swift */; };
-		13A6744A276D533F00F6287F /* ColourBrightnessSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */; };
-		13A6744C276D5ECB00F6287F /* ThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744B276D5ECB00F6287F /* ThumbView.swift */; };
 		13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744E276D6E0100F6287F /* KeySettingsView.swift */; };
 		13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */; };
 		13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E7277182EA000A047A /* SSKey+Utils.swift */; };
 		13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78B42758537F00BC8F07 /* DevicesViewModel.swift */; };
 		13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78B927585D0F00BC8F07 /* DeviceViewModel.swift */; };
-		13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78BB275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift */; };
+		13CB78BC275869F000BC8F07 /* PerKeyDeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */; };
+		13D3EFC227A8931800B2B15F /* HSB+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFC127A8931800B2B15F /* HSB+Color.swift */; };
+		13D3EFC927A8C9D500B2B15F /* ColorBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFC827A8C9D500B2B15F /* ColorBoxView.swift */; };
+		13D3EFCB27A8C9E600B2B15F /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFCA27A8C9E600B2B15F /* ColorPicker.swift */; };
+		13D3EFCE27A8CC1000B2B15F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 13D3EFCD27A8CC1000B2B15F /* Then */; };
+		13D3EFD027A8D19500B2B15F /* ColorHueSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */; };
 		13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* SSDevice+Image.swift */; };
-		13D6594A26F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift */; };
+		13D6594A26F460BB00C1D39A /* PerKeyDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
 		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
 		13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -86,22 +86,21 @@
 		137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniDirectionalDataFlow.swift; sourceTree = "<group>"; };
 		137B872627779CE3003A4953 /* View+OnTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTouch.swift"; sourceTree = "<group>"; };
 		1381F3E1278035380098D45E /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
-		1381F619276AABAD00BF526E /* ColourWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourWheelView.swift; sourceTree = "<group>"; };
-		1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularGradientHueView.swift; sourceTree = "<group>"; };
-		1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSliderView.swift; sourceTree = "<group>"; };
+		1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSlider.swift; sourceTree = "<group>"; };
 		13A39B6426F7C55800EA2DEE /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
-		13A67447276D4B7D00F6287F /* ColourPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourPickerView.swift; sourceTree = "<group>"; };
-		13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourBrightnessSliderView.swift; sourceTree = "<group>"; };
-		13A6744B276D5ECB00F6287F /* ThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbView.swift; sourceTree = "<group>"; };
 		13A6744E276D6E0100F6287F /* KeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsView.swift; sourceTree = "<group>"; };
 		13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsViewModel.swift; sourceTree = "<group>"; };
 		13B9B9E7277182EA000A047A /* SSKey+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSKey+Utils.swift"; sourceTree = "<group>"; };
 		13CB78B42758537F00BC8F07 /* DevicesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewModel.swift; sourceTree = "<group>"; };
 		13CB78B927585D0F00BC8F07 /* DeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewModel.swift; sourceTree = "<group>"; };
-		13CB78BB275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardDeviceViewModel.swift; sourceTree = "<group>"; };
+		13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceViewModel.swift; sourceTree = "<group>"; };
+		13D3EFC127A8931800B2B15F /* HSB+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HSB+Color.swift"; sourceTree = "<group>"; };
+		13D3EFC827A8C9D500B2B15F /* ColorBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBoxView.swift; sourceTree = "<group>"; };
+		13D3EFCA27A8C9E600B2B15F /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSlider.swift; sourceTree = "<group>"; };
 		13D6594726F44D7300C1D39A /* SSDevice+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSDevice+Image.swift"; sourceTree = "<group>"; };
-		13D6594926F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardDeviceView.swift; sourceTree = "<group>"; };
+		13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceView.swift; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
 		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E2D804275880CC0014883B /* KeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyViewModel.swift; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 				1372CC9C27724F110093171A /* OrderedCollections in Frameworks */,
 				13185A16277905AC00D881F5 /* CombineExt in Frameworks */,
 				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
+				13D3EFCE27A8CC1000B2B15F /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +142,6 @@
 		1319711226F3DAD300471846 /* PrismUI */ = {
 			isa = PBXGroup;
 			children = (
-				1381F617276AAB9800BF526E /* Components */,
 				1362C7B027595CF6005BDEDD /* Base */,
 				132024AF27581418006AA60F /* Utils */,
 				136D5F3626F419040003A744 /* UI */,
@@ -170,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				13A67443276D44C800F6287F /* HSB.swift */,
+				13D3EFC127A8931800B2B15F /* HSB+Color.swift */,
 				131DBDC7275A992900BCD134 /* RGB+toHSB.swift */,
 				135D562B27A1173B00BD8592 /* HSB+toRGB.swift */,
 				137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */,
@@ -211,10 +211,11 @@
 		136D5F3626F419040003A744 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1381F617276AAB9800BF526E /* Components */,
 				13CB78B627585BD400BC8F07 /* Main */,
 				13CB78B727585BDD00BC8F07 /* Devices */,
 				13CB78B827585C0500BC8F07 /* Device */,
-				13D6594B26F460BE00C1D39A /* PerKeyKeyboard */,
+				13D6594B26F460BE00C1D39A /* PerKeyDevice */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -222,29 +223,17 @@
 		1381F617276AAB9800BF526E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				13D3EFC527A8C76700B2B15F /* ColorPicker */,
 				1347FFDB27826A2300EA4ABB /* DisplayLink */,
 				1398CDBA2772FE9F005A0C4E /* MultiColorSlider */,
-				1381F618276AAB9E00BF526E /* ColourPicker */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		1381F618276AAB9E00BF526E /* ColourPicker */ = {
-			isa = PBXGroup;
-			children = (
-				1381F619276AABAD00BF526E /* ColourWheelView.swift */,
-				13A67447276D4B7D00F6287F /* ColourPickerView.swift */,
-				1381F61B276AAC1C00BF526E /* AngularGradientHueView.swift */,
-				13A67449276D533F00F6287F /* ColourBrightnessSliderView.swift */,
-				13A6744B276D5ECB00F6287F /* ThumbView.swift */,
-			);
-			path = ColourPicker;
 			sourceTree = "<group>";
 		};
 		1398CDBA2772FE9F005A0C4E /* MultiColorSlider */ = {
 			isa = PBXGroup;
 			children = (
-				1398CDBB2772FEB0005A0C4E /* MultiColorSliderView.swift */,
+				1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */,
 				1333470F277FACCA0070F058 /* ArrowThumbView.swift */,
 			);
 			path = MultiColorSlider;
@@ -294,15 +283,25 @@
 			path = KeyView;
 			sourceTree = "<group>";
 		};
-		13D6594B26F460BE00C1D39A /* PerKeyKeyboard */ = {
+		13D3EFC527A8C76700B2B15F /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				13D3EFCA27A8C9E600B2B15F /* ColorPicker.swift */,
+				13D3EFC827A8C9D500B2B15F /* ColorBoxView.swift */,
+				13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		13D6594B26F460BE00C1D39A /* PerKeyDevice */ = {
 			isa = PBXGroup;
 			children = (
 				13A6744D276D6DDF00F6287F /* KeySettings */,
 				13CB78BD27586A2500BC8F07 /* KeyView */,
-				13D6594926F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift */,
-				13CB78BB275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift */,
+				13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */,
+				13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */,
 			);
-			path = PerKeyKeyboard;
+			path = PerKeyDevice;
 			sourceTree = "<group>";
 		};
 		13DFD04326F3DBA200F4C273 /* Frameworks */ = {
@@ -333,6 +332,7 @@
 			packageProductDependencies = (
 				1372CC9B27724F110093171A /* OrderedCollections */,
 				13185A15277905AC00D881F5 /* CombineExt */,
+				13D3EFCD27A8CC1000B2B15F /* Then */,
 			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismUI.app */;
@@ -365,6 +365,7 @@
 				136D5F3226F415980003A744 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */,
 				13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */,
+				13D3EFCC27A8CC1000B2B15F /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
@@ -396,33 +397,32 @@
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
 				13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */,
 				135D562D27A1173B00BD8592 /* HSB+toRGB.swift in Sources */,
-				1381F61C276AAC1C00BF526E /* AngularGradientHueView.swift in Sources */,
-				13CB78BC275869F000BC8F07 /* PerKeyKeyboardDeviceViewModel.swift in Sources */,
+				13CB78BC275869F000BC8F07 /* PerKeyDeviceViewModel.swift in Sources */,
 				1319711626F3DAD300471846 /* ContentView.swift in Sources */,
 				1381F3E2278035380098D45E /* DisplayLink.swift in Sources */,
-				13A6744A276D533F00F6287F /* ColourBrightnessSliderView.swift in Sources */,
+				13D3EFD027A8D19500B2B15F /* ColorHueSlider.swift in Sources */,
+				13D3EFCB27A8C9E600B2B15F /* ColorPicker.swift in Sources */,
 				1362C7B227595D01005BDEDD /* BaseViewModel.swift in Sources */,
 				13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */,
-				13A67448276D4B7D00F6287F /* ColourPickerView.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				133E49C427769071006B976B /* ColorManager.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
 				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
+				13D3EFC927A8C9D500B2B15F /* ColorBoxView.swift in Sources */,
 				13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */,
 				13334710277FACCA0070F058 /* ArrowThumbView.swift in Sources */,
 				13CB78B52758537F00BC8F07 /* DevicesViewModel.swift in Sources */,
 				13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */,
-				1398CDBC2772FEB0005A0C4E /* MultiColorSliderView.swift in Sources */,
+				1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */,
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
-				13D6594A26F460BB00C1D39A /* PerKeyKeyboardDeviceView.swift in Sources */,
+				13D3EFC227A8931800B2B15F /* HSB+Color.swift in Sources */,
+				13D6594A26F460BB00C1D39A /* PerKeyDeviceView.swift in Sources */,
 				133E49C62776B58F006B976B /* SSPerKeyProperties+Ext.swift in Sources */,
 				13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */,
 				13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */,
 				13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */,
-				13A6744C276D5ECB00F6287F /* ThumbView.swift in Sources */,
-				1381F61A276AABAD00BF526E /* ColourWheelView.swift in Sources */,
 				13A67444276D44C800F6287F /* HSB.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */,
 				13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */,
@@ -642,6 +642,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		13D3EFCC27A8CC1000B2B15F /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -654,6 +662,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
+		};
+		13D3EFCD27A8CC1000B2B15F /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 13D3EFCC27A8CC1000B2B15F /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 /* End XCSwiftPackageProductDependency section */
 
