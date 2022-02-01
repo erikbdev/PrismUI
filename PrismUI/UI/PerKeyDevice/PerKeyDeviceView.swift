@@ -11,7 +11,6 @@ import PrismKit
 
 struct PerKeyDeviceView: View {
     @StateObject private var viewModel: PerKeyDeviceViewModel
-    @State private var phase: CGFloat = 0
 
     init (ssDevice: SSDevice) {
         let viewModel = PerKeyDeviceViewModel(ssDevice: ssDevice)
@@ -20,15 +19,12 @@ struct PerKeyDeviceView: View {
 
     var body: some View {
         ZStack {
-            HStack {
-                ScrollView {
-                    // Passing down viewmodel rather than recreating it
-                    KeySettingsView(viewModel: viewModel.keySettingsViewModel)
-                }
-                .background(ColorManager.contentOverBackground)
-                .cornerRadius(12)
-                .padding(24)
-                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
+            HStack(alignment: .top) {
+                KeySettingsView(viewModel: viewModel.keySettingsViewModel)
+                    .background(ColorManager.contentOverBackground)
+                    .cornerRadius(12)
+                    .padding(24)
+                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
 
                 KeyboardLayout
                     .cornerRadius(8)
@@ -53,12 +49,7 @@ struct PerKeyDeviceView: View {
                     )
                     .overlay(
                         Rectangle()
-                            .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [10], dashPhase: phase))
-                            .onAppear {
-                                withAnimation(.linear.repeatForever(autoreverses: false)) {
-                                    phase -= 20
-                                }
-                            }
+                            .strokeBorder(style: StrokeStyle(lineWidth: 2))
                             .frame(width: viewModel.dragSelectionRect.width,
                                    height: viewModel.dragSelectionRect.height)
                             .position(x: viewModel.dragSelectionRect.origin.x,
@@ -70,15 +61,15 @@ struct PerKeyDeviceView: View {
         .toolbar {
             ToolbarItemGroup {
                 // Presets
-//                Picker("", selection: .constant(0)) {
-//                    Text("Preset 1").tag(0)
-//                    Text("Preset 2").tag(1)
-//                    Text("Preset 3").tag(2)
-//                    Text("Preset 4").tag(3)
-//                    Text("Preset 5").tag(4)
-//                }
-//                .pickerStyle(.menu)
-//                .labelsHidden()
+                Picker("", selection: .constant(0)) {
+                    Text("Preset 1").tag(0)
+                    Text("Preset 2").tag(1)
+                    Text("Preset 3").tag(2)
+                    Text("Preset 4").tag(3)
+                    Text("Preset 5").tag(4)
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
 
                 Spacer()
                 Picker("", selection: $viewModel.mouseMode) {

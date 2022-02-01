@@ -45,9 +45,6 @@ struct KeySettingsView: View {
             // Color Picker
             // TODO: Move Color Picker as a modal
 
-            ColorPicker(color: $viewModel.selectedColor)
-                .frame(height: 180)
-
             if viewModel.selectedMode == .reactive {
                 VStack(alignment: .leading) {
                     // Active colors
