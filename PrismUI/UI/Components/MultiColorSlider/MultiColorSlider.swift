@@ -68,7 +68,7 @@ struct MultiColorSlider: View {
                         .contentShape(Rectangle())
                         .position(x: getThumbXPosition(size: geometry.size, selector: selectors[index]),
                                   y: getThumbYOffset(size: geometry.size, selector: selectors[index]))
-                        .gesture(
+                        .simultaneousGesture(
                             DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
                                     // TODO: Fix thumb position
@@ -247,6 +247,6 @@ struct MultiColorSliderView_Previews: PreviewProvider {
                 ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
                 ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
             ]), backgroundType: .constant(.gradient))
-            .frame(width: 400, height: 60)
+            .frame(width: 300, height: 60)
     }
 }

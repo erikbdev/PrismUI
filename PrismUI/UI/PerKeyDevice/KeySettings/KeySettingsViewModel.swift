@@ -39,7 +39,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     @Published var selectedKeyModels: Set<KeyViewModel>
     @Published var selectedMode: SSKey.SSKeyModes = .steady
-    @Published var disableColorPicker = false
 
     // Decides whether the update button should be active or not
     @Published var allowUpdatingDevice = true
@@ -53,10 +52,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // If mode is changed, it will reset all values but we do not want to
     // get notified until the last value is reset so we can update the model
     private var modeChanging = false
-
-    // If our thumbSelection changes, we want to set the color of the thumb to the color
-    // picker, but we do not want to allow the color picker to change the color for the initial state.
-    private var thumbColorSet = false
 
     // MARK: - Effects
 
@@ -74,11 +69,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     @Published var gradientSliderMode: MultiColorSliderBackgroundStyle = .gradient
     @Published var colorSelectors = [ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 1.0), position: 0),
                                 ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)] // Just for testing, shouldn't be shown
-//    @Published var thumbSelected: Int = -1
 
     // MARK: Color Shift Settings
 
-    @Published var showOriginModal = false
     @Published var waveActive = false
     @Published var waveDirection: SSKeyEffect.SSPerKeyDirection = .xy
     @Published var waveControl: SSKeyEffect.SSPerKeyControl = .inward
@@ -231,7 +224,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         if allSatisfy, let firstKeyModel = newModels.first {
             settingModelToView = true
             selectedMode = firstKeyModel.ssKey.mode
-            disableColorPicker = false
 
             switch firstKeyModel.ssKey.mode {
             case .steady:
@@ -265,7 +257,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             }
         } else {
             selectedMode = .mixed
-            disableColorPicker = true
         }
         settingModelToView = false
     }
@@ -308,8 +299,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func commonSwitch() {
-        disableColorPicker = false
-//        thumbSelected = -1
     }
 
     // MARK: - Color Shift
@@ -442,7 +431,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private func switchToDisabled() {
         allowUpdatingDevice = true
-        disableColorPicker = true
     }
 
     private func handleDisabled() {
@@ -455,6 +443,5 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     private func switchToMixed() {
         allowUpdatingDevice = false
-        disableColorPicker = true
     }
 }

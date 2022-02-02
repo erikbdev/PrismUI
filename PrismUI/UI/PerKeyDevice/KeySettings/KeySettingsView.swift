@@ -11,6 +11,7 @@ import PrismKit
 
 struct KeySettingsView: View {
     @StateObject var viewModel: KeySettingsViewModel
+    @State var showOriginModal = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {

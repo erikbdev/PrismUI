@@ -47,7 +47,8 @@
 		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
 		13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2D804275880CC0014883B /* KeyViewModel.swift */; };
-		13E513C127AA4849003CE038 /* ColorWellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C027AA4849003CE038 /* ColorWellView.swift */; };
+		13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C027AA4849003CE038 /* PopUpColorPicker.swift */; };
+		13E513C927AA83B9003CE038 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C827AA83B9003CE038 /* DeviceRowView.swift */; };
 		13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
@@ -105,7 +106,8 @@
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
 		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E2D804275880CC0014883B /* KeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyViewModel.swift; sourceTree = "<group>"; };
-		13E513C027AA4849003CE038 /* ColorWellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWellView.swift; sourceTree = "<group>"; };
+		13E513C027AA4849003CE038 /* PopUpColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpColorPicker.swift; sourceTree = "<group>"; };
+		13E513C827AA83B9003CE038 /* DeviceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
 		13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,7 +201,7 @@
 				13D3EFC527A8C76700B2B15F /* ColorPicker */,
 				1347FFDB27826A2300EA4ABB /* DisplayLink */,
 				1398CDBA2772FE9F005A0C4E /* MultiColorSlider */,
-				13E513C027AA4849003CE038 /* ColorWellView.swift */,
+				13E513C027AA4849003CE038 /* PopUpColorPicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -235,6 +237,7 @@
 			children = (
 				136D5F3A26F41FBB0003A744 /* DevicesView.swift */,
 				13CB78B42758537F00BC8F07 /* DevicesViewModel.swift */,
+				13E513C827AA83B9003CE038 /* DeviceRowView.swift */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -425,11 +428,12 @@
 				13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
-				13E513C127AA4849003CE038 /* ColorWellView.swift in Sources */,
+				13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				133E49C427769071006B976B /* ColorManager.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
 				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
+				13E513C927AA83B9003CE038 /* DeviceRowView.swift in Sources */,
 				13D3EFC927A8C9D500B2B15F /* ColorBoxView.swift in Sources */,
 				13CB78BA27585D0F00BC8F07 /* DeviceViewModel.swift in Sources */,
 				13334710277FACCA0070F058 /* ArrowThumbView.swift in Sources */,
