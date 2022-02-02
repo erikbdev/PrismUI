@@ -33,7 +33,7 @@ extension RGB {
         return HSB(hue: (h < 0 ? h + 360 : h) , saturation: s, brightness: v)
     }
 
-    var hsv: HSB {
+    var hsb: HSB {
         get {
             return RGB.toHSV(r: self.red, g: self.green, b: self.blue)
         }

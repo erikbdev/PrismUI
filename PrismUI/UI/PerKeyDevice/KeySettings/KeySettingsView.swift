@@ -13,7 +13,7 @@ struct KeySettingsView: View {
     @StateObject var viewModel: KeySettingsViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading) {
                 Text("Effect")
                     .fontWeight(.bold)
@@ -36,41 +36,30 @@ struct KeySettingsView: View {
 
                     if viewModel.selectedMode == .steady {
                         RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(viewModel.selectedColor.color)
+                            .modifier(PopUpColorPicker(hsb: $viewModel.steadyColor))
                             .frame(width: 56, height: 28)
                     }
                 }
             }
-
-            // Color Picker
-            // TODO: Move Color Picker as a modal
 
             if viewModel.selectedMode == .reactive {
                 VStack(alignment: .leading) {
                     // Active colors
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(viewModel.activeColor.color)
-                            .frame(width: 56, height: 32)
-                            .onTapGesture {
-                                viewModel.apply(.onReactiveTouch(index: 0))
-                            }
+                            .modifier(PopUpColorPicker(hsb: $viewModel.activeColor))
+                            .frame(width: 56, height: 28)
 
                         Text("Active Color")
-                            .frame(maxWidth: .infinity)
                     }
 
                     HStack {
                         // Resting Color
                         RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(viewModel.restColor.color)
-                            .frame(width: 56, height: 32)
-                            .onTapGesture {
-                                viewModel.apply(.onReactiveTouch(index: 1))
-                            }
+                            .modifier(PopUpColorPicker(hsb: $viewModel.restColor))
+                            .frame(width: 56, height: 28)
 
                         Text("Rest Color")
-                            .frame(maxWidth: .infinity)
                     }
                 }
             }
@@ -78,8 +67,7 @@ struct KeySettingsView: View {
             // Multi Slider
             if viewModel.selectedMode == .colorShift || viewModel.selectedMode == .breathing {
                 MultiColorSlider(selectors: $viewModel.colorSelectors,
-//                                     selected: $viewModel.thumbSelected,
-                                     backgroundType: $viewModel.gradientSliderMode)
+                                 backgroundType: $viewModel.gradientSliderMode)
                     .frame(height: 48)
             }
 
@@ -140,7 +128,7 @@ struct KeySettingsView: View {
                 }
             }
         }
-        .frame(width: 275)
+        .frame(width: 300)
         .padding()
         .onAppear(perform: {
             viewModel.apply(.onAppear)

@@ -8,7 +8,7 @@
 import SwiftUI
 import PrismKit
 
-struct KeyView: View {
+struct KeyView: View, Equatable {
     @ObservedObject var viewModel: KeyViewModel
 
     var body: some View {
@@ -46,6 +46,10 @@ struct KeyView: View {
         let color = viewModel.getColor()
 
         return Color(red: color.red, green: color.green, blue: color.blue)
+    }
+
+    static func == (lhs: KeyView, rhs: KeyView) -> Bool {
+        lhs.viewModel == rhs.viewModel
     }
 }
 

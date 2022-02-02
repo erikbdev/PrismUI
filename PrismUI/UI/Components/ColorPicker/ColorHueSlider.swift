@@ -31,25 +31,38 @@ struct ColorHueSlider: View {
                                        endPoint: .bottom)
                     )
                 Circle()
-                    .strokeBorder(Color.white, lineWidth: 2)
+                    .strokeBorder(Color.white, lineWidth: 3)
                     .background(Circle().foregroundColor(correctedColor.color))
-                    .offset(.init(width: 0, height: getPosition(geometry: proxy)))
+                    .offset(.init(width: 0, height: getPosition(size: proxy.size)))
                     .gesture(
                         DragGesture()
                             .onChanged({ value in
-                                let newPosition = value.location.y / proxy.size.height
-                                let clamped = min(1.0, max(0, newPosition))
-                                hsb.hue = clamped * 360.0
+                                DispatchQueue.global(qos: .background).async {
+                                    let thumbRadius = proxy.size.width / 2
+                                    let maxHeight = proxy.size.height - thumbRadius * 2
+
+                                    let newPosition = (value.location.y - thumbRadius) / maxHeight
+
+                                    let clamped = min(1.0, max(0, newPosition))
+
+                                    DispatchQueue.main.async {
+                                        hsb.hue = clamped * 360.0
+                                    }
+                                }
                             })
                     )
             }
         }
     }
 
-    func getPosition(geometry: GeometryProxy) -> CGFloat {
+    func getPosition(size: CGSize) -> CGFloat {
+        let thumbRadius = size.width / 2
+
+        let maxHeight = size.height - thumbRadius * 2
+
         let percent = hsb.hue / 360.0
-        let half = geometry.size.height / 2
-        let offset = geometry.size.height * percent
+        let half = maxHeight / 2
+        let offset = maxHeight * percent
         return offset - half
     }
 }

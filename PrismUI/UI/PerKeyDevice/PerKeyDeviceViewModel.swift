@@ -9,7 +9,6 @@ import Combine
 import PrismKit
 
 final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
-    typealias InputType = Input
 
     // MARK: Input
     enum Input {
@@ -43,9 +42,10 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     @Published var keyModels = [KeyViewModel]()
     @Published var mouseMode: MouseMode = .single
     @Published var dragSelectionRect = CGRect.zero
+    @Published var modalActive = false
 
-    lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) {
-        self.apply(.onUpdateDevice)
+    lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) { [weak self ] in
+        self?.apply(.onUpdateDevice)
     }
 
     private(set) var keyboardMap: [[CGFloat]] = []

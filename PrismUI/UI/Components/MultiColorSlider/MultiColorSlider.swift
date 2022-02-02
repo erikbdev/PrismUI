@@ -59,18 +59,15 @@ struct MultiColorSlider: View {
                     }
 
                 ForEach(selectors.indices, id: \.self) { index in
-                    ArrowThumbView(color: selectors[index].rgb)
+                    RoundedTriangle()
+                        .modifier(
+                            PopUpColorPicker(hsb: $selectors[index].rgb.hsb)
+                        )
                         .frame(width: thumbSize, height: thumbSize)
                         .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                         .contentShape(Rectangle())
                         .position(x: getThumbXPosition(size: geometry.size, selector: selectors[index]),
                                   y: getThumbYOffset(size: geometry.size, selector: selectors[index]))
-                        .gesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    handleThumbTouched(index: index)
-                                })
-                        )
                         .gesture(
                             DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
@@ -158,10 +155,6 @@ extension MultiColorSlider {
         withAnimation {
             selectors.append(newSelector)
         }
-    }
-
-    private func handleThumbTouched(index: Int) {
-        
     }
 
     private func handleThumbDragged(value: DragGesture.Value,

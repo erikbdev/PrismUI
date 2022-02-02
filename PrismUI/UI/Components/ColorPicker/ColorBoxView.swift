@@ -39,8 +39,12 @@ struct ColorBoxView: View {
                     .gesture(
                         DragGesture()
                             .onChanged({ value in
-                                var saturation = value.location.x / proxy.size.width
-                                var brightness = 1 - (value.location.y / proxy.size.height)
+                                let thumbRadius = proxy.size.width / 16
+                                let maxWidth = proxy.size.width - thumbRadius * 2
+                                let maxHeight = proxy.size.height - thumbRadius * 2
+
+                                var saturation = (value.location.x - thumbRadius) / maxWidth
+                                var brightness = 1 - ((value.location.y - thumbRadius) / maxHeight)
 
                                 saturation = max(0, min(1.0, saturation))
                                 brightness = max(0, min(1.0, brightness))
@@ -59,8 +63,13 @@ struct ColorBoxView: View {
         let saturation = hsb.saturation
         let brightness = hsb.brightness
 
-        let width = saturation * size.width
-        let height = (1 - brightness) * size.height
+        let thumbRadius = size.width / 16
+
+        let maxWidth = size.width - thumbRadius * 2
+        let maxHeight = size.height - thumbRadius * 2
+
+        let width = saturation * maxWidth + thumbRadius
+        let height = (1 - brightness) * maxHeight + thumbRadius
         return CGPoint(x: width, y: height)
     }
 }

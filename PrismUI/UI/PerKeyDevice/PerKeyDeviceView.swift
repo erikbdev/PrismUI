@@ -19,42 +19,64 @@ struct PerKeyDeviceView: View {
 
     var body: some View {
         ZStack {
-            HStack(alignment: .top) {
+            // Background Click touch
+            Rectangle()
+                .fill(Color.clear)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .gesture(
+                    TapGesture()
+                        .onEnded({ _ in
+                            withAnimation {
+                                viewModel.apply(.onTouchOutside)
+                            }
+                        })
+                )
+
+            // Main View
+
+            HStack(alignment: .top, spacing: 24) {
                 KeySettingsView(viewModel: viewModel.keySettingsViewModel)
                     .background(ColorManager.contentOverBackground)
                     .cornerRadius(12)
-                    .padding(24)
+                    .padding(0)
                     .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
 
-                KeyboardLayout
-                    .cornerRadius(8)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .contentShape(Rectangle())
-                    .gesture(
-                        TapGesture()
-                            .onEnded({ _ in
-                                withAnimation {
-                                    viewModel.apply(.onTouchOutside)
-                                }
-                            })
-                    )
-                    .gesture(
-                        DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-                            .onChanged({ value in
-                                viewModel.apply(.onDragOutside(start: value.startLocation, currentPoint: value.location))
-                            })
-                            .onEnded({ value in
-                                viewModel.apply(.onDragOutside(start: .zero, currentPoint: .zero))
-                            })
-                    )
-                    .overlay(
-                        Rectangle()
-                            .strokeBorder(style: StrokeStyle(lineWidth: 2))
-                            .frame(width: viewModel.dragSelectionRect.width,
-                                   height: viewModel.dragSelectionRect.height)
-                            .position(x: viewModel.dragSelectionRect.origin.x,
-                                      y: viewModel.dragSelectionRect.origin.y)
-                    )
+                    KeyboardLayout
+                        .cornerRadius(8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .contentShape(Rectangle())
+                        .gesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    withAnimation {
+                                        viewModel.apply(.onTouchOutside)
+                                    }
+                                })
+                        )
+                        .gesture(
+                            DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
+                                .onChanged({ value in
+                                    viewModel.apply(.onDragOutside(start: value.startLocation, currentPoint: value.location))
+                                })
+                                .onEnded({ value in
+                                    viewModel.apply(.onDragOutside(start: .zero, currentPoint: .zero))
+                                })
+                        )
+                        .overlay(
+                            Rectangle()
+                                .strokeBorder(style: StrokeStyle(lineWidth: 2))
+                                .frame(width: viewModel.dragSelectionRect.width,
+                                       height: viewModel.dragSelectionRect.height)
+                                .position(x: viewModel.dragSelectionRect.origin.x,
+                                          y: viewModel.dragSelectionRect.origin.y)
+                        )
+            }
+            .padding(24)
+            .fixedSize()
+
+            if viewModel.modalActive {
+                
             }
         }
         .navigationTitle(viewModel.ssDevice.name)
@@ -120,7 +142,6 @@ struct PerKeyDeviceView: View {
             }
         }
         .fixedSize()
-        .padding(40)
     }
 }
 
