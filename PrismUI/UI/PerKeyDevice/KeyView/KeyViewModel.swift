@@ -26,7 +26,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     @Published var ssKey: SSKey
     @Published var selected = false
-    @Published var progress: CGFloat = 0
+    @Published var gradientProgress: CGFloat = 0
 
     private var animationCancellable: Cancellable?
     private var startTime: Double = 0
@@ -73,7 +73,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     func gradientAnimation(effect: SSKeyEffect) {
-        progress = 0.0
+        gradientProgress = 0.0
         startTime = -1
     }
 
@@ -124,7 +124,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
         if directionDelta > 1.0 { directionDelta -= floor(directionDelta) }
 
-        progress = directionDelta
+        gradientProgress = directionDelta
         startTime = -1
     }
 
@@ -136,7 +136,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
             if timeInterval < 1/30 { return } // Reduce to 1/30 so cpu doesn't get overwhelmed
             let calc = CGFloat(effect.duration) / 1000.0
             let mod = timeInterval / calc
-            var newProgress = progress
+            var newProgress = gradientProgress
 
             if effect.control == .inward {
                 newProgress += mod
@@ -147,7 +147,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
             if newProgress > 1.0 || newProgress < 0 {
                 newProgress -= floor(newProgress)
             }
-            progress = newProgress
+            gradientProgress = newProgress
             startTime = frame.timestamp
         }
     }
@@ -155,7 +155,7 @@ final class KeyViewModel: BaseViewModel, UniDirectionalDataFlowType {
     func getColor() -> RGB {
         if let effect = ssKey.effect {
             let transitions = effect.transitions
-            return RGB.getColorFromTransition(with: progress,
+            return RGB.getColorFromTransition(with: gradientProgress,
                                               transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) }))
         } else {
             return ssKey.main

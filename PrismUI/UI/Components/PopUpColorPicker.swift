@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct PopUpColorPicker: ViewModifier {
     @State var showingColorPicker = false
     @Binding var hsb: HSB
@@ -15,9 +14,12 @@ struct PopUpColorPicker: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundColor(hsb.color)
-            .onTapGesture(perform: {
-                showingColorPicker.toggle()
-            })
+            .gesture(
+                TapGesture()
+                    .onEnded({
+                        showingColorPicker.toggle()
+                    })
+            )
             .popover(isPresented: $showingColorPicker,
                      attachmentAnchor: .point(.bottom),
                      arrowEdge: .bottom) {

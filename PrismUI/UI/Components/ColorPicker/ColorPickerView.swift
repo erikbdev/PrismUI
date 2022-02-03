@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 struct ColorPickerView: View {
     @Binding var color: HSB

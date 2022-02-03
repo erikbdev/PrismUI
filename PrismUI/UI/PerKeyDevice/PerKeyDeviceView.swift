@@ -18,8 +18,47 @@ struct PerKeyDeviceView: View {
     }
 
     var body: some View {
-        ZStack {
-            // Background Click touch
+        HStack(alignment: .top, spacing: 24) {
+            KeySettingsView(viewModel: viewModel.keySettingsViewModel)
+                .background(ColorManager.contentOverBackground)
+                .cornerRadius(12)
+                .padding(0)
+                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
+
+            KeyboardLayout
+                .cornerRadius(8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .gesture(
+                    TapGesture()
+                        .onEnded({ _ in
+                            withAnimation {
+                                viewModel.apply(.onTouchOutside)
+                            }
+                        })
+                )
+                .gesture(
+                    DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
+                        .onChanged({ value in
+                            viewModel.apply(.onDragOutside(start: value.startLocation, currentPoint: value.location))
+                        })
+                        .onEnded({ value in
+                            viewModel.apply(.onDragOutside(start: .zero, currentPoint: .zero))
+                        })
+                )
+                .overlay(
+                    Rectangle()
+                        .strokeBorder(style: StrokeStyle(lineWidth: 2))
+                        .frame(width: viewModel.dragSelectionRect.width,
+                               height: viewModel.dragSelectionRect.height)
+                        .position(x: viewModel.dragSelectionRect.origin.x,
+                                  y: viewModel.dragSelectionRect.origin.y)
+                )
+        }
+        .padding(24)
+        .fixedSize()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
             Rectangle()
                 .fill(Color.clear)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -32,53 +71,7 @@ struct PerKeyDeviceView: View {
                             }
                         })
                 )
-
-            // Main View
-
-            HStack(alignment: .top, spacing: 24) {
-                KeySettingsView(viewModel: viewModel.keySettingsViewModel)
-                    .background(ColorManager.contentOverBackground)
-                    .cornerRadius(12)
-                    .padding(0)
-                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
-
-                    KeyboardLayout
-                        .cornerRadius(8)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .contentShape(Rectangle())
-                        .gesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    withAnimation {
-                                        viewModel.apply(.onTouchOutside)
-                                    }
-                                })
-                        )
-                        .gesture(
-                            DragGesture(minimumDistance: 0.0, coordinateSpace: .local)
-                                .onChanged({ value in
-                                    viewModel.apply(.onDragOutside(start: value.startLocation, currentPoint: value.location))
-                                })
-                                .onEnded({ value in
-                                    viewModel.apply(.onDragOutside(start: .zero, currentPoint: .zero))
-                                })
-                        )
-                        .overlay(
-                            Rectangle()
-                                .strokeBorder(style: StrokeStyle(lineWidth: 2))
-                                .frame(width: viewModel.dragSelectionRect.width,
-                                       height: viewModel.dragSelectionRect.height)
-                                .position(x: viewModel.dragSelectionRect.origin.x,
-                                          y: viewModel.dragSelectionRect.origin.y)
-                        )
-            }
-            .padding(24)
-            .fixedSize()
-
-            if viewModel.modalActive {
-                
-            }
-        }
+        )
         .navigationTitle(viewModel.ssDevice.name)
         .toolbar {
             ToolbarItemGroup {
@@ -144,9 +137,3 @@ struct PerKeyDeviceView: View {
         .fixedSize()
     }
 }
-
-//struct PerKeyKeyboardDeviceView_Preview: PreviewProvider {
-//    static var previews: some View {
-//        PerKeyDeviceView(ssDevice: SSDevice.demo))
-//    }
-//}

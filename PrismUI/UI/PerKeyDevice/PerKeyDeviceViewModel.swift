@@ -37,19 +37,14 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
         case rectangle = "rectangle.dashed"
     }
 
-    @Published var finishedLoading = false
-    @Published var selectionArray = Set<KeyViewModel>()
-    @Published var keyModels = [KeyViewModel]()
     @Published var mouseMode: MouseMode = .single
     @Published var dragSelectionRect = CGRect.zero
-    @Published var modalActive = false
 
     lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) { [weak self ] in
         self?.apply(.onUpdateDevice)
     }
 
-    private(set) var keyboardMap: [[CGFloat]] = []
-    private(set) var keyboardRegionAndKeyCodes: [[(UInt8, UInt8)]] = []
+    private(set) var keyboardMap: [[CGFloat]]
 
     private let onAppearSubject = PassthroughSubject<Void, Never>()
     private let onUpdateDeviceSubject = PassthroughSubject<Void, Never>()
@@ -58,25 +53,22 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     private let onDeSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
     private let onDragOutsideSubject = PassthroughSubject<(CGPoint, CGPoint), Never>()
 
+    private var selectionArray = Set<KeyViewModel>() {
+        didSet {
+            updateSelectionChanges()
+        }
+    }
+    private var keyModels = [KeyViewModel]()
     private var multipleSelectionChangesActive = false
 
     override init(ssDevice: SSDevice) {
+        self.keyboardMap = SSPerKeyProperties.getKeyboardMap(for: ssDevice.model)
         super.init(ssDevice: ssDevice)
-        loadKeyboardMap()
-        loadKeyboardRegionAndKeyCodes()
         prepareKeyViewModel()
         bindInputs()
     }
 
     private func bindInputs() {
-        // This is when the array size changes
-        $selectionArray
-            .filter({[weak self] _ in self?.multipleSelectionChangesActive == false })
-            .sink {[weak self] newValue in
-                self?.keySettingsViewModel.selectedKeyModels = newValue
-            }
-            .store(in: &cancellables)
-
         // When a view is selected, we get notified
         onSelectedSubject
             .sink { [weak self] keyViewModel in
@@ -143,6 +135,13 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
             .store(in: &cancellables)
     }
 
+    // This is when the array size changes
+
+    private func updateSelectionChanges() {
+        guard !multipleSelectionChangesActive else { return }
+        keySettingsViewModel.selectedKeyModels = selectionArray
+    }
+
     private func clearSelection() {
         if selectionArray.count == 0 {
             return
@@ -160,7 +159,13 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
 
     // MARK: - Private Functions
 
+    private func update(force: Bool = true) {
+        ssDevice.update(data: keyModels.map{ $0.ssKey }, force: force)
+    }
+
     private func prepareKeyViewModel() {
+        let keyboardRegionAndKeyCodes = PerKeyDeviceViewModel.loadKeyboardRegionAndKeyCodes(for: ssDevice.model)
+
         // Populate values
         for (rowIndex, row) in keyboardRegionAndKeyCodes.enumerated() {
             for (columnIndex, element) in row.enumerated() {
@@ -184,30 +189,26 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
         }
     }
 
-    private func loadKeyboardMap() {
-        switch (model) {
+    private func loadKeyboardMap(ssDevice: SSDevice) -> [[CGFloat]] {
+        switch (ssDevice.model) {
         case .perKey:
-            keyboardMap.append(contentsOf: SSPerKeyProperties.perKeyMap)
+            return SSPerKeyProperties.perKeyMap
         case .perKeyGS65:
-            keyboardMap.append(contentsOf: SSPerKeyProperties.perKeyGS65KeyMap)
+            return SSPerKeyProperties.perKeyGS65KeyMap
         default:
-            break
+            return []
         }
     }
 
-    private func loadKeyboardRegionAndKeyCodes() {
+    private static func loadKeyboardRegionAndKeyCodes(for model: SSModels) -> [[(UInt8, UInt8)]] {
         switch (model) {
         case .perKey:
-            keyboardRegionAndKeyCodes.append(contentsOf: SSPerKeyProperties.perKeyRegionKeyCodes)
+            return SSPerKeyProperties.perKeyRegionKeyCodes
         case .perKeyGS65:
-            keyboardRegionAndKeyCodes.append(contentsOf: SSPerKeyProperties.perKeyGS65RegionKeyCodes)
+            return SSPerKeyProperties.perKeyGS65RegionKeyCodes
         default:
-            break
+            return []
         }
-    }
-
-    private func update(force: Bool = true) {
-        ssDevice.update(data: keyModels.map{ $0.ssKey }, force: force)
     }
 
     private func handleSameKeySelection(keyModel: KeyViewModel) {
@@ -224,6 +225,7 @@ final class PerKeyDeviceViewModel: DeviceViewModel, UniDirectionalDataFlowType {
     // MARK: - Public Functions
 
     func getKeyModelFromGrid(row: Int, col: Int) -> KeyViewModel? {
+        let keyboardRegionAndKeyCodes = PerKeyDeviceViewModel.loadKeyboardRegionAndKeyCodes(for: ssDevice.model)
         let regionAndKeyCode = keyboardRegionAndKeyCodes[row][col]
         return keyModels.first(where: {
             $0.ssKey.region == regionAndKeyCode.0 &&

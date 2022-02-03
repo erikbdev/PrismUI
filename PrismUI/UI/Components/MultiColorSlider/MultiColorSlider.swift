@@ -195,7 +195,9 @@ extension MultiColorSlider {
             if value.location.y - containerHeight > containerHeight {
                 selectors.remove(at: index)
             } else {
-                selectors[index].yOffset = minSelectorCenterY
+                if selectors[index].yOffset != minSelectorCenterY {
+                    selectors[index].yOffset = minSelectorCenterY
+                }
             }
         }
     }

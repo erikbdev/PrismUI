@@ -10,11 +10,8 @@ import PrismKit
 import OrderedCollections
 
 final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
-    typealias InputType = Input
-
     enum Input {
         case onAppear
-        case onReactiveTouch(index: Int)
         case onShowOrigin
     }
 
@@ -22,8 +19,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         switch input {
         case .onAppear:
             onAppearSubject.send()
-        case .onReactiveTouch(let index):
-            onReactiveTouchSubject.send(index)
         case .onShowOrigin:
             onShowOriginSubject.send()
         }
@@ -32,28 +27,30 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Subjects
 
     private let onAppearSubject = PassthroughSubject<Void, Never>()
-    private let onReactiveTouchSubject = PassthroughSubject<Int, Never>()
     private let onShowOriginSubject = PassthroughSubject<Void, Never>()
 
     // MARK: - Main Data
 
-    @Published var selectedKeyModels: Set<KeyViewModel>
-    @Published var selectedMode: SSKey.SSKeyModes = .steady
-
-    // Decides whether the update button should be active or not
-    @Published var allowUpdatingDevice = true
+    var selectedKeyModels: Set<KeyViewModel> {
+        didSet {
+            // TODO: Notify when size of selected key changed
+            handleSelectedKeyModelsArrayChanged(oldSelection: oldValue)
+        }
+    }
 
     private var skipDefaultValues = false
 
     // If `selectedKeyModels` array is changed, we want to copy the value from the model to our view, but
     // we do not want our view inputs to change our model while this is happening.
-    private var settingModelToView = false
+    private var settingModeToView = false
 
     // If mode is changed, it will reset all values but we do not want to
     // get notified until the last value is reset so we can update the model
     private var modeChanging = false
 
     // MARK: - Effects
+
+    @Published var selectedMode: SSKey.SSKeyModes = .steady
 
     // MARK: Steady Effect
 
@@ -119,7 +116,7 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .filter({ [weak self] _ in
                 self?.selectedMode == .steady &&
                 self?.modeChanging == false &&
-                self?.settingModelToView == false &&
+                self?.settingModeToView == false &&
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] newColor in
@@ -130,12 +127,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .store(in: &cancellables)
 
         // Color Shift Mode
+
         $colorSelectors
             .combineLatest($speed, $waveActive, $waveDirection, $waveControl, $pulse, $origin)
             .filter({ [weak self] _ in
                 self?.selectedMode == .colorShift &&
                 self?.modeChanging == false &&
-                self?.settingModelToView == false &&
+                self?.settingModeToView == false &&
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newColorSelectors,
@@ -158,12 +156,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .store(in: &cancellables)
 
         // Breathing Mode
+
         $colorSelectors
             .combineLatest($speed)
             .filter({ [weak self] _ in
                 self?.selectedMode == .breathing &&
                 self?.modeChanging == false &&
-                self?.settingModelToView == false &&
+                self?.settingModeToView == false &&
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newColorSelectors, newSpeed) in
@@ -174,12 +173,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .store(in: &cancellables)
 
         // Reactive Mode
+
         $activeColor
             .combineLatest($restColor, $speed)
             .filter({ [weak self] _ in
                 self?.selectedMode == .reactive &&
                 self?.modeChanging == false &&
-                self?.settingModelToView == false &&
+                self?.settingModeToView == false &&
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] (newActive, newRest, newSpeed) in
@@ -190,11 +190,12 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             .store(in: &cancellables)
 
         // Disabled Mode
+
         $selectedMode
             .filter({ [weak self] mode in
                 mode == .disabled &&
                 self?.modeChanging == false &&
-                self?.settingModelToView == false &&
+                self?.settingModeToView == false &&
                 self?.selectedKeyModels.count ?? 0 > 0
             })
             .sink { [weak self] _ in
@@ -203,29 +204,33 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
                 self?.updateDevice()
             }
             .store(in: &cancellables)
+    }
 
-        // Get settings to reflect based on selection
-        $selectedKeyModels
-            .removeDuplicates()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] newData in
-                self?.handleKeysSelectedChanged(newModels: newData)
-            }
-            .store(in: &cancellables)
+    private func handleSelectedKeyModelsArrayChanged(oldSelection: Set<KeyViewModel>) {
+        guard oldSelection != selectedKeyModels else { return }
+        handleKeysSelectedChanged(newModels: selectedKeyModels)
     }
 
     private func handleKeysSelectedChanged(newModels: Set<KeyViewModel>) {
-        guard let firstKeyModel = newModels.first else { return }
+        guard let firstKeyModel = newModels.first else {
+            // No selected values, set view to steady default
+            skipDefaultValues = true
+            selectedMode = .steady
+            skipDefaultValues = false
+            return
+        }
         let allSatisfy = newModels.allSatisfy({ $0.ssKey.sameEffect(as: firstKeyModel.ssKey) })
 
         skipDefaultValues = true
 
         // Set main color picker based on mode
         if allSatisfy, let firstKeyModel = newModels.first {
-            settingModelToView = true
-            selectedMode = firstKeyModel.ssKey.mode
+            settingModeToView = true
+            let mode = firstKeyModel.ssKey.mode
 
-            switch firstKeyModel.ssKey.mode {
+            selectedMode = mode
+
+            switch mode {
             case .steady:
                 steadyColor = firstKeyModel.ssKey.main.hsb
             case .colorShift:
@@ -258,13 +263,17 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         } else {
             selectedMode = .mixed
         }
-        settingModelToView = false
+        settingModeToView = false
     }
 
+}
+
+// MARK: - Mode Functions
+
+extension KeySettingsViewModel {
     private func handleModeChanged(newMode: SSKey.SSKeyModes) {
         guard !skipDefaultValues else { skipDefaultValues = false; return }
         modeChanging = true
-        commonSwitch()
 
         switch newMode {
         case SSKey.SSKeyModes.steady:
@@ -275,18 +284,14 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
             switchToBreathing()
         case SSKey.SSKeyModes.reactive:
             switchToReactive()
-        case SSKey.SSKeyModes.disabled:
-            switchToDisabled()
         default:
-            switchToMixed()
+            modeChanging = false
         }
     }
 
     // MARK: - Steady Mode
 
     private func switchToSteady() {
-        allowUpdatingDevice = true
-
         modeChanging = false // This will allow to update keys to this mode
         steadyColor = HSB(hue: 0, saturation: 1, brightness: 1)
     }
@@ -298,22 +303,17 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
         }
     }
 
-    private func commonSwitch() {
-    }
-
     // MARK: - Color Shift
 
     private func switchToColorShift() {
-        allowUpdatingDevice = true
-
         gradientSliderMode = .gradient
         colorSelectors = [
             ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.88), position: 0),
             ColorSelector(rgb: .init(red: 1.0, green: 0xea/0xff, blue: 0.0), position: 0.32),
             ColorSelector(rgb: .init(red: 0.0, green: 0xcc/0xff, blue: 1.0), position: 0.76)
         ]
-        speed = 3000
         speedRange = 1000...30000
+        speed = 3000
         waveActive = false
         waveControl = .inward
         waveDirection = .xy
@@ -355,11 +355,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Breathing
 
     private func switchToBreathing() {
-        allowUpdatingDevice = true
-
         gradientSliderMode = .breathing
-        speed = 4000
         speedRange = 2000...30000
+        speed = 4000
         modeChanging = false // This will allow to update keys to this mode
         colorSelectors = [
             ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)
@@ -367,11 +365,13 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func handleBreathing(newSelectors: [ColorSelector], newSpeed: CGFloat) {
-        // TODO: Add missing values to the selector
         let baseTransitions = newSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
             .sorted(by: { $0.position < $1.position })
 
-        guard baseTransitions.count > 0 else { return }
+        guard baseTransitions.count > 0 else {
+            print("Cannot use latest transition from breathing mode because there are no transitions.")
+            return
+        }
 
         var transitions: [SSKeyEffect.SSPerKeyTransition] = []
 
@@ -408,8 +408,6 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
     // MARK: - Reactive
 
     private func switchToReactive() {
-        allowUpdatingDevice = true
-
         // These value changes will notify our listeners
         speedRange = 100...1000
         speed = 300
@@ -429,19 +427,9 @@ final class KeySettingsViewModel: BaseViewModel, UniDirectionalDataFlowType {
 
     // MARK: - Disabled
 
-    private func switchToDisabled() {
-        allowUpdatingDevice = true
-    }
-
     private func handleDisabled() {
         selectedKeyModels.forEach { keyViewModel in
             keyViewModel.ssKey.mode = .disabled
         }
-    }
-
-    // MARK: - Mixed
-
-    private func switchToMixed() {
-        allowUpdatingDevice = false
     }
 }

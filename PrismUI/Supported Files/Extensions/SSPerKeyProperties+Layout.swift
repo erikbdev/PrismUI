@@ -1,16 +1,16 @@
 //
-//  SSPerKeyProperties+Ext.swift
+//  SSPerKeyProperties+Layout.swift
 //  PrismUI
 //
 //  Created by Erik Bautista on 12/24/21.
 //
 
-import Foundation
 import PrismKit
 
 // Layout Map
 extension SSPerKeyProperties {
     // Not exactly equaling to 20 because of some emtpy spaces in between the keys
+
     static let perKeyMap: [[CGFloat]] = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],   // 20
         [1.25, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.75, 1, 1, 1, 1],   // 20
@@ -32,4 +32,15 @@ extension SSPerKeyProperties {
     ]
 
     static let perKeyGS65KeySize: CGFloat = 60.0
+
+    static func getKeyboardMap(for model: SSModels) -> [[CGFloat]] {
+        switch model {
+        case .perKey:
+            return perKeyMap
+        case .perKeyGS65:
+            return perKeyGS65KeyMap
+        default:
+            return []
+        }
+    }
 }

@@ -43,9 +43,9 @@ struct KeyView: View, Equatable {
     }
 
     var keyColor: Color {
-        let color = viewModel.getColor()
+        let rgb = viewModel.getColor()
 
-        return Color(red: color.red, green: color.green, blue: color.blue)
+        return rgb.color
     }
 
     static func == (lhs: KeyView, rhs: KeyView) -> Bool {
