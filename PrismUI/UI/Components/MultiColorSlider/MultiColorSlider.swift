@@ -38,7 +38,7 @@ struct MultiColorSlider: View {
 
     private var maxSelectors: Int {
         if backgroundType == .gradient {
-            return 16
+            return 14
         } else {
             return 4
         }
@@ -141,11 +141,10 @@ extension MultiColorSlider {
         // Avoid adding point near or on a selector
         let widthPercentage = point.x / geometry.size.width
         let widthRange = thumbSize / geometry.size.width
-        let nearSelectors = selectors.filter { selector in
-            let minRange = selector.position - widthRange
-            let maxRange = selector.position + widthRange
-            return widthPercentage >= minRange && widthPercentage <= maxRange
+        let nearSelectors = selectors.filter {
+            $0.position - widthRange <= widthPercentage && widthPercentage <= $0.position + widthRange
         }
+
         guard nearSelectors.count == 0 else { return }
 
         // Add selector
@@ -170,8 +169,13 @@ extension MultiColorSlider {
             dragOffsetWidth = 1.0
         }
 
-        if selectors[index].position != dragOffsetWidth {
-            selectors[index].position = dragOffsetWidth
+
+        // There are no selectors in range, so we can add a selector
+
+        if canSetSelector(at: dragOffsetWidth, exclude: index) {
+            if selectors[index].position != dragOffsetWidth {
+                selectors[index].position = dragOffsetWidth
+            }
         }
 
         guard selectors.count > 1 else { return }
@@ -206,6 +210,29 @@ extension MultiColorSlider {
 // Getters
 
 extension MultiColorSlider {
+
+    private func canSetSelector(at position: CGFloat, exclude index: Int?) -> Bool {
+        // Limit the percentage of one position only for one value.
+        // The device may brick if there are multiple transitions with
+        // the same position.
+
+        let bounds = 0.01
+
+        var filteredSelectors: [ColorSelector]
+
+        if let index = index {
+            filteredSelectors = selectors.enumerated().filter({ $0.offset != index }).map({ $0.element })
+        } else {
+            filteredSelectors = selectors
+        }
+
+        let selectorsWithinRange = filteredSelectors.filter {
+            $0.position - bounds <= position && position <= $0.position + bounds
+        }
+
+        return selectorsWithinRange.count == 0
+    }
+
     private func getThumbYOffset(size: CGSize, selector: ColorSelector) -> CGFloat {
         if selector.yOffset == -1 {
             return size.height - (thumbSize / 2) // Center Selector
