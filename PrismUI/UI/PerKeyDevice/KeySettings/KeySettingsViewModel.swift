@@ -356,7 +356,7 @@ extension KeySettingsViewModel {
 
     private func switchToBreathing() {
         gradientSliderMode = .breathing
-        speedRange = 2000...30000
+        speedRange = 1000...30000
         speed = 4000
         modeChanging = false // This will allow to update keys to this mode
         colorSelectors = [
