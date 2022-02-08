@@ -37,18 +37,14 @@ struct ColorHueSlider: View {
                     .gesture(
                         DragGesture()
                             .onChanged({ value in
-                                DispatchQueue.global(qos: .background).async {
-                                    let thumbRadius = proxy.size.width / 2
-                                    let maxHeight = proxy.size.height - thumbRadius * 2
+                                let thumbRadius = proxy.size.width / 2
+                                let maxHeight = proxy.size.height - thumbRadius * 2
 
-                                    let newPosition = (value.location.y - thumbRadius) / maxHeight
+                                let newPosition = (value.location.y - thumbRadius) / maxHeight
 
-                                    let clamped = min(1.0, max(0, newPosition))
+                                let clamped = min(1.0, max(0, newPosition))
 
-                                    DispatchQueue.main.async {
-                                        hsb.hue = clamped * 360.0
-                                    }
-                                }
+                                hsb.hue = clamped * 360.0
                             })
                     )
             }

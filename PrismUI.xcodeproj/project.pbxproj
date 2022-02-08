@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130877D927B1CBE400BA6FB3 /* PrismDriverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130877D827B1CBE400BA6FB3 /* PrismDriverService.swift */; };
 		13185A16277905AC00D881F5 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 13185A15277905AC00D881F5 /* CombineExt */; };
 		13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */; };
 		1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711326F3DAD300471846 /* PrismUIApp.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		130877D827B1CBE400BA6FB3 /* PrismDriverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismDriverService.swift; sourceTree = "<group>"; };
 		13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+CombineLatestMany.swift"; sourceTree = "<group>"; };
 		1319711026F3DAD300471846 /* PrismUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1319711326F3DAD300471846 /* PrismUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismUIApp.swift; sourceTree = "<group>"; };
@@ -126,6 +128,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130877D727B1CBB600BA6FB3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				130877D827B1CBE400BA6FB3 /* PrismDriverService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		1319710726F3DAD300471846 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +156,7 @@
 		1319711226F3DAD300471846 /* PrismUI */ = {
 			isa = PBXGroup;
 			children = (
+				130877D727B1CBB600BA6FB3 /* Services */,
 				13E513C527AA50DC003CE038 /* Domain */,
 				136D5F3526F4187D0003A744 /* Core */,
 				136D5F3626F419040003A744 /* UI */,
@@ -431,6 +442,7 @@
 				13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				133E49C427769071006B976B /* ColorManager.swift in Sources */,
+				130877D927B1CBE400BA6FB3 /* PrismDriverService.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
 				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
 				13E513C927AA83B9003CE038 /* DeviceRowView.swift in Sources */,

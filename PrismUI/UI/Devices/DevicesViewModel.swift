@@ -46,10 +46,11 @@ final class DevicesViewModel: BaseViewModel, UniDirectionalDataFlowType {
     }
 
     private func bindOutputs() {
-        managerService.deviceSubject
+        managerService.addDeviceSubject
             .eraseToAnyPublisher()
-            .filter { [weak self] in self?.devices.contains($0) == false }
-            .sink { [weak self] in self?.devices.append($0) }
+            .receive(on: RunLoop.main)
+            .filter { [devices] in !devices.contains($0) }
+            .sink { [unowned self] in self.devices.append($0) }
             .store(in: &cancellables)
     }
 }
