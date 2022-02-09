@@ -9,22 +9,20 @@ import SwiftUI
 import PrismKit
 
 struct DevicesView: View {
-    @ObservedObject var viewModel = DevicesViewModel()
+    @EnvironmentObject var prismDriverService: PrismDriverService
 
     var body: some View {
-        List(viewModel.devices, id: \.self) { device in
+        List(prismDriverService.devices, id: \.self) { device in
             DeviceRowView(device: device)
         }
         .listStyle(.sidebar)
         .frame(minWidth: 225)
-        .onAppear {
-            viewModel.apply(.onAppear)
-        }
     }
 }
 
 struct DeviceList_Previews: PreviewProvider {
     static var previews: some View {
         DevicesView()
+            .environmentObject(PrismDriverService())
     }
 }

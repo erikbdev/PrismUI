@@ -43,4 +43,106 @@ extension SSPerKeyProperties {
             return []
         }
     }
+
+    static func getKeyboardCodes(for model: SSModels) -> [[(UInt8, UInt8)]] {
+        switch model {
+        case .perKey:
+            return perKeyRegionKeyCodes
+        case .perKeyGS65:
+            return perKeyGS65RegionKeyCodes
+        default:
+            return []
+        }
+    }
 }
+
+// Generating Layout for a key
+
+extension SSPerKeyProperties {
+    public struct KeyLayout: Hashable {
+        let width: CGFloat
+        let height: CGFloat
+        let yOffset: CGFloat
+        let addExtraView: Bool
+    }
+
+    public static func getKeyLayout(for key: SSKey, model: SSModels, padding: CGFloat) -> KeyLayout? {
+        let keyCodes: [[(UInt8, UInt8)]] = SSPerKeyProperties.getKeyboardCodes(for: model)
+        let keyMaps: [[CGFloat]] = SSPerKeyProperties.getKeyboardMap(for: model)
+        let keySizes: CGFloat = model == .perKey ? SSPerKeyProperties.perKeyKeySize : SSPerKeyProperties.perKeyGS65KeySize
+
+        let rowIndex = keyCodes.firstIndex { column in
+            column.contains { (region, keycode) in
+                key.region == region && key.keycode == keycode
+            }
+        }
+
+        if let rowIndex = rowIndex {
+            let columnIndex = keyCodes[rowIndex].firstIndex { region, keycode in
+                key.region == region && key.keycode == keycode
+            }
+
+            if let columnIndex = columnIndex {
+                let keyMap = keyMaps[rowIndex][columnIndex]
+
+                let keyWidth = keySizes * keyMap
+                let keyHeight = (key.keycode == 0x57 || key.keycode == 0x56) ? keySizes * 2 + padding : keySizes
+                let addExtraView = key.keycode == 0x5A || key.keycode == 0x60
+
+                let keyYOffset: CGFloat
+                if model == .perKey {
+                    if key.keycode == 0x57 {
+                        keyYOffset = -keySizes - padding
+                    } else if rowIndex <= 3 && key.keycode != 0x56 {
+                        keyYOffset = keySizes + padding
+                    } else {
+                        keyYOffset = 0
+                    }
+                } else {
+                   keyYOffset = 0
+                }
+
+                return .init(width: keyWidth, height: keyHeight, yOffset: keyYOffset, addExtraView: addExtraView)
+            }
+        }
+
+        return nil
+    }
+}
+
+//    static func getKeys(for model: SSModels) -> [[KeyData]] {
+//        let keyMaps: [[CGFloat]] = getKeyboardMap(for: model)
+//        let keyCodes: [[(UInt8, UInt8)]] = getKeyboardCodes(for: model)
+//        let keySizes: CGFloat = model == .perKey ? perKeyKeySize : perKeyGS65KeySize
+//        let keyNames: [[String]] = model == .perKey ? perKeyNames : perKeyGS65KeyNames
+//
+//        var keyDataArray: [[KeyData]] = []
+//
+//        for i in keyCodes.enumerated() {
+//            let row = i.offset
+//            keyDataArray.append([])
+//            for j in i.element.enumerated() {
+//                let column = j.offset
+//
+//                let keyMap = keyMaps[row][column]
+//                let keyRegion = j.element.0
+//                let keyCode = j.element.1
+//                let keyWidth = keySizes * keyMap
+//                let keyHeight = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65KeySize : (keyCode == 0x57 || keyCode == 0x56) ? 108 : SSPerKeyProperties.perKeyKeySize
+//                let keyName = keyNames[row][column]
+//                let keyData = KeyData(ssKey: .init(name: keyName, region: keyRegion, keycode: keyCode),
+//                                      keySize: .init(width: keyWidth, height: keyHeight)
+//                )
+//
+//                keyDataArray[row].append(keyData)
+//            }
+//        }
+//
+//        return keyDataArray
+//    }
+//
+//    struct KeyData {
+//        let ssKey: SSKey
+//        let keySize: CGSize
+//    }
+

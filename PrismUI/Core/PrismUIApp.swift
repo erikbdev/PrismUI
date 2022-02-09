@@ -9,8 +9,6 @@ import SwiftUI
 
 @main
 struct PrismUIApp: App {
-    let persistenceController = PersistenceController.shared
-
     @StateObject var prismDriverService = PrismDriverService()
 
     var body: some Scene {

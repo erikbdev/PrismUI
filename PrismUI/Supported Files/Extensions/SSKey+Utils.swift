@@ -18,3 +18,9 @@ extension SSKey {
         effect == ssKey.effect
     }
 }
+
+extension SSKey: Identifiable {
+    public var id: UInt16 {
+        return (UInt16(region) << 8) | UInt16(keycode)
+    }
+}

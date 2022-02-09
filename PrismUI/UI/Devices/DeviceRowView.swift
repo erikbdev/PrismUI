@@ -9,7 +9,7 @@ import SwiftUI
 import PrismKit
 
 struct DeviceRowView: View {
-    @State var device: SSDevice
+    let device: SSDevice
 
     var body: some View {
         NavigationLink (

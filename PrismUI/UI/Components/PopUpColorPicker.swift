@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PopUpColorPicker: ViewModifier {
-    @State var showingColorPicker = false
     @Binding var hsb: HSB
+    @State var showingColorPicker = false
 
     func body(content: Content) -> some View {
         content
