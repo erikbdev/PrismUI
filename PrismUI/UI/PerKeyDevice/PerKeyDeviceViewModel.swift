@@ -85,17 +85,11 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
 
         input.touchedOutsideTriger
             .eraseToAnyPublisher()
-            .sink(receiveValue: { store.selected.removeAll() })
+            .filter { !store.selected.isEmpty }
+            .sink { store.selected.removeAll() }
             .store(in: &cancellables)
 
-//        store.$selected
-//            .eraseToAnyPublisher()
-//            .removeDuplicates()
-//            .map({ $0.count })
-//            .sink { print($0) }
-//            .store(in: &cancellables)
-
-        return Polished(cancellables: cancellables)
+        return .init(cancellables: cancellables)
     }
 
     static func make(extra: Extra) -> PerKeyDeviceViewModel {

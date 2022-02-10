@@ -13,7 +13,7 @@ struct PerKeyDeviceView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 24) {
-            KeySettingsView(viewModel: .make(extra: .init()))
+            KeySettingsView(viewModel: .make(extra: .init(selectedKeys: viewModel.output.selected.map({ viewModel.output.keys[$0.section][$0.item] }))))
                 .background(ColorManager.contentOverBackground)
                 .cornerRadius(12)
                 .padding(0)

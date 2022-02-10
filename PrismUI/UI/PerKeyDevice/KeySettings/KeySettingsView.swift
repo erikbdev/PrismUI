@@ -151,7 +151,7 @@ struct CustomButtonStyle: ButtonStyle {
 struct KeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            KeySettingsView(viewModel: .make(extra: .init()))
+            KeySettingsView(viewModel: .make(extra: .init(selectedKeys: [])))
         }
     }
 }
