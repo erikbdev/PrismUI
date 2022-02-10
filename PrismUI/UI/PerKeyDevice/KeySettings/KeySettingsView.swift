@@ -20,7 +20,7 @@ struct KeySettingsView: View {
                     .fontWeight(.bold)
 
                 HStack {
-                    Picker("Effect", selection: viewModel.input.selectedMode) {
+                    Picker("Effect", selection: .init(get: { viewModel.output.selectedMode } , set: { viewModel.input.selectedMode.wrappedValue = $0 })) {
                         ForEach(SSKey.SSKeyModes.allCases, id: \.self) {
                             if $0 == .mixed {
                                 if viewModel.output.selectedMode == .mixed {
@@ -37,7 +37,7 @@ struct KeySettingsView: View {
 
                     if viewModel.output.selectedMode == .steady {
                         RoundedRectangle(cornerRadius: 8)
-                            .modifier(PopUpColorPicker(hsb: viewModel.input.steadyColor))
+                            .modifier(PopUpColorPicker(hsb: .init(get: { viewModel.output.steadyColor }, set: { viewModel.input.steadyColor.wrappedValue = $0 })))
                             .frame(width: 56, height: 28)
                     }
                 }
@@ -48,7 +48,7 @@ struct KeySettingsView: View {
                     // Active colors
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .modifier(PopUpColorPicker(hsb: viewModel.input.activeColor))
+                            .modifier(PopUpColorPicker(hsb: .init(get: { viewModel.output.activeColor }, set: { viewModel.input.activeColor.wrappedValue = $0 })))
                             .frame(width: 56, height: 28)
 
                         Text("Active Color")
@@ -57,7 +57,7 @@ struct KeySettingsView: View {
                     HStack {
                         // Resting Color
                         RoundedRectangle(cornerRadius: 8)
-                            .modifier(PopUpColorPicker(hsb: viewModel.input.restColor))
+                            .modifier(PopUpColorPicker(hsb: .init(get: { viewModel.output.restColor }, set: { viewModel.input.restColor.wrappedValue = $0 })))
                             .frame(width: 56, height: 28)
 
                         Text("Rest Color")
@@ -67,27 +67,27 @@ struct KeySettingsView: View {
 
             // Multi Slider
             if viewModel.output.selectedMode == .colorShift || viewModel.output.selectedMode == .breathing {
-                MultiColorSlider(selectors: viewModel.input.colorSelectors,
-                                 backgroundType: viewModel.input.gradientSliderMode)
+                MultiColorSlider(selectors: .init(get: { viewModel.output.colorSelectors }, set: { viewModel.input.colorSelectors.wrappedValue = $0 }),
+                                 backgroundType: .init(get: { viewModel.output.gradientStyle }, set: { viewModel.input.gradientStyle.wrappedValue = $0 }))
                     .frame(height: 48)
             }
 
             // Speed Slider
 
             if viewModel.output.selectedMode == .colorShift || viewModel.output.selectedMode == .breathing || viewModel.output.selectedMode == .reactive {
-                Slider(value: viewModel.input.speed, in: viewModel.output.speedRange, label: {
+                Slider(value: .init(get: { viewModel.output.speed }, set: { viewModel.input.speed.wrappedValue = $0 }), in: viewModel.output.speedRange, label: {
                     Text("Speed")
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                 })
             }
 
             if viewModel.output.selectedMode == .colorShift {
-                Toggle("Wave Mode", isOn: viewModel.input.waveActive.animation())
+                Toggle("Wave Mode", isOn: .init(get: { viewModel.output.waveActive }, set: { viewModel.input.waveActive.wrappedValue = $0 }))
                     .font(.system(size: 12, weight: .bold, design: .rounded))
 
                 if viewModel.output.waveActive {
                     Button(action: {
-                        viewModel.input.showOriginTrigger.send()
+                        showOriginModal.toggle()
                     }){
                         Text("Set Origin")
                             .font(.headline)
@@ -95,48 +95,46 @@ struct KeySettingsView: View {
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.large)
-//                    .disabled(!viewModel.output.waveActive)
 
                     // Wave Direction
 
-                    Picker("Direction", selection: viewModel.input.waveDirection) {
+                    Picker("Direction", selection: .init(get: { viewModel.output.waveDirection }, set: { viewModel.input.waveDirection.wrappedValue = $0 }) ) {
                         ForEach(SSKeyEffect.SSPerKeyDirection.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .font(.system(size: 12, weight: .bold, design: .default))
                     .pickerStyle(.radioGroup)
-//                    .disabled(!viewModel.input.waveActive)
 
                     // Wave Control
 
-                    Picker("Control", selection: viewModel.input.waveControl) {
+                    Picker("Control", selection: .init(get: { viewModel.output.waveControl }, set: { viewModel.input.waveControl.wrappedValue = $0 }) ) {
                         ForEach(SSKeyEffect.SSPerKeyControl.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .font(.system(size: 12, weight: .bold, design: .default))
                     .pickerStyle(.segmented)
-//                    .disabled(!viewModel.input.waveActive)
 
                     // Pulse
 
-                    Slider(value: viewModel.input.pulse, in: 30...1000, label: {
+                    Slider(value: .init(get: { viewModel.output.pulse }, set: { viewModel.input.pulse.wrappedValue = $0 }), in: 30...1000, label: {
                         Text("Pulse")
                             .fontWeight(.bold)
                     })
-//                        .disabled(!viewModel.input.waveActive)
                 }
             }
         }
         .frame(width: 300)
         .padding()
         .onAppear(perform: {
-//            viewModel.apply(.onAppear)
+            viewModel.input.appearedTrigger.send()
         })
         .animation(.linear(duration: 0.15), value: viewModel.output.selectedMode)
+        .animation(.linear(duration: 0.15), value: viewModel.output.waveActive)
     }
 }
+
 
 struct CustomButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -153,8 +151,7 @@ struct CustomButtonStyle: ButtonStyle {
 struct KeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            KeySettingsView(viewModel: .init(keyModels: [], updateDevice: {}))
-//                .previewLayout(.sizeThatFits)
+            KeySettingsView(viewModel: .make(extra: .init()))
         }
     }
 }

@@ -8,7 +8,6 @@
 import Combine
 import PrismKit
 import Ricemill
-import CoreGraphics
 
 final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
     typealias Output = Store
@@ -24,7 +23,7 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
     }
 
     final class Store: StoredOutputType {
-        var keySettingsViewModel: KeySettingsViewModel = .make(extra: .init())
+//        var keySettingsViewModel: KeySettingsViewModel = .make(extra: .init())
         @Published var name: String = ""
         @Published var model: SSModels = .unknown
         @Published var keys: [[SSKey]] = []

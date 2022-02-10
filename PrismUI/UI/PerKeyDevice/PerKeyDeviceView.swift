@@ -8,23 +8,16 @@
 import SwiftUI
 import PrismKit
 
-
 struct PerKeyDeviceView: View {
     @StateObject var viewModel: PerKeyDeviceViewModel
 
     var body: some View {
         HStack(alignment: .top, spacing: 24) {
-            KeySettingsView(viewModel: viewModel.output.keySettingsViewModel)
+            KeySettingsView(viewModel: .make(extra: .init()))
                 .background(ColorManager.contentOverBackground)
                 .cornerRadius(12)
                 .padding(0)
                 .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
-
-//            KeySettingsView(viewModel: viewModel.keySettingsViewModel)
-//                .background(ColorManager.contentOverBackground)
-//                .cornerRadius(12)
-//                .padding(0)
-//                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
 
             PerKeyKeyboardView(model: viewModel.output.model,
                                items: viewModel.output.keys,
