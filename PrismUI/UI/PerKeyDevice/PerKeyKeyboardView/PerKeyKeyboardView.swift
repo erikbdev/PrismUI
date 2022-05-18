@@ -25,12 +25,25 @@ public struct PerKeyKeyboardView: View {
                         let index = IndexPath(item: column, section: row)
 
                         if let keyLayout = SSPerKeyProperties.getKeyLayout(for: item, model: model, padding: padding) {
-                            KeyView(item: item,
-                                    selected: selected.contains(index),
-                                    action: {
-                                        selectionCallback(index)
-                                    }
-                                )
+//                            KeyView(item: item,
+//                                    selected: selected.contains(index),
+//                                    action: {
+//                                        selectionCallback(index)
+//                                    }
+//                                )
+//                            .equatable()
+                            KeyView(
+                                viewModel: .make(
+                                    extra: .init(
+                                        ssKey: item,
+                                        tapGestureCallback: {
+                                            selectionCallback(index)
+                                        }
+                                    )
+                                ),
+                                selected: selected.contains(index)
+                            )
+                                .equatable()
                                 .frame(minWidth: keyLayout.width,
                                        minHeight: keyLayout.height,
                                        maxHeight: keyLayout.height)

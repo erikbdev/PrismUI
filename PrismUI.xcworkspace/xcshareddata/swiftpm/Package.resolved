@@ -11,10 +11,19 @@
         }
       },
       {
+        "package": "DisplayLink",
+        "repositoryURL": "https://github.com/timdonnelly/DisplayLink",
+        "state": {
+          "branch": "master",
+          "revision": "520ed874d5d3f6ee9bbb4e21d8edfe4af9baa19e",
+          "version": null
+        }
+      },
+      {
         "package": "Ricemill",
         "repositoryURL": "https://github.com/marty-suzuki/Ricemill",
         "state": {
-          "branch": "master",
+          "branch": null,
           "revision": "7ef039a0c79704194f4cc082171824106bedbc60",
           "version": null
         }

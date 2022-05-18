@@ -13,16 +13,18 @@ struct PerKeyDeviceView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 24) {
-            KeySettingsView(viewModel: .make(extra: .init(selectedKeys: viewModel.output.selected.map({ viewModel.output.keys[$0.section][$0.item] }))))
+            KeySettingsView(viewModel: viewModel.output.keySettingsViewModel)
                 .background(ColorManager.contentOverBackground)
                 .cornerRadius(12)
                 .padding(0)
                 .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
 
-            PerKeyKeyboardView(model: viewModel.output.model,
-                               items: viewModel.output.keys,
-                               selectionCallback: viewModel.input.selectionTrigger.send,
-                               selected: viewModel.output.selected)
+            PerKeyKeyboardView(
+                model: viewModel.output.model,
+                items: viewModel.output.keys,
+                selectionCallback: viewModel.input.selectionTrigger.send,
+                selected: viewModel.output.selected
+            )
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .gesture(
@@ -42,14 +44,6 @@ struct PerKeyDeviceView: View {
                             viewModel.input.draggedOutsideTrigger.send((start: value.startLocation, current: value.location))
                         })
                 )
-//                .overlay(
-//                    Rectangle()
-//                        .strokeBorder(style: StrokeStyle(lineWidth: 2))
-//                        .frame(width: viewModel.dragSelectionRect.width,
-//                               height: viewModel.dragSelectionRect.height)
-//                        .position(x: viewModel.dragSelectionRect.origin.x,
-//                                  y: viewModel.dragSelectionRect.origin.y)
-//                )
         }
         .padding(24)
         .fixedSize()
@@ -61,9 +55,9 @@ struct PerKeyDeviceView: View {
                 .contentShape(Rectangle())
                 .gesture(
                     TapGesture()
-                        .onEnded({ _ in
+                        .onEnded { _ in
                             viewModel.input.touchedOutsideTriger.send()
-                        })
+                        }
                 )
         )
         .navigationTitle(viewModel.output.name)

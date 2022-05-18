@@ -23,11 +23,18 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
     }
 
     final class Store: StoredOutputType {
-//        var keySettingsViewModel: KeySettingsViewModel = .make(extra: .init())
         @Published var name: String = ""
         @Published var model: SSModels = .unknown
         @Published var keys: [[SSKey]] = []
         @Published var selected: Set<IndexPath> = .init()
+
+        fileprivate let updateCallback = PassthroughSubject<KeyEffects, Never>()
+
+        lazy var keySettingsViewModel: KeySettingsViewModel = .make(
+            extra: .init(
+                updateCallback: { [unowned self] in updateCallback.send($0) }
+            )
+        )
     }
 
     struct Extra: ExtraType {
@@ -89,6 +96,98 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
             .sink { store.selected.removeAll() }
             .store(in: &cancellables)
 
+        store.$selected
+            .map({ $0.map({ index in store.keys[index.section][index.item] }) })
+            .removeDuplicates()
+            .sink { store.keySettingsViewModel.input.selectedKeys.send($0) }
+            .store(in: &cancellables)
+
+        store.updateCallback
+            .sink { effect in
+                store.selected.forEach { indexPath in
+                    var key = store.keys[indexPath.section][indexPath.item]
+
+                    switch effect {
+                    case .steady(color: let color):
+                        key.mode = .steady
+                        key.main = color.rgb
+                    case .colorShift(colorSelectors: let colorSelectors,
+                                     speed: let speed,
+                                     waveActive: let waveActive,
+                                     waveDirection: let waveDirection,
+                                     waveControl: let waveControl,
+                                     pulse: let pulse,
+                                     origin: let origin):
+
+                        let transitions = colorSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+                            .sorted(by: { $0.position < $1.position })
+
+                        guard transitions.count > 0 else { return }
+
+                        var effect = SSKeyEffect(id: 0, transitions: transitions)
+                        effect.start = transitions[0].color
+                        effect.duration = UInt16(speed)
+                        effect.waveActive = waveActive
+                        effect.direction = waveDirection
+                        effect.control = waveControl
+                        effect.origin = origin
+                        effect.pulse = UInt16(pulse)
+
+                        key.mode = .colorShift
+                        key.effect = effect
+                        key.main = effect.start
+
+                    case .breathing(colorSelectors: let colorSelectors, speed: let speed):
+                        let baseTransitions = colorSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+                            .sorted(by: { $0.position < $1.position })
+
+                        guard baseTransitions.count > 0 else {
+                            print("Cannot use latest transition from breathing mode because there are no transitions.")
+                            return
+                        }
+
+                        var transitions: [SSKeyEffect.SSPerKeyTransition] = []
+
+                        // We add the transitions from baseTransition and also add the half values between
+                        // each transition to have the breathing effect.
+                        for inx in baseTransitions.indices {
+                            let firstSelector = baseTransitions[inx]
+                            transitions.append(firstSelector)
+
+                            var halfDistance: CGFloat
+                            if (inx + 1) < baseTransitions.count {
+                                let secondSelector = baseTransitions[inx + 1]
+                                halfDistance = (secondSelector.position + firstSelector.position) / 2
+                            } else {
+                                halfDistance = (1 + firstSelector.position) / 2
+                            }
+
+                            transitions.append(SSKeyEffect.SSPerKeyTransition(color: RGB(), position: halfDistance))
+                        }
+
+                        var effect = SSKeyEffect(id: 0,
+                                                 transitions: transitions)
+
+                        effect.start = transitions[0].color
+                        effect.duration = UInt16(speed)
+
+                        key.mode = .breathing
+                        key.effect = effect
+                        key.main = effect.start
+                    case .reactive(activeColor: let activeColor, restColor: let restColor, speed: let speed):
+                        key.mode = .reactive
+                        key.main = restColor.rgb
+                        key.active = activeColor.rgb
+                        key.duration = UInt16(speed)
+                    case .disabled:
+                        key.mode = .disabled
+                    }
+
+                    store.keys[indexPath.section][indexPath.item] = key
+                }
+            }
+            .store(in: &cancellables)
+
         return .init(cancellables: cancellables)
     }
 
@@ -104,12 +203,6 @@ extension PerKeyDeviceViewModel {
         case single = "cursorarrow"
         case same = "cursorarrow.rays"
         case rectangle = "rectangle.dashed"
-    }
-}
-
-extension PerKeyDeviceViewModel {
-    private func handleSameKeySelection() {
-        
     }
 }
 
@@ -140,144 +233,3 @@ extension PerKeyDeviceViewModel {
         return keyViewModels
     }
 }
-
-//    // MARK: Input
-//    enum Input {
-//        case onAppear
-//        case onTouchOutside
-//        case onUpdateDevice
-//        case onDragOutside(start: CGPoint, currentPoint: CGPoint)
-//    }
-//
-//    func apply(_ input: Input) {
-//        switch input {
-//        case .onAppear:
-//            onAppearSubject.send()
-//        case .onUpdateDevice:
-//            onUpdateDeviceSubject.send()
-//        case .onTouchOutside:
-//            onTouchOutsideSubject.send()
-//        case .onDragOutside(start: let start, currentPoint: let currentPoint):
-//            onDragOutsideSubject.send((start, currentPoint))
-//        }
-//    }
-//
-//    enum MouseMode: String, CaseIterable {
-//        case single = "cursorarrow"
-//        case same = "cursorarrow.rays"
-//        case rectangle = "rectangle.dashed"
-//    }
-//
-//    @Published var mouseMode: MouseMode = .single
-//    @Published var dragSelectionRect = CGRect.zero
-//
-//    lazy var keySettingsViewModel = KeySettingsViewModel(keyModels: []) { [weak self ] in
-//        self?.apply(.onUpdateDevice)
-//    }
-//
-//    private(set) var keyboardMap: [[CGFloat]]
-//
-//    private let onAppearSubject = PassthroughSubject<Void, Never>()
-//    private let onUpdateDeviceSubject = PassthroughSubject<Void, Never>()
-//    private let onTouchOutsideSubject = PassthroughSubject<Void, Never>()
-//    private let onSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
-//    private let onDeSelectedSubject = PassthroughSubject<KeyViewModel, Never>()
-//    private let onDragOutsideSubject = PassthroughSubject<(CGPoint, CGPoint), Never>()
-//
-//    private var selectionArray = Set<KeyViewModel>() {
-//        didSet {
-//            updateSelectionChanges()
-//        }
-//    }
-//    private var keyModels = [KeyViewModel]()
-//    private var multipleSelectionChangesActive = false
-//
-//    override init(ssDevice: SSDevice) {
-//        self.keyboardMap = SSPerKeyProperties.getKeyboardMap(for: ssDevice.model)
-//        super.init(ssDevice: ssDevice)
-//        prepareKeyViewModel()
-//        bindInputs()
-//    }
-//
-//    private func bindInputs() {
-//        // When a view is selected, we get notified
-//        onSelectedSubject
-//            .sink { [weak self] keyViewModel in
-//                guard let `self` = self else { return }
-//                if self.mouseMode == .same && !self.multipleSelectionChangesActive {
-//                    self.handleSameKeySelection(keyModel: keyViewModel)
-//                }
-//
-//                if !self.selectionArray.contains(keyViewModel) {
-//                    self.selectionArray.insert(keyViewModel)
-//                }
-//            }
-//            .store(in: &cancellables)
-//
-//        onDeSelectedSubject
-//            .sink { [weak self] keyViewModel in
-//                guard let `self` = self else { return }
-//                if self.selectionArray.contains(keyViewModel) {
-//                    self.selectionArray.remove(keyViewModel)
-//                }
-//            }
-//            .store(in: &cancellables)
-//
-//        onAppearSubject.sink { _ in
-//            // TODO: Add onAppearSubject stuff
-//        }
-//        .store(in: &cancellables)
-//
-//        onUpdateDeviceSubject
-//            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.global(qos: .default))
-//            .sink { [weak self] _ in
-//                self?.update()
-//        }
-//        .store(in: &cancellables)
-//
-//        onTouchOutsideSubject.sink { [weak self] _ in
-//            self?.clearSelection()
-//        }
-//        .store(in: &cancellables)
-//
-//        onDragOutsideSubject
-//            .sink { [weak self] (start, current) in
-//                guard self?.mouseMode == .rectangle else { return }
-//                let width = abs(current.x - start.x)
-//                let height = abs(current.y - start.y)
-//
-//                var originX = start.x
-//                if current.x > start.x {
-//                    originX += width / 2
-//                } else {
-//                    originX -= width / 2
-//                }
-//
-//                var originY = start.y
-//                if current.y > start.y {
-//                    originY += height / 2
-//                } else {
-//                    originY -= height / 2
-//                }
-//
-//                self?.dragSelectionRect = CGRect(origin: CGPoint(x: originX, y: originY),
-//                                                size: CGSize(width: width, height: height))
-//            }
-//            .store(in: &cancellables)
-//    }
-//    // MARK: - Private Functions
-//
-//    private func update(force: Bool = true) {
-//        ssDevice.update(data: keyModels.map{ $0.ssKey }, force: force)
-//    }
-//
-//    private func handleSameKeySelection(keyModel: KeyViewModel) {
-//        multipleSelectionChangesActive = true
-//        for key in keyModels {
-//            let same = key.ssKey.sameEffect(as: keyModel.ssKey)
-//            if key.selected != same {
-//                key.selected = same
-//            }
-//        }
-//        multipleSelectionChangesActive = false
-//    }

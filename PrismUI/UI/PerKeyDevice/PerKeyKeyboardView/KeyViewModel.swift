@@ -8,20 +8,29 @@
 import PrismKit
 import Combine
 import Ricemill
+import DisplayLink
 
 final class KeyViewModel: Machine<KeyViewModel> {
     typealias Output = Store
 
     final class Input: BindableInputType {
+        let tappedTrigger = PassthroughSubject<Void, Never>()
     }
 
     final class Store: StoredOutputType {
-        @Published var selected = false
-        @Published var name = ""
+        @Published var name: String
+        @Published var color: RGB
+        fileprivate var position = 0.0
+
+        init(name: String, color: RGB) {
+            self.name = name
+            self.color = color
+        }
     }
 
     struct Extra: ExtraType {
         let ssKey: SSKey
+        let tapGestureCallback: () -> Void
     }
 
     static func polish(
@@ -29,23 +38,31 @@ final class KeyViewModel: Machine<KeyViewModel> {
         store: Store,
         extra: Extra
     ) -> Polished<Store> {
-        let cancellables: [AnyCancellable] = []
+        var cancellables: [AnyCancellable] = []
+
+        input.tappedTrigger
+            .sink {
+                extra.tapGestureCallback()
+            }
+            .store(in: &cancellables)
 
         return Polished(cancellables: cancellables)
     }
 
     static func make(extra: Extra) -> KeyViewModel {
-        KeyViewModel(input: Input(), store: Store(), extra: extra)
+        let store = Store(name: extra.ssKey.name, color: extra.ssKey.main)
+        return KeyViewModel(input: Input(), store: store, extra: extra)
     }
 }
 
 extension KeyViewModel: Hashable {
     static func == (lhs: KeyViewModel, rhs: KeyViewModel) -> Bool {
-        lhs.output.name == rhs.output.name
+        lhs.output.name == rhs.output.name && lhs.output.color == rhs.output.color
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(output.name)
+        hasher.combine(output.color)
     }
 }
 
