@@ -9,13 +9,6 @@ import Foundation
 import ComposableArchitecture
 import PrismKit
 
-struct DeviceModel: Equatable, Identifiable {
-    let id = UUID()
-    var name: String = ""
-    var image: String
-    var model: SSModels
-}
-
 struct DeviceState: Equatable {
 }
 
@@ -26,8 +19,6 @@ struct DeviceEnvironment {
     
 }
 
-let deviceReducer = Reducer<DeviceModel, DeviceAction, DeviceEnvironment> { device, action, environment in
-    enum TimerId {}
-
-    return .none
+let deviceReducer = Reducer<SSDevice, DeviceAction, DeviceEnvironment> { device, action, environment in
+        .none
 }

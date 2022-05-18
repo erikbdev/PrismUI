@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import PrismKit
 
 struct DevicesView: View {
     let store: Store<DevicesState, DevicesAction>
@@ -16,7 +17,7 @@ struct DevicesView: View {
             NavigationView {
                 List {
                     ForEachStore(
-                        self.store.scope(
+                        store.scope(
                             state: \.devices,
                             action: DevicesAction.device(id:action:)
                         ),
@@ -30,45 +31,46 @@ struct DevicesView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    Button(action: toggleSidebar, label: { // 1
+                    Button(action: { viewStore.send(.toggleSidebar) }, label: { // 1
                         Image(systemName: "sidebar.leading")
                     })
                 }
             }
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
         }
     }
-
-    private func toggleSidebar() { // 2
-        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-    }
 }
 
-struct DeviceList_Previews: PreviewProvider {
-    static var previews: some View {
-        DevicesView(
-            store: Store(
-                initialState: DevicesState(
-                    devices: [
-                        DeviceModel(
-                            name: "Test 1",
-                            image: "PerKeyKeyboard",
-                            model: .perKey
-                        ),
-                        DeviceModel(
-                            name: "Test 2",
-                            image: "PerKeyKeyboard",
-                            model: .perKeyGS65
-                        ),
-                        DeviceModel(
-                            name: "Test 3",
-                            image: "PerKeyKeyboard",
-                            model: .unknown
-                        )
-                    ]
-                ),
-                reducer: devicesReducer,
-                environment: DevicesEnvironment()
-            )
-        )
-    }
-}
+//struct DeviceList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DevicesView(
+//            store: Store(
+//                initialState: DevicesState(
+//                    devices: [
+//                        SSDevice(
+//                            name: "Test 1",
+//                            image: "PerKeyKeyboard",
+//                            model: .perKey
+//                        ),
+//                        SSDevice(
+//                            name: "Test 2",
+//                            image: "PerKeyKeyboard",
+//                            model: .perKeyGS65
+//                        ),
+//                        SSDevice(
+//                            name: "Test 3",
+//                            image: "PerKeyKeyboard",
+//                            model: .unknown
+//                        )
+//                    ]
+//                ),
+//                reducer: devicesReducer,
+//                environment: DevicesEnvironment(
+//                    devicesManager: .live
+//                )
+//            )
+//        )
+//    }
+//}

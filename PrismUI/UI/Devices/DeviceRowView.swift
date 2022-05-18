@@ -7,14 +7,15 @@
 
 import SwiftUI
 import ComposableArchitecture
+import PrismKit
 
 struct DeviceRowView: View {
-    let store: Store<DeviceModel, DeviceAction>
+    let store: Store<SSDevice, DeviceAction>
 
     var body: some View {
         WithViewStore(store) { viewStore in
             NavigationLink (
-                destination: DeviceRouter.route(device: viewStore.state),
+                destination: LazyView(DeviceRouter.route(ssDevice: viewStore.state)),
                 label: {
                     Image(viewStore.image)
                     Text(viewStore.name)

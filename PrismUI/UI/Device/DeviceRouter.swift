@@ -21,17 +21,4 @@ class DeviceRouter {
             Text("Model not found")
         }
     }
-
-    @ViewBuilder
-    static func route(device: DeviceModel) -> some View {
-        switch device.model {
-        case .perKey, .perKeyGS65:
-            Text("Per Key Model")
-        case .threeRegion:
-            Text("Model not supported")
-        case .unknown:
-            Text("Model not found")
-        }
-    }
-
 }
