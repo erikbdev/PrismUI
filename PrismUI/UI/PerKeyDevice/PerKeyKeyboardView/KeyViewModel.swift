@@ -8,7 +8,6 @@
 import PrismKit
 import Combine
 import Ricemill
-import DisplayLink
 
 final class KeyViewModel: Machine<KeyViewModel> {
     typealias Output = Store

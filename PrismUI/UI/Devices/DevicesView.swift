@@ -6,23 +6,69 @@
 //
 
 import SwiftUI
-import PrismKit
+import ComposableArchitecture
 
 struct DevicesView: View {
-    @EnvironmentObject var prismDriverService: PrismDriverService
+    let store: Store<DevicesState, DevicesAction>
 
     var body: some View {
-        List(prismDriverService.devices, id: \.self) { device in
-            DeviceRowView(device: device)
+        WithViewStore(store) { viewStore in
+            NavigationView {
+                List {
+                    ForEachStore(
+                        self.store.scope(
+                            state: \.devices,
+                            action: DevicesAction.device(id:action:)
+                        ),
+                        content: DeviceRowView.init(store:)
+                    )
+                }
+                .listStyle(.sidebar)
+                .frame(minWidth: 225)
+
+                Text("Welcome to PrismUI!")
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button(action: toggleSidebar, label: { // 1
+                        Image(systemName: "sidebar.leading")
+                    })
+                }
+            }
         }
-        .listStyle(.sidebar)
-        .frame(minWidth: 225)
+    }
+
+    private func toggleSidebar() { // 2
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 }
 
 struct DeviceList_Previews: PreviewProvider {
     static var previews: some View {
-        DevicesView()
-            .environmentObject(PrismDriverService())
+        DevicesView(
+            store: Store(
+                initialState: DevicesState(
+                    devices: [
+                        DeviceModel(
+                            name: "Test 1",
+                            image: "PerKeyKeyboard",
+                            model: .perKey
+                        ),
+                        DeviceModel(
+                            name: "Test 2",
+                            image: "PerKeyKeyboard",
+                            model: .perKeyGS65
+                        ),
+                        DeviceModel(
+                            name: "Test 3",
+                            image: "PerKeyKeyboard",
+                            model: .unknown
+                        )
+                    ]
+                ),
+                reducer: devicesReducer,
+                environment: DevicesEnvironment()
+            )
+        )
     }
 }
