@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
-import PrismKit
+import PrismClient
 
 struct DevicesView: View {
     let store: Store<DevicesState, DevicesAction>
@@ -49,7 +49,7 @@ struct DevicesView: View {
 //            store: Store(
 //                initialState: DevicesState(
 //                    devices: [
-//                        SSDevice(
+//                        Device(
 //                            name: "Test 1",
 //                            image: "PerKeyKeyboard",
 //                            model: .perKey

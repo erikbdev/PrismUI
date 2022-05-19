@@ -27,14 +27,40 @@
 		137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */; };
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
 		137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B872627779CE3003A4953 /* View+OnTouch.swift */; };
-		1382F0012835A538006A3636 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1382F0002835A538006A3636 /* Interface.swift */; };
-		1382F0032835A551006A3636 /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1382F0022835A551006A3636 /* Live.swift */; };
 		1382F0052835A736006A3636 /* PrismUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1382F0042835A736006A3636 /* PrismUICore.swift */; };
 		1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */; };
 		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
 		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
 		13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744E276D6E0100F6287F /* KeySettingsView.swift */; };
-		13B5B92F28347DAD00D205FA /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 13B5B92E28347DAD00D205FA /* ComposableArchitecture */; };
+		13A9933228362293001DB03A /* PrismClient.docc in Sources */ = {isa = PBXBuildFile; fileRef = 13A9933128362293001DB03A /* PrismClient.docc */; };
+		13A9933328362293001DB03A /* PrismClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A9933028362293001DB03A /* PrismClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13A9933E283622C6001DB03A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932728362276001DB03A /* IOKit.framework */; };
+		13A9934B283627F8001DB03A /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 13A9934A283627F8001DB03A /* ComposableArchitecture */; };
+		13A9934C2836287F001DB03A /* PrismClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932E28362293001DB03A /* PrismClient.framework */; };
+		13A9934D2836287F001DB03A /* PrismClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932E28362293001DB03A /* PrismClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		13A9936D283628B6001DB03A /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99352283628B6001DB03A /* Controller.swift */; };
+		13A9936E283628B6001DB03A /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99353283628B6001DB03A /* Properties.swift */; };
+		13A9936F283628B6001DB03A /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99354283628B6001DB03A /* Device.swift */; };
+		13A99370283628B6001DB03A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99355283628B6001DB03A /* Models.swift */; };
+		13A99371283628B6001DB03A /* PerKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99357283628B6001DB03A /* PerKeyController.swift */; };
+		13A99372283628B6001DB03A /* PerKeyProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99358283628B6001DB03A /* PerKeyProperties.swift */; };
+		13A99373283628B6001DB03A /* KeyEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99359283628B6001DB03A /* KeyEffect.swift */; };
+		13A99374283628B6001DB03A /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935A283628B6001DB03A /* Key.swift */; };
+		13A99375283628B6001DB03A /* PerKeyProperties+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */; };
+		13A99376283628B6001DB03A /* DeviceManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935D283628B6001DB03A /* DeviceManagerInterface.swift */; };
+		13A99377283628B6001DB03A /* DeviceManagerMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935E283628B6001DB03A /* DeviceManagerMocks.swift */; };
+		13A99378283628B6001DB03A /* DeviceManagerLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935F283628B6001DB03A /* DeviceManagerLive.swift */; };
+		13A99379283628B7001DB03A /* DeviceScannerLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99361283628B6001DB03A /* DeviceScannerLive.swift */; };
+		13A9937A283628B7001DB03A /* DeviceScannerMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99362283628B6001DB03A /* DeviceScannerMocks.swift */; };
+		13A9937B283628B7001DB03A /* DeviceScannerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99363283628B6001DB03A /* DeviceScannerInterface.swift */; };
+		13A9937C283628B7001DB03A /* RawDeviceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99365283628B6001DB03A /* RawDeviceProtocols.swift */; };
+		13A9937D283628B7001DB03A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99366283628B6001DB03A /* Log.swift */; };
+		13A9937E283628B7001DB03A /* RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99367283628B6001DB03A /* RGB.swift */; };
+		13A9937F283628B7001DB03A /* RGB+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99368283628B6001DB03A /* RGB+Utils.swift */; };
+		13A99380283628B7001DB03A /* IOHIDDevice+FeatureReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99369283628B6001DB03A /* IOHIDDevice+FeatureReport.swift */; };
+		13A99381283628B7001DB03A /* IOHIDManager+Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9936A283628B6001DB03A /* IOHIDManager+Configure.swift */; };
+		13A99382283628B7001DB03A /* IOHIDDevice+GetProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9936B283628B6001DB03A /* IOHIDDevice+GetProperty.swift */; };
+		13A99383283628B7001DB03A /* IOHIDDevice+Write.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */; };
 		13B5B933283484B400D205FA /* DevicesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B5B932283484B400D205FA /* DevicesCore.swift */; };
 		13B5B9352834930F00D205FA /* DeviceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B5B9342834930F00D205FA /* DeviceCore.swift */; };
 		13B5B939283493CE00D205FA /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B5B938283493CE00D205FA /* DeviceView.swift */; };
@@ -51,22 +77,30 @@
 		13D6594826F44D7300C1D39A /* SSDevice+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* SSDevice+Image.swift */; };
 		13D6594A26F460BB00C1D39A /* PerKeyDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
-		13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; };
-		13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13DFD04426F3DBA200F4C273 /* PrismKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2D804275880CC0014883B /* KeyViewModel.swift */; };
 		13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C027AA4849003CE038 /* PopUpColorPicker.swift */; };
 		13E513C927AA83B9003CE038 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C827AA83B9003CE038 /* DeviceRowView.swift */; };
 		13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		13A9934E2836287F001DB03A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1319710826F3DAD300471846 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13A9932D28362293001DB03A;
+			remoteInfo = PrismClient;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		13DFD04726F3DBA200F4C273 /* Embed Frameworks */ = {
+		13A993502836287F001DB03A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				13DFD04626F3DBA200F4C273 /* PrismKit.framework in Embed Frameworks */,
+				13A9934D2836287F001DB03A /* PrismClient.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,13 +128,38 @@
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		137117532762F4B000B5BABF /* UniDirectionalDataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniDirectionalDataFlow.swift; sourceTree = "<group>"; };
 		137B872627779CE3003A4953 /* View+OnTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTouch.swift"; sourceTree = "<group>"; };
-		1382F0002835A538006A3636 /* Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
-		1382F0022835A551006A3636 /* Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
 		1382F0042835A736006A3636 /* PrismUICore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismUICore.swift; sourceTree = "<group>"; };
 		1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSlider.swift; sourceTree = "<group>"; };
 		13A39B6426F7C55800EA2DEE /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
 		13A6744E276D6E0100F6287F /* KeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsView.swift; sourceTree = "<group>"; };
+		13A9932728362276001DB03A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		13A9932E28362293001DB03A /* PrismClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PrismClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		13A9933028362293001DB03A /* PrismClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrismClient.h; sourceTree = "<group>"; };
+		13A9933128362293001DB03A /* PrismClient.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PrismClient.docc; sourceTree = "<group>"; };
+		13A99352283628B6001DB03A /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
+		13A99353283628B6001DB03A /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
+		13A99354283628B6001DB03A /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		13A99355283628B6001DB03A /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		13A99357283628B6001DB03A /* PerKeyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerKeyController.swift; sourceTree = "<group>"; };
+		13A99358283628B6001DB03A /* PerKeyProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerKeyProperties.swift; sourceTree = "<group>"; };
+		13A99359283628B6001DB03A /* KeyEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEffect.swift; sourceTree = "<group>"; };
+		13A9935A283628B6001DB03A /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PerKeyProperties+Constants.swift"; sourceTree = "<group>"; };
+		13A9935D283628B6001DB03A /* DeviceManagerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManagerInterface.swift; sourceTree = "<group>"; };
+		13A9935E283628B6001DB03A /* DeviceManagerMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManagerMocks.swift; sourceTree = "<group>"; };
+		13A9935F283628B6001DB03A /* DeviceManagerLive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManagerLive.swift; sourceTree = "<group>"; };
+		13A99361283628B6001DB03A /* DeviceScannerLive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceScannerLive.swift; sourceTree = "<group>"; };
+		13A99362283628B6001DB03A /* DeviceScannerMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceScannerMocks.swift; sourceTree = "<group>"; };
+		13A99363283628B6001DB03A /* DeviceScannerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceScannerInterface.swift; sourceTree = "<group>"; };
+		13A99365283628B6001DB03A /* RawDeviceProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawDeviceProtocols.swift; sourceTree = "<group>"; };
+		13A99366283628B6001DB03A /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		13A99367283628B6001DB03A /* RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGB.swift; sourceTree = "<group>"; };
+		13A99368283628B6001DB03A /* RGB+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGB+Utils.swift"; sourceTree = "<group>"; };
+		13A99369283628B6001DB03A /* IOHIDDevice+FeatureReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+FeatureReport.swift"; sourceTree = "<group>"; };
+		13A9936A283628B6001DB03A /* IOHIDManager+Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDManager+Configure.swift"; sourceTree = "<group>"; };
+		13A9936B283628B6001DB03A /* IOHIDDevice+GetProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+GetProperty.swift"; sourceTree = "<group>"; };
+		13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+Write.swift"; sourceTree = "<group>"; };
 		13B5B932283484B400D205FA /* DevicesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesCore.swift; sourceTree = "<group>"; };
 		13B5B9342834930F00D205FA /* DeviceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCore.swift; sourceTree = "<group>"; };
 		13B5B938283493CE00D205FA /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
@@ -116,7 +175,6 @@
 		13D6594726F44D7300C1D39A /* SSDevice+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSDevice+Image.swift"; sourceTree = "<group>"; };
 		13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceView.swift; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
-		13DFD04426F3DBA200F4C273 /* PrismKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PrismKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E2D804275880CC0014883B /* KeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyViewModel.swift; sourceTree = "<group>"; };
 		13E513C027AA4849003CE038 /* PopUpColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpColorPicker.swift; sourceTree = "<group>"; };
 		13E513C827AA83B9003CE038 /* DeviceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
@@ -130,10 +188,18 @@
 			files = (
 				1372CC9C27724F110093171A /* OrderedCollections in Frameworks */,
 				130877E027B1F6DD00BA6FB3 /* Ricemill in Frameworks */,
-				13B5B92F28347DAD00D205FA /* ComposableArchitecture in Frameworks */,
 				13185A16277905AC00D881F5 /* CombineExt in Frameworks */,
-				13DFD04526F3DBA200F4C273 /* PrismKit.framework in Frameworks */,
 				13D3EFCE27A8CC1000B2B15F /* Then in Frameworks */,
+				13A9934C2836287F001DB03A /* PrismClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13A9932B28362293001DB03A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13A9934B283627F8001DB03A /* ComposableArchitecture in Frameworks */,
+				13A9933E283622C6001DB03A /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,7 +209,6 @@
 		130877D727B1CBB600BA6FB3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				1382EFFF2835A504006A3636 /* PrismDeviceManager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -152,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				1319711226F3DAD300471846 /* PrismUI */,
+				13A9932F28362293001DB03A /* PrismClient */,
 				1319711126F3DAD300471846 /* Products */,
 				13DFD04326F3DBA200F4C273 /* Frameworks */,
 			);
@@ -161,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				1319711026F3DAD300471846 /* PrismUI.app */,
+				13A9932E28362293001DB03A /* PrismClient.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,15 +287,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		1382EFFF2835A504006A3636 /* PrismDeviceManager */ = {
-			isa = PBXGroup;
-			children = (
-				1382F0002835A538006A3636 /* Interface.swift */,
-				1382F0022835A551006A3636 /* Live.swift */,
-			);
-			path = PrismDeviceManager;
-			sourceTree = "<group>";
-		};
 		1398CDBA2772FE9F005A0C4E /* MultiColorSlider */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +303,78 @@
 				13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */,
 			);
 			path = KeySettings;
+			sourceTree = "<group>";
+		};
+		13A9932F28362293001DB03A /* PrismClient */ = {
+			isa = PBXGroup;
+			children = (
+				13A99351283628B6001DB03A /* Model */,
+				13A9935C283628B6001DB03A /* DeviceManager */,
+				13A99360283628B6001DB03A /* DeviceScanner */,
+				13A99364283628B6001DB03A /* Utils */,
+				13A9933028362293001DB03A /* PrismClient.h */,
+				13A9933128362293001DB03A /* PrismClient.docc */,
+			);
+			path = PrismClient;
+			sourceTree = "<group>";
+		};
+		13A99351283628B6001DB03A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				13A99352283628B6001DB03A /* Controller.swift */,
+				13A99353283628B6001DB03A /* Properties.swift */,
+				13A99354283628B6001DB03A /* Device.swift */,
+				13A99355283628B6001DB03A /* Models.swift */,
+				13A99356283628B6001DB03A /* PerKeyKeyboard */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		13A99356283628B6001DB03A /* PerKeyKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				13A99357283628B6001DB03A /* PerKeyController.swift */,
+				13A99358283628B6001DB03A /* PerKeyProperties.swift */,
+				13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */,
+				13A9935A283628B6001DB03A /* Key.swift */,
+				13A99359283628B6001DB03A /* KeyEffect.swift */,
+			);
+			path = PerKeyKeyboard;
+			sourceTree = "<group>";
+		};
+		13A9935C283628B6001DB03A /* DeviceManager */ = {
+			isa = PBXGroup;
+			children = (
+				13A9935D283628B6001DB03A /* DeviceManagerInterface.swift */,
+				13A9935F283628B6001DB03A /* DeviceManagerLive.swift */,
+				13A9935E283628B6001DB03A /* DeviceManagerMocks.swift */,
+			);
+			path = DeviceManager;
+			sourceTree = "<group>";
+		};
+		13A99360283628B6001DB03A /* DeviceScanner */ = {
+			isa = PBXGroup;
+			children = (
+				13A99363283628B6001DB03A /* DeviceScannerInterface.swift */,
+				13A99361283628B6001DB03A /* DeviceScannerLive.swift */,
+				13A99362283628B6001DB03A /* DeviceScannerMocks.swift */,
+			);
+			path = DeviceScanner;
+			sourceTree = "<group>";
+		};
+		13A99364283628B6001DB03A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				13A99365283628B6001DB03A /* RawDeviceProtocols.swift */,
+				13A99366283628B6001DB03A /* Log.swift */,
+				13A99367283628B6001DB03A /* RGB.swift */,
+				13A99368283628B6001DB03A /* RGB+Utils.swift */,
+				13A99369283628B6001DB03A /* IOHIDDevice+FeatureReport.swift */,
+				13A9936A283628B6001DB03A /* IOHIDManager+Configure.swift */,
+				13A9936B283628B6001DB03A /* IOHIDDevice+GetProperty.swift */,
+				13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		13C8CA8227B3A058000D991E /* PerKeyKeyboardView */ = {
@@ -302,7 +432,7 @@
 		13DFD04326F3DBA200F4C273 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				13DFD04426F3DBA200F4C273 /* PrismKit.framework */,
+				13A9932728362276001DB03A /* IOKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -355,6 +485,17 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		13A9932928362293001DB03A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13A9933328362293001DB03A /* PrismClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		1319710F26F3DAD300471846 /* PrismUI */ = {
 			isa = PBXNativeTarget;
@@ -363,11 +504,12 @@
 				1319710C26F3DAD300471846 /* Sources */,
 				1319710D26F3DAD300471846 /* Frameworks */,
 				1319710E26F3DAD300471846 /* Resources */,
-				13DFD04726F3DBA200F4C273 /* Embed Frameworks */,
+				13A993502836287F001DB03A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				13A9934F2836287F001DB03A /* PBXTargetDependency */,
 			);
 			name = PrismUI;
 			packageProductDependencies = (
@@ -375,11 +517,31 @@
 				13185A15277905AC00D881F5 /* CombineExt */,
 				13D3EFCD27A8CC1000B2B15F /* Then */,
 				130877DF27B1F6DD00BA6FB3 /* Ricemill */,
-				13B5B92E28347DAD00D205FA /* ComposableArchitecture */,
 			);
 			productName = PrismSwiftUI;
 			productReference = 1319711026F3DAD300471846 /* PrismUI.app */;
 			productType = "com.apple.product-type.application";
+		};
+		13A9932D28362293001DB03A /* PrismClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13A9933828362293001DB03A /* Build configuration list for PBXNativeTarget "PrismClient" */;
+			buildPhases = (
+				13A9932928362293001DB03A /* Headers */,
+				13A9932A28362293001DB03A /* Sources */,
+				13A9932B28362293001DB03A /* Frameworks */,
+				13A9932C28362293001DB03A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PrismClient;
+			packageProductDependencies = (
+				13A9934A283627F8001DB03A /* ComposableArchitecture */,
+			);
+			productName = PrismClient;
+			productReference = 13A9932E28362293001DB03A /* PrismClient.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -392,6 +554,9 @@
 				TargetAttributes = {
 					1319710F26F3DAD300471846 = {
 						CreatedOnToolsVersion = 12.5.1;
+					};
+					13A9932D28362293001DB03A = {
+						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
 			};
@@ -410,13 +575,14 @@
 				13185A14277905AC00D881F5 /* XCRemoteSwiftPackageReference "CombineExt" */,
 				13D3EFCC27A8CC1000B2B15F /* XCRemoteSwiftPackageReference "Then" */,
 				130877DE27B1F6DD00BA6FB3 /* XCRemoteSwiftPackageReference "Ricemill" */,
-				13B5B92D28347DAD00D205FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				13A99349283627F8001DB03A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 1319711126F3DAD300471846 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				1319710F26F3DAD300471846 /* PrismUI */,
+				13A9932D28362293001DB03A /* PrismClient */,
 			);
 		};
 /* End PBXProject section */
@@ -429,6 +595,13 @@
 				133E49C22776904C006B976B /* Colors.xcassets in Resources */,
 				1319711B26F3DAD400471846 /* Preview Assets.xcassets in Resources */,
 				1319711826F3DAD400471846 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13A9932C28362293001DB03A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +624,6 @@
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				1305FC2F27B4F27D004DBDE6 /* KeyEffects.swift in Sources */,
 				13C8CA8427B3A078000D991E /* PerKeyKeyboardView.swift in Sources */,
-				1382F0032835A551006A3636 /* Live.swift in Sources */,
 				13B5B9352834930F00D205FA /* DeviceCore.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */,
@@ -475,14 +647,52 @@
 				13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */,
 				13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */,
 				13A67444276D44C800F6287F /* HSB.swift in Sources */,
-				1382F0012835A538006A3636 /* Interface.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */,
 				13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */,
 				137117542762F4B000B5BABF /* UniDirectionalDataFlow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		13A9932A28362293001DB03A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13A99375283628B6001DB03A /* PerKeyProperties+Constants.swift in Sources */,
+				13A9937A283628B7001DB03A /* DeviceScannerMocks.swift in Sources */,
+				13A9937D283628B7001DB03A /* Log.swift in Sources */,
+				13A9937B283628B7001DB03A /* DeviceScannerInterface.swift in Sources */,
+				13A99373283628B6001DB03A /* KeyEffect.swift in Sources */,
+				13A99383283628B7001DB03A /* IOHIDDevice+Write.swift in Sources */,
+				13A99380283628B7001DB03A /* IOHIDDevice+FeatureReport.swift in Sources */,
+				13A99381283628B7001DB03A /* IOHIDManager+Configure.swift in Sources */,
+				13A9936E283628B6001DB03A /* Properties.swift in Sources */,
+				13A99377283628B6001DB03A /* DeviceManagerMocks.swift in Sources */,
+				13A9933228362293001DB03A /* PrismClient.docc in Sources */,
+				13A99376283628B6001DB03A /* DeviceManagerInterface.swift in Sources */,
+				13A9936D283628B6001DB03A /* Controller.swift in Sources */,
+				13A9937C283628B7001DB03A /* RawDeviceProtocols.swift in Sources */,
+				13A99378283628B6001DB03A /* DeviceManagerLive.swift in Sources */,
+				13A99371283628B6001DB03A /* PerKeyController.swift in Sources */,
+				13A9937F283628B7001DB03A /* RGB+Utils.swift in Sources */,
+				13A9937E283628B7001DB03A /* RGB.swift in Sources */,
+				13A99374283628B6001DB03A /* Key.swift in Sources */,
+				13A9936F283628B6001DB03A /* Device.swift in Sources */,
+				13A99370283628B6001DB03A /* Models.swift in Sources */,
+				13A99379283628B7001DB03A /* DeviceScannerLive.swift in Sources */,
+				13A99372283628B6001DB03A /* PerKeyProperties.swift in Sources */,
+				13A99382283628B7001DB03A /* IOHIDDevice+GetProperty.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		13A9934F2836287F001DB03A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13A9932D28362293001DB03A /* PrismClient */;
+			targetProxy = 13A9934E2836287F001DB03A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1319712326F3DAD400471846 /* Debug */ = {
@@ -603,6 +813,7 @@
 		1319712626F3DAD400471846 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PrismUI/PrismUI.entitlements;
@@ -626,6 +837,7 @@
 		1319712726F3DAD400471846 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PrismUI/PrismUI.entitlements;
@@ -646,6 +858,70 @@
 			};
 			name = Release;
 		};
+		13A9933928362293001DB03A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		13A9933A28362293001DB03A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.errorerrorerror.PrismClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -663,6 +939,15 @@
 			buildConfigurations = (
 				1319712626F3DAD400471846 /* Debug */,
 				1319712726F3DAD400471846 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		13A9933828362293001DB03A /* Build configuration list for PBXNativeTarget "PrismClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13A9933928362293001DB03A /* Debug */,
+				13A9933A28362293001DB03A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -702,12 +987,12 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		13B5B92D28347DAD00D205FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+		13A99349283627F8001DB03A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		13D3EFCC27A8CC1000B2B15F /* XCRemoteSwiftPackageReference "Then" */ = {
@@ -736,9 +1021,9 @@
 			package = 1372CC9A27724F110093171A /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
 		};
-		13B5B92E28347DAD00D205FA /* ComposableArchitecture */ = {
+		13A9934A283627F8001DB03A /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 13B5B92D28347DAD00D205FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			package = 13A99349283627F8001DB03A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
 		};
 		13D3EFCD27A8CC1000B2B15F /* Then */ = {

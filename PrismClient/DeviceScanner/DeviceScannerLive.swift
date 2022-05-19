@@ -7,16 +7,15 @@
 
 import Combine
 import ComposableArchitecture
-import PrismKit
 import IOKit.hid
 
-extension PrismDeviceManager {
+public extension DeviceScanner {
     static let live: Self = {
         var manager = Self()
 
         manager.create = { id, loop, loopMode in
             Effect.run { subscriber in
-                let delegate = PrismDeviceManagerDelegate(subscriber)
+                let delegate = DeviceScannerDelegate(subscriber)
                 let manager = IOHIDManagerCreate(with: delegate)
 
                 IOHIDManagerScheduleWithRunLoop(manager, loop, loopMode.rawValue)
@@ -44,49 +43,53 @@ extension PrismDeviceManager {
 
         manager.scan = { id in
             .fireAndForget {
-                dependencies[id]?.manager.setDeviceMatchingMultiple(products: SSModels.allCases.map({ $0.productInformation() }))
+                dependencies[id]?.manager.setDeviceMatchingMultiple(products: Models.allCases.map({ $0.productInformation() }))
                 dependencies[id]?.manager.open()
             }
         }
 
-        manager.retrieveDevices = { id in
-            if let devices = dependencies[id]?.manager.copyDevices() as? Set<IOHIDDevice> {
-                return devices
-            }
-            return nil
-        }
+//        manager.retrieveDevices = { id in
+//            if let devices = dependencies[id]?.manager.copyDevices() as? Set<IOHIDDevice> {
+//                return devices.compactMap { try? Device(hidDevice: $0) }
+//            }
+//            return nil
+//        }
 
         return manager
     }()
 }
 
 private struct Dependencies {
-    let delegate: PrismDeviceManagerDelegate
+    let delegate: DeviceScannerDelegate
     let manager: IOHIDManager
-    let subscriber: Effect<PrismDeviceManager.Action, Never>.Subscriber
+    let subscriber: Effect<DeviceScanner.Event, Never>.Subscriber
 }
 
 private var dependencies: [AnyHashable: Dependencies] = [:]
 
-private class PrismDeviceManagerDelegate: NSObject {
-    let subscriber: Effect<PrismDeviceManager.Action, Never>.Subscriber
+private class DeviceScannerDelegate: NSObject {
+    let subscriber: Effect<DeviceScanner.Event, Never>.Subscriber
 
-    init(_ subscriber: Effect<PrismDeviceManager.Action, Never>.Subscriber) {
+    init(_ subscriber: Effect<DeviceScanner.Event, Never>.Subscriber) {
         self.subscriber = subscriber
     }
 
-    var matchingCallback: IOHIDDeviceCallback = { context, _, _, device in
-        let this = unsafeBitCast(context, to: PrismDeviceManagerDelegate.self)
-        this.subscriber.send(.didDiscover(device, error: nil))
+    var matchingCallback: IOHIDDeviceCallback = { context, _, _, hidDevice in
+        let this = unsafeBitCast(context, to: DeviceScannerDelegate.self)
+        if let device = try? Device(hidDevice: hidDevice) {
+            this.subscriber.send(.didDiscover(device, error: nil))
+        }
     }
 
-    var removalCallback: IOHIDDeviceCallback = { context, _, _, device in
-        let this = unsafeBitCast(context, to: PrismDeviceManagerDelegate.self)
-        this.subscriber.send(.didRemove(device, error: nil))
+    var removalCallback: IOHIDDeviceCallback = { context, _, _, hidDevice in
+        let this = unsafeBitCast(context, to: DeviceScannerDelegate.self)
+        if let device = try? Device(hidDevice: hidDevice) {
+            this.subscriber.send(.didRemove(device, error: nil))
+        }
     }
 }
 
-private func IOHIDManagerCreate(with delegate: PrismDeviceManagerDelegate) -> IOHIDManager {
+private func IOHIDManagerCreate(with delegate: DeviceScannerDelegate) -> IOHIDManager {
     let manager = IOKit.IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
 
     let context = unsafeBitCast(delegate, to: UnsafeMutableRawPointer.self)

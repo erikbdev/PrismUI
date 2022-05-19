@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PrismKit
+import PrismClient
 
 struct KeyView: View, Equatable {
     static func == (lhs: KeyView, rhs: KeyView) -> Bool {

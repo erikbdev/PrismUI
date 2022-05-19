@@ -5,13 +5,13 @@
 //  Created by Erik Bautista on 9/17/21.
 //
 
-import PrismKit
+import PrismClient
 import SwiftUI
 import ComposableArchitecture
 
 class DeviceRouter {
     @ViewBuilder
-    static func route(ssDevice: SSDevice) -> some View {
+    static func route(ssDevice: Device) -> some View {
         switch ssDevice.model {
         case .perKey, .perKeyGS65:
             PerKeyDeviceView(viewModel: .make(extra: .init(device: ssDevice)))

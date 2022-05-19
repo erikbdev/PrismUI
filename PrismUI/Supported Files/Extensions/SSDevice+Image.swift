@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import PrismKit
+import PrismClient
 
-extension SSDevice {
+extension Device {
     var image: String {
         switch model {
         case .perKey, .perKeyGS65:

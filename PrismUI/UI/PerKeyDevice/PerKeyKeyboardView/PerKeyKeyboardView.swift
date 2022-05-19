@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import PrismKit
+import PrismClient
 
 public struct PerKeyKeyboardView: View {
-    let model: SSModels
-    let items: [[SSKey]]
+    let model: Models
+    let items: [[Key]]
     let selectionCallback: (IndexPath) -> Void
     let selected: Set<IndexPath>
 
@@ -24,7 +24,7 @@ public struct PerKeyKeyboardView: View {
                         let item = items[row][column]
                         let index = IndexPath(item: column, section: row)
 
-                        if let keyLayout = SSPerKeyProperties.getKeyLayout(for: item, model: model, padding: padding) {
+                        if let keyLayout = PerKeyProperties.getKeyLayout(for: item, model: model, padding: padding) {
 //                            KeyView(item: item,
 //                                    selected: selected.contains(index),
 //                                    action: {
@@ -66,7 +66,7 @@ public struct PerKeyKeyboardView: View {
 
 struct PerKeyKeyboardView_Previews: PreviewProvider {
     static var previews: some View {
-        PerKeyKeyboardView(model: .perKey, items: [[SSKey(name: "yes", region: 0, keycode: 0)]], selectionCallback: { _ in }, selected: .init())
+        PerKeyKeyboardView(model: .perKey, items: [[Key(name: "yes", region: 0, keycode: 0)]], selectionCallback: { _ in }, selected: .init())
             .frame(width: 500, height: 300, alignment: .center)
     }
 }

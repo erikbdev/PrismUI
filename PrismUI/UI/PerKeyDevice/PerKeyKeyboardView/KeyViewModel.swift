@@ -5,7 +5,7 @@
 //  Created by Erik Bautista on 12/1/21.
 //
 
-import PrismKit
+import PrismClient
 import Combine
 import Ricemill
 
@@ -28,7 +28,7 @@ final class KeyViewModel: Machine<KeyViewModel> {
     }
 
     struct Extra: ExtraType {
-        let ssKey: SSKey
+        let ssKey: Key
         let tapGestureCallback: () -> Void
     }
 
@@ -89,7 +89,7 @@ extension KeyViewModel: Hashable {
 //    private var startTime: Double = 0
 //    private let model: SSModels
 //
-//    var mode: SSKey.SSKeyModes {
+//    var mode: SSKey.KeyModes {
 //        return ssKey.mode
 //    }
 //
@@ -116,7 +116,7 @@ extension KeyViewModel: Hashable {
 //            .store(in: &cancellables)
 //    }
 //
-//    private func handleEffectsAnimation(mode: SSKey.SSKeyModes, effect: SSKeyEffect) {
+//    private func handleEffectsAnimation(mode: SSKey.SSKeyModes, effect: KeyEffect) {
 //        if mode == .breathing || mode == .colorShift && !effect.waveActive {
 //            gradientAnimation(effect: effect)
 //        } else {
@@ -135,7 +135,7 @@ extension KeyViewModel: Hashable {
 //    }
 //
 //    func customWaveAnimation(effect: SSKeyEffect) {
-//        let keyboardRegionAndKeycodes = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65RegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
+//        let keyboardRegionAndKeycodes = model == .perKeyGS65 ? PerKeyProperties.perKeyGS65RegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
 //        let keyboardMap = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65KeyMap : SSPerKeyProperties.perKeyMap
 //        let maxColumnCount = CGFloat(keyboardMap.first?.count ?? 0)
 //        let maxRowCount = CGFloat(keyboardMap.count)

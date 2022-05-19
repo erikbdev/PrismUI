@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PrismKit
+import PrismClient
 import OrderedCollections
 
 struct ColorSelector {

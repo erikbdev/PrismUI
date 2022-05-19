@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PrismKit
+import PrismClient
 
 extension HSB {
     static func toRGB(h: CGFloat, s: CGFloat, b: CGFloat) -> RGB {

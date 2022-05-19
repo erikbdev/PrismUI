@@ -17,7 +17,7 @@ struct PrismUIApp: App {
                     initialState: .init(),
                     reducer: devicesReducer,
                     environment: DevicesEnvironment(
-                        devicesManager: .live
+                        deviceScanner: .live
                     )
                 )
             )

@@ -6,17 +6,17 @@
 //
 
 import Foundation
-import PrismKit
+import PrismClient
 import Combine
 
 class DeviceViewModel: BaseViewModel {
-    let ssDevice: SSDevice
+    let ssDevice: Device
 
-    var model: SSModels {
+    var model: Models {
         return ssDevice.model
     }
 
-    init(ssDevice: SSDevice) {
+    init(ssDevice: Device) {
         self.ssDevice = ssDevice
     }
 }

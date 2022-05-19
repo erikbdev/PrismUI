@@ -5,10 +5,10 @@
 //  Created by Erik Bautista on 12/24/21.
 //
 
-import PrismKit
+import PrismClient
 
 // Layout Map
-extension SSPerKeyProperties {
+extension PerKeyProperties {
     // Not exactly equaling to 20 because of some emtpy spaces in between the keys
 
     static let perKeyMap: [[CGFloat]] = [
@@ -33,7 +33,7 @@ extension SSPerKeyProperties {
 
     static let perKeyGS65KeySize: CGFloat = 60.0
 
-    static func getKeyboardMap(for model: SSModels) -> [[CGFloat]] {
+    static func getKeyboardMap(for model: Models) -> [[CGFloat]] {
         switch model {
         case .perKey:
             return perKeyMap
@@ -44,7 +44,7 @@ extension SSPerKeyProperties {
         }
     }
 
-    static func getKeyboardCodes(for model: SSModels) -> [[(UInt8, UInt8)]] {
+    static func getKeyboardCodes(for model: Models) -> [[(UInt8, UInt8)]] {
         switch model {
         case .perKey:
             return perKeyRegionKeyCodes
@@ -58,7 +58,7 @@ extension SSPerKeyProperties {
 
 // Generating Layout for a key
 
-extension SSPerKeyProperties {
+extension PerKeyProperties {
     public struct KeyLayout: Hashable {
         let width: CGFloat
         let height: CGFloat
@@ -66,10 +66,10 @@ extension SSPerKeyProperties {
         let addExtraView: Bool
     }
 
-    public static func getKeyLayout(for key: SSKey, model: SSModels, padding: CGFloat) -> KeyLayout? {
-        let keyCodes: [[(UInt8, UInt8)]] = SSPerKeyProperties.getKeyboardCodes(for: model)
-        let keyMaps: [[CGFloat]] = SSPerKeyProperties.getKeyboardMap(for: model)
-        let keySizes: CGFloat = model == .perKey ? SSPerKeyProperties.perKeyKeySize : SSPerKeyProperties.perKeyGS65KeySize
+    public static func getKeyLayout(for key: Key, model: Models, padding: CGFloat) -> KeyLayout? {
+        let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: model)
+        let keyMaps: [[CGFloat]] = PerKeyProperties.getKeyboardMap(for: model)
+        let keySizes: CGFloat = model == .perKey ? PerKeyProperties.perKeyKeySize : PerKeyProperties.perKeyGS65KeySize
 
         let rowIndex = keyCodes.firstIndex { column in
             column.contains { (region, keycode) in
@@ -110,7 +110,7 @@ extension SSPerKeyProperties {
     }
 }
 
-//    static func getKeys(for model: SSModels) -> [[KeyData]] {
+//    static func getKeys(for model: Models) -> [[KeyData]] {
 //        let keyMaps: [[CGFloat]] = getKeyboardMap(for: model)
 //        let keyCodes: [[(UInt8, UInt8)]] = getKeyboardCodes(for: model)
 //        let keySizes: CGFloat = model == .perKey ? perKeyKeySize : perKeyGS65KeySize
@@ -128,7 +128,7 @@ extension SSPerKeyProperties {
 //                let keyRegion = j.element.0
 //                let keyCode = j.element.1
 //                let keyWidth = keySizes * keyMap
-//                let keyHeight = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65KeySize : (keyCode == 0x57 || keyCode == 0x56) ? 108 : SSPerKeyProperties.perKeyKeySize
+//                let keyHeight = model == .perKeyGS65 ? PerKeyProperties.perKeyGS65KeySize : (keyCode == 0x57 || keyCode == 0x56) ? 108 : SSPerKeyProperties.perKeyKeySize
 //                let keyName = keyNames[row][column]
 //                let keyData = KeyData(ssKey: .init(name: keyName, region: keyRegion, keycode: keyCode),
 //                                      keySize: .init(width: keyWidth, height: keyHeight)
@@ -142,7 +142,7 @@ extension SSPerKeyProperties {
 //    }
 //
 //    struct KeyData {
-//        let ssKey: SSKey
+//        let ssKey: Key
 //        let keySize: CGSize
 //    }
 

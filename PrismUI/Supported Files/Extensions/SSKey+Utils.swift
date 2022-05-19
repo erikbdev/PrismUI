@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import PrismKit
+import PrismClient
 
 
-extension SSKey {
-    func sameEffect(as ssKey: SSKey) -> Bool {
+extension Key {
+    func sameEffect(as ssKey: Key) -> Bool {
         return mode == ssKey.mode &&
         main == ssKey.main &&
         active == ssKey.active &&
@@ -19,7 +19,7 @@ extension SSKey {
     }
 }
 
-extension SSKey: Identifiable {
+extension Key: Identifiable {
     public var id: UInt16 {
         return (UInt16(region) << 8) | UInt16(keycode)
     }

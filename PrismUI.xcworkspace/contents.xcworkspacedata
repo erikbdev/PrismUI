@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../PrismKit/PrismKit.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "container:/Users/erikb/Documents/Coding/projects/PrismProject/PrismSwiftUI/PrismUI.xcodeproj">
    </FileRef>
 </Workspace>

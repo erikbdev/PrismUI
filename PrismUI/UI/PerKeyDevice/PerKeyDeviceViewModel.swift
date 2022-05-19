@@ -6,7 +6,7 @@
 //
 
 import Combine
-import PrismKit
+import PrismClient
 import Ricemill
 
 final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
@@ -24,8 +24,8 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
 
     final class Store: StoredOutputType {
         @Published var name: String = ""
-        @Published var model: SSModels = .unknown
-        @Published var keys: [[SSKey]] = []
+        @Published var model: Models = .unknown
+        @Published var keys: [[Key]] = []
         @Published var selected: Set<IndexPath> = .init()
 
         fileprivate let updateCallback = PassthroughSubject<KeyEffects, Never>()
@@ -38,7 +38,7 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
     }
 
     struct Extra: ExtraType {
-        let device: SSDevice
+        let device: Device
     }
 
     static func polish(input: Publishing<Input>, store: Store, extra: Extra) -> Polished<Output> {
@@ -119,12 +119,12 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
                                      pulse: let pulse,
                                      origin: let origin):
 
-                        let transitions = colorSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+                        let transitions = colorSelectors.compactMap({ KeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
                             .sorted(by: { $0.position < $1.position })
 
                         guard transitions.count > 0 else { return }
 
-                        var effect = SSKeyEffect(id: 0, transitions: transitions)
+                        var effect = KeyEffect(id: 0, transitions: transitions)
                         effect.start = transitions[0].color
                         effect.duration = UInt16(speed)
                         effect.waveActive = waveActive
@@ -138,7 +138,7 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
                         key.main = effect.start
 
                     case .breathing(colorSelectors: let colorSelectors, speed: let speed):
-                        let baseTransitions = colorSelectors.compactMap({ SSKeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
+                        let baseTransitions = colorSelectors.compactMap({ KeyEffect.SSPerKeyTransition(color: $0.rgb, position: $0.position) })
                             .sorted(by: { $0.position < $1.position })
 
                         guard baseTransitions.count > 0 else {
@@ -146,7 +146,7 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
                             return
                         }
 
-                        var transitions: [SSKeyEffect.SSPerKeyTransition] = []
+                        var transitions: [KeyEffect.SSPerKeyTransition] = []
 
                         // We add the transitions from baseTransition and also add the half values between
                         // each transition to have the breathing effect.
@@ -162,10 +162,10 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
                                 halfDistance = (1 + firstSelector.position) / 2
                             }
 
-                            transitions.append(SSKeyEffect.SSPerKeyTransition(color: RGB(), position: halfDistance))
+                            transitions.append(KeyEffect.SSPerKeyTransition(color: RGB(), position: halfDistance))
                         }
 
-                        var effect = SSKeyEffect(id: 0,
+                        var effect = KeyEffect(id: 0,
                                                  transitions: transitions)
 
                         effect.start = transitions[0].color
@@ -209,11 +209,11 @@ extension PerKeyDeviceViewModel {
 // MARK: - Generating keys and layouts
 
 extension PerKeyDeviceViewModel {
-    private static func makeKeys(for model: SSModels) -> [[SSKey]] {
-        let keyCodes: [[(UInt8, UInt8)]] = SSPerKeyProperties.getKeyboardCodes(for: model)
-        let keyNames: [[String]] = model == .perKey ? SSPerKeyProperties.perKeyNames : SSPerKeyProperties.perKeyGS65KeyNames
+    private static func makeKeys(for model: Models) -> [[Key]] {
+        let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: model)
+        let keyNames: [[String]] = model == .perKey ? PerKeyProperties.perKeyNames : PerKeyProperties.perKeyGS65KeyNames
 
-        var keyViewModels: [[SSKey]] = []
+        var keyViewModels: [[Key]] = []
 
         for i in keyCodes.enumerated() {
             let row = i.offset
@@ -225,7 +225,7 @@ extension PerKeyDeviceViewModel {
                 let keyName = keyNames[row][column]
                 let keyRegion = j.element.0
                 let keyCode = j.element.1
-                let ssKey = SSKey(name: keyName, region: keyRegion, keycode: keyCode)
+                let ssKey = Key(name: keyName, region: keyRegion, keycode: keyCode)
                 keyViewModels[row].append(ssKey)
             }
         }

@@ -9,21 +9,21 @@ import var AppKit.NSApplication.NSApp
 import AppKit.NSSplitViewController
 
 import ComposableArchitecture
-import PrismKit
+import PrismClient
 
 struct DevicesState: Equatable {
-    var devices: IdentifiedArrayOf<SSDevice> = []
+    var devices: IdentifiedArrayOf<Device> = []
 }
 
 enum DevicesAction: Equatable {
     case onAppear
     case toggleSidebar
-    case device(id: SSDevice.ID, action: DeviceAction)
-    case devicesManager(PrismDeviceManager.Action)
+    case device(id: Device.ID, action: DeviceAction)
+    case devicesManager(DeviceScanner.Event)
 }
 
 struct DevicesEnvironment {
-    var devicesManager: PrismDeviceManager
+    var deviceScanner: DeviceScanner
 }
 
 let devicesReducer = Reducer<DevicesState, DevicesAction, DevicesEnvironment>.combine(
@@ -40,18 +40,17 @@ let devicesReducer = Reducer<DevicesState, DevicesAction, DevicesEnvironment>.co
         switch action {
         case .onAppear:
             return .merge(
-                environment.devicesManager.create(id: DevicesManagerId())
+                environment.deviceScanner.create(id: DevicesManagerId())
                     .map(DevicesAction.devicesManager),
-                environment.devicesManager.scan(id: DevicesManagerId())
+                environment.deviceScanner.scan(id: DevicesManagerId())
                     .fireAndForget()
             )
         case let .devicesManager(delegate):
             switch delegate {
             case .didDiscover(let device, error: let error):
-                if let device = try? SSDevice(device: device) {
-                    state.devices.append(device)
-                }
+                state.devices.append(device)
             case .didRemove(let device, error: let error):
+                state.devices.remove(device)
                 break
             }
         case .device(id: let id, action: let action):
@@ -64,6 +63,3 @@ let devicesReducer = Reducer<DevicesState, DevicesAction, DevicesEnvironment>.co
     }
 )
 
-extension SSDevice: Identifiable {
-    
-}

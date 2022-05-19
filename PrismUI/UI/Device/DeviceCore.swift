@@ -7,7 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
-import PrismKit
+import PrismClient
 
 struct DeviceState: Equatable {
 }
@@ -19,6 +19,6 @@ struct DeviceEnvironment {
     
 }
 
-let deviceReducer = Reducer<SSDevice, DeviceAction, DeviceEnvironment> { device, action, environment in
+let deviceReducer = Reducer<Device, DeviceAction, DeviceEnvironment> { device, action, environment in
         .none
 }

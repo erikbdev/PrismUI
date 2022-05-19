@@ -7,7 +7,7 @@
 
 import SwiftUI
 import OrderedCollections
-import PrismKit
+import PrismClient
 
 struct KeySettingsView: View {
     @ObservedObject var viewModel: KeySettingsViewModel
@@ -21,7 +21,7 @@ struct KeySettingsView: View {
 
                 HStack {
                     Picker("Effect", selection: .init(get: { viewModel.output.selectedMode }, set: { viewModel.input.selectedMode.wrappedValue = $0 })) {
-                        ForEach(SSKey.SSKeyModes.allCases, id: \.self) {
+                        ForEach(Key.KeyModes.allCases, id: \.self) {
                             if $0 == .mixed {
                                 if viewModel.output.selectedMode == .mixed {
                                     Text($0.description)
@@ -99,7 +99,7 @@ struct KeySettingsView: View {
                     // Wave Direction
 
                     Picker("Direction", selection: .init(get: { viewModel.output.direction }, set: { viewModel.input.direction.wrappedValue = $0 }) ) {
-                        ForEach(SSKeyEffect.SSPerKeyDirection.allCases, id: \.self) {
+                        ForEach(KeyEffect.SSPerKeyDirection.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
@@ -109,7 +109,7 @@ struct KeySettingsView: View {
                     // Wave Control
 
                     Picker("Control", selection: .init(get: { viewModel.output.control }, set: { viewModel.input.control.wrappedValue = $0 }) ) {
-                        ForEach(SSKeyEffect.SSPerKeyControl.allCases, id: \.self) {
+                        ForEach(KeyEffect.SSPerKeyControl.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }

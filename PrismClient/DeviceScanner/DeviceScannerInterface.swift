@@ -9,7 +9,7 @@ import Combine
 import ComposableArchitecture
 import IOKit.hid
 
-public struct PrismDeviceManager {
+public struct DeviceScanner {
     public struct Error: Swift.Error, Equatable {
         public let error: NSError?
 
@@ -18,22 +18,22 @@ public struct PrismDeviceManager {
         }
     }
 
-    public enum Action: Equatable {
-        case didDiscover(_ device: IOHIDDevice, error: Error?)
-        case didRemove(_ device: IOHIDDevice, error: Error?)
+    public enum Event: Equatable {
+        case didDiscover(_ device: Device, error: Error?)
+        case didRemove(_ device: Device, error: Error?)
     }
 
-    var create: (AnyHashable, CFRunLoop, CFRunLoopMode) -> Effect<Action, Never> = { _,_,_ in .none }
+    var create: (AnyHashable, CFRunLoop, CFRunLoopMode) -> Effect<Event, Never> = { _,_,_ in .none }
 
     var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in .none }
 
     var scan: (AnyHashable) -> Effect<Never, Never> = { _ in .none }
 
-    var retrieveDevices: (AnyHashable) -> Set<IOHIDDevice>? = { _ in .none }
+    var retrieveDevices: (AnyHashable) -> Set<Device>? = { _ in .none }
 
     // MARK: - Concrete
 
-    public func create(id: AnyHashable) -> Effect<Action, Never> {
+    public func create(id: AnyHashable) -> Effect<Event, Never> {
         create(id, CFRunLoopGetMain(), .defaultMode)
     }
 
@@ -45,7 +45,7 @@ public struct PrismDeviceManager {
         scan(id)
     }
 
-    public func retrieveDevices(id: AnyHashable) -> Set<IOHIDDevice>? {
+    public func retrieveDevices(id: AnyHashable) -> Set<Device>? {
         retrieveDevices(id)
     }
 }

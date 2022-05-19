@@ -7,10 +7,10 @@
 
 import SwiftUI
 import ComposableArchitecture
-import PrismKit
+import PrismClient
 
 struct DeviceView: View {
-    let store: Store<SSDevice, DeviceAction>
+    let store: Store<Device, DeviceAction>
 
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)

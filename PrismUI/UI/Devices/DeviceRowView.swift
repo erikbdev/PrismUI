@@ -7,10 +7,10 @@
 
 import SwiftUI
 import ComposableArchitecture
-import PrismKit
+import PrismClient
 
 struct DeviceRowView: View {
-    let store: Store<SSDevice, DeviceAction>
+    let store: Store<Device, DeviceAction>
 
     var body: some View {
         WithViewStore(store) { viewStore in

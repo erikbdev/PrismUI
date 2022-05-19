@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PrismKit
+import PrismClient
 import SwiftUI
 
 extension RGB {
@@ -46,7 +46,7 @@ extension RGB {
         }
     }
 
-    static func getColorFromTransition(with percentage: CGFloat, transitions: [SSKeyEffect.SSPerKeyTransition]) -> RGB {
+    static func getColorFromTransition(with percentage: CGFloat, transitions: [KeyEffect.SSPerKeyTransition]) -> RGB {
         let colorSelectors = transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
         return getColorFromTransition(with: percentage, transitions: colorSelectors)
     }

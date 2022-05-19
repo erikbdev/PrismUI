@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PrismKit
+import PrismClient
 
 struct PerKeyDeviceView: View {
     @StateObject var viewModel: PerKeyDeviceViewModel

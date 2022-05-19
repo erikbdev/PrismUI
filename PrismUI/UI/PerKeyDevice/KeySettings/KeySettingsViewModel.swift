@@ -6,7 +6,7 @@
 //
 
 import Combine
-import PrismKit
+import PrismClient
 import OrderedCollections
 import Ricemill
 
@@ -16,9 +16,9 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
     // MARK: - User Input Bindings
 
     final class Input: BindableInputType {
-        let selectedKeys = PassthroughSubject<[SSKey], Never>()
+        let selectedKeys = PassthroughSubject<[Key], Never>()
 
-        @Published var selectedMode: SSKey.SSKeyModes = .steady
+        @Published var selectedMode: Key.KeyModes = .steady
 
         // MARK: Common Input
         @Published var speed: CGFloat = 3000 // Speed Settings
@@ -33,10 +33,10 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
 
         // MARK: ColorShift Input Properties
         @Published var waveActive = false
-        @Published var direction: SSKeyEffect.SSPerKeyDirection = .xy
-        @Published var control: SSKeyEffect.SSPerKeyControl = .inward
+        @Published var direction: KeyEffect.SSPerKeyDirection = .xy
+        @Published var control: KeyEffect.SSPerKeyControl = .inward
         @Published var pulse: CGFloat = 100
-        @Published var origin: SSKeyEffect.SSPoint = SSKeyEffect.SSPoint()
+        @Published var origin: KeyEffect.SSPoint = KeyEffect.SSPoint()
 
         // MARK: Reactive Input Properties
         @Published var active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
@@ -46,7 +46,7 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
     // MARK: - Output data
 
     final class Store: StoredOutputType {
-        @Published var selectedMode: SSKey.SSKeyModes = .steady
+        @Published var selectedMode: Key.KeyModes = .steady
 
         // MARK: Common Oyroyt
         @Published var speed: CGFloat = 3000 // Speed Settings
@@ -61,10 +61,10 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
 
         // MARK: ColorShift Output Properties
         @Published var waveActive = false
-        @Published var direction: SSKeyEffect.SSPerKeyDirection = .xy
-        @Published var control: SSKeyEffect.SSPerKeyControl = .inward
+        @Published var direction: KeyEffect.SSPerKeyDirection = .xy
+        @Published var control: KeyEffect.SSPerKeyControl = .inward
         @Published var pulse: CGFloat = 100
-        @Published var origin: SSKeyEffect.SSPoint = SSKeyEffect.SSPoint()
+        @Published var origin: KeyEffect.SSPoint = KeyEffect.SSPoint()
 
         // MARK: Reactive Output  Properties
         @Published var active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
