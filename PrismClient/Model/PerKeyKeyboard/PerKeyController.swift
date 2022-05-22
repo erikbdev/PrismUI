@@ -9,32 +9,32 @@ class PerKeyController: Controller {
 
     // MARK: Private Properties
 
-    private let device: IOHIDDevice
-    private let model: Models
+    private let hidController: HIDCommunication
+    private let isLongKeyboard: Bool
     private let commandMutex = DispatchQueue(label: "per-key-commands-mutex")
-    private let properties: PerKeyProperties
+//    private let properties: PerKeyProperties
 
-    init(device: IOHIDDevice, model: Models, properties: PerKeyProperties) {
-        self.device = device
-        self.model = model
-        self.properties = properties
+    init(device: HIDCommunication, isLongKeyboard: Bool) {
+        self.hidController = device
+        self.isLongKeyboard = isLongKeyboard
+//        self.properties = properties
     }
 
     /// Uploads data from an array of objects. In our case, you send keys and effects to update. This asumes you are using
     ///  [model]RegionKeyCodes  and all values are in place.
     /// Recommend to send all keys and manage state on client side.
     ///
-    /// - Parameter data: Array<SSKeyStruct>
+    /// - Parameter data: Array<Key>
     func update(data: Any, force: Bool) {
-        commandMutex.async {
+        commandMutex.async { [unowned self] in
             guard var updateKeys = data as? [Key] else {
-                Log.error("Cannot update device for: \(self.model) because there are no keys")
+                Log.error("Cannot update device for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65) because there are no keys")
                 return
             }
  
-            let keyCodeCount = self.model == .perKey ? PerKeyProperties.perKeyRegionKeyCodes : PerKeyProperties.perKeyGS65RegionKeyCodes
+            let keyCodeCount = isLongKeyboard ? PerKeyProperties.perKeyRegionKeyCodes : PerKeyProperties.perKeyGS65RegionKeyCodes
             guard updateKeys.count == keyCodeCount.flatMap({ $0 }).count else {
-                Log.error("Data not matching keyCodes required for: \(self.model)")
+                Log.error("Data not matching keyCodes required for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65)")
                 return
             }
 
@@ -64,7 +64,7 @@ class PerKeyController: Controller {
 
             var result = self.writeEffectsToKeyboard(effects: effects)
             guard result == kIOReturnSuccess || result == kIOReturnNotFound else {
-                Log.error("Cannot update effect for \(self.model): \(String(cString: mach_error_string(result)))")
+                Log.error("Cannot update effect for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
                 return
             }
 
@@ -77,7 +77,7 @@ class PerKeyController: Controller {
                                                       region: PerKeyProperties.regions[0],
                                                       keycodes: PerKeyProperties.modifiers)
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for modifiers; \(self.model): " +
+                    Log.error("Error sending feature report for modifiers; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -89,7 +89,7 @@ class PerKeyController: Controller {
                                                       region: PerKeyProperties.regions[1],
                                                       keycodes: PerKeyProperties.alphanums)
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for alphanums; \(self.model): " +
+                    Log.error("Error sending feature report for alphanums; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -101,7 +101,7 @@ class PerKeyController: Controller {
                                                       region: PerKeyProperties.regions[2],
                                                       keycodes: PerKeyProperties.enter)
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for enter key; \(self.model): " +
+                    Log.error("Error sending feature report for enters; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -111,9 +111,9 @@ class PerKeyController: Controller {
                 lastByte = 0x44
                 let result = self.writeKeysToKeyboard(keys: updateKeys,
                                                       region: PerKeyProperties.regions[3],
-                                                      keycodes: self.model == .perKey ? PerKeyProperties.special : PerKeyProperties.specialGS65)
+                                                      keycodes: isLongKeyboard ? PerKeyProperties.special : PerKeyProperties.specialGS65)
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for special; \(self.model): " +
+                    Log.error("Error sending feature report for special; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -123,27 +123,27 @@ class PerKeyController: Controller {
 
             result = self.writeToKeyboard(lastByte: lastByte)
             if result != kIOReturnSuccess {
-                Log.error("Error writing to \(self.model): \(String(cString: mach_error_string(result)))")
+                Log.error("Error writing to \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
             }
         }
     }
 
     private func writeEffectsToKeyboard(effects: [KeyEffect]) -> IOReturn {
         guard effects.count > 0 else {
-            Log.debug("No available effects found for: \(self.model)")
+            Log.debug("No available effects found for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65)")
             return kIOReturnNotFound
         }
 
         for effect in effects {
             guard effect.transitions.count > 0 else {
                 // Must have at least one transition or will return error
-                Log.error("An effect has no transitions for \(model). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
+                Log.error("An effect has no transitions for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
                 return kIOReturnError
             }
 
             guard effect.transitions.map({ $0.position }).isUnique else {
                 // Must have unique positions in each transition or keyboard may brick.
-                Log.error("A transition must have unique positions for \(model). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
+                Log.error("A transition must have unique positions for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
                 return kIOReturnError
             }
 
@@ -229,9 +229,9 @@ class PerKeyController: Controller {
             fillZeros = [UInt8](repeating: 0x00, count: PerKeyProperties.packageSize - data.count)
             data.append(fillZeros, count: fillZeros.count)
 
-            let result = device.sendFeatureReport(data: data)
+            let result = hidController.sendFeatureReport(data: data)
             guard result == kIOReturnSuccess else {
-                Log.error("Could not send effect to \(model): \(String(cString: mach_error_string(result)))")
+                Log.error("Could not send effect to \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
                 return result
             }
         }
@@ -243,7 +243,7 @@ class PerKeyController: Controller {
         data.append([0x0d, 0x0, 0x02], count: 3)
         data.append([UInt8](repeating: 0, count: 60), count: 60)
         data.append([lastByte], count: 1)
-        return device.write(data: data)
+        return hidController.write(data: data)
     }
 
     private func writeKeysToKeyboard(keys: [Key], region: UInt8, keycodes: [UInt8]) -> IOReturn {
@@ -295,7 +295,7 @@ class PerKeyController: Controller {
         // Fill rest of data with the remaining capacity
         let sizeRemaining = PerKeyProperties.packageSize - data.count
         data.append([UInt8](repeating: 0, count: sizeRemaining), count: sizeRemaining)
-        return device.sendFeatureReport(data: data)
+        return hidController.sendFeatureReport(data: data)
     }
 }
 

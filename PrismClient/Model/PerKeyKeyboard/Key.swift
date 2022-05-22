@@ -48,7 +48,7 @@ public struct Key {
 
     // MARK: Mode of the key
 
-    public var mode = KeyModes.steady {
+    public var mode = Modes.steady {
         didSet {
             self.effect = nil
             self.duration = 0x012c
@@ -63,7 +63,7 @@ public struct Key {
         self.keycode = keycode
     }
 
-    public enum KeyModes: Int, Codable, CustomStringConvertible, CaseIterable {
+    public enum Modes: Int, Codable, CustomStringConvertible, CaseIterable {
         case steady
         case colorShift
         case breathing

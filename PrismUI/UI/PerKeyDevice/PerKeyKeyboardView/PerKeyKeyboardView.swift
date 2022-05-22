@@ -48,7 +48,7 @@ public struct PerKeyKeyboardView: View {
                                        minHeight: keyLayout.height,
                                        maxHeight: keyLayout.height)
                                 .offset(y: keyLayout.yOffset)
-                            if keyLayout.addExtraView {
+                            if keyLayout.requiresExtraView {
                                 Rectangle()
                                     .fill(Color.clear)
                                     .frame(minWidth: keyLayout.width,

@@ -17,6 +17,6 @@ public protocol FeatureReportDevice {
     func sendFeatureReport(data: Data) -> IOReturn
 }
 
-typealias HIDCommunication = WriteDevice & FeatureReportDevice
+public typealias HIDCommunication = WriteDevice & FeatureReportDevice
 
 extension IOHIDDevice: HIDCommunication {}

@@ -40,9 +40,9 @@ public struct KeyEffect {
             }
         }
     }
-    public var direction = SSPerKeyDirection.xy
-    public var control = SSPerKeyControl.inward
-    public var origin = SSPoint()
+    public var direction = Direction.xy
+    public var control = Control.inward
+    public var origin = PerKeyPoint()
     public var pulse: UInt16 = 100
 
     public init(id: UInt8, transitions: [SSPerKeyTransition]) {
@@ -53,7 +53,7 @@ public struct KeyEffect {
 }
 
 public extension KeyEffect {
-    enum SSPerKeyDirection: UInt8, CaseIterable, CustomStringConvertible, Codable {
+    enum Direction: UInt8, CaseIterable, CustomStringConvertible, Codable {
         case xy = 0
         case x = 1
         case y = 2
@@ -70,7 +70,7 @@ public extension KeyEffect {
         }
     }
 
-    enum SSPerKeyControl: UInt8, CaseIterable, CustomStringConvertible, Codable {
+    enum Control: UInt8, CaseIterable, CustomStringConvertible, Codable {
         case inward = 0
         case outward = 1
 
@@ -94,7 +94,7 @@ public extension KeyEffect {
         }
     }
 
-    struct SSPoint: Hashable, Codable {
+    struct PerKeyPoint: Hashable, Codable {
         public var x: CGFloat = 0
         public var y: CGFloat = 0
 

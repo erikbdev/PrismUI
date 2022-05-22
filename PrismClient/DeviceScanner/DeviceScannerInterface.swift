@@ -29,8 +29,6 @@ public struct DeviceScanner {
 
     var scan: (AnyHashable) -> Effect<Never, Never> = { _ in .none }
 
-    var retrieveDevices: (AnyHashable) -> Set<Device>? = { _ in .none }
-
     // MARK: - Concrete
 
     public func create(id: AnyHashable) -> Effect<Event, Never> {
@@ -43,9 +41,5 @@ public struct DeviceScanner {
 
     public func scan(id: AnyHashable) -> Effect<Never, Never> {
         scan(id)
-    }
-
-    public func retrieveDevices(id: AnyHashable) -> Set<Device>? {
-        retrieveDevices(id)
     }
 }

@@ -28,7 +28,7 @@ final class PerKeyDeviceViewModel: Machine<PerKeyDeviceViewModel> {
         @Published var keys: [[Key]] = []
         @Published var selected: Set<IndexPath> = .init()
 
-        fileprivate let updateCallback = PassthroughSubject<KeyEffects, Never>()
+        fileprivate let updateCallback = PassthroughSubject<KeyEffectEvent, Never>()
 
         lazy var keySettingsViewModel: KeySettingsViewModel = .make(
             extra: .init(

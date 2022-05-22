@@ -27,14 +27,14 @@ extension ColorSelector: Hashable {
     }
 }
 
-enum MultiColorSliderBackgroundStyle {
-    case gradient
-    case breathing
-}
-
 struct MultiColorSlider: View {
     @Binding var selectors: [ColorSelector]
-    @Binding var backgroundType: MultiColorSliderBackgroundStyle
+    @Binding var backgroundType: BackgroundStyle
+
+    enum BackgroundStyle {
+        case gradient
+        case breathing
+    }
 
     private var maxSelectors: Int {
         if backgroundType == .gradient {

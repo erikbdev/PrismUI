@@ -63,7 +63,7 @@ extension PerKeyProperties {
         let width: CGFloat
         let height: CGFloat
         let yOffset: CGFloat
-        let addExtraView: Bool
+        let requiresExtraView: Bool
     }
 
     public static func getKeyLayout(for key: Key, model: Models, padding: CGFloat) -> KeyLayout? {
@@ -102,7 +102,7 @@ extension PerKeyProperties {
                    keyYOffset = 0
                 }
 
-                return .init(width: keyWidth, height: keyHeight, yOffset: keyYOffset, addExtraView: addExtraView)
+                return .init(width: keyWidth, height: keyHeight, yOffset: keyYOffset, requiresExtraView: addExtraView)
             }
         }
 

@@ -16,13 +16,14 @@ struct DevicesView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 List {
-                    ForEachStore(
-                        store.scope(
-                            state: \.devices,
-                            action: DevicesAction.device(id:action:)
-                        ),
-                        content: DeviceRowView.init(store:)
-                    )
+                    ForEach(viewStore.devices, id: \.self) { device in
+                        NavigationLink {
+                            LazyView(DeviceRouter.route(device: device))
+                        } label: {
+                            Image(device.image)
+                            Text(device.name)
+                        }
+                    }
                 }
                 .listStyle(.sidebar)
                 .frame(minWidth: 225)
@@ -43,34 +44,26 @@ struct DevicesView: View {
     }
 }
 
-//struct DeviceList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DevicesView(
-//            store: Store(
-//                initialState: DevicesState(
-//                    devices: [
-//                        Device(
-//                            name: "Test 1",
-//                            image: "PerKeyKeyboard",
-//                            model: .perKey
-//                        ),
-//                        SSDevice(
-//                            name: "Test 2",
-//                            image: "PerKeyKeyboard",
-//                            model: .perKeyGS65
-//                        ),
-//                        SSDevice(
-//                            name: "Test 3",
-//                            image: "PerKeyKeyboard",
-//                            model: .unknown
-//                        )
-//                    ]
-//                ),
-//                reducer: devicesReducer,
-//                environment: DevicesEnvironment(
-//                    devicesManager: .live
-//                )
-//            )
-//        )
-//    }
-//}
+struct DevicesView_Previews: PreviewProvider {
+    static var previews: some View {
+        DevicesView(
+            store: Store(
+                initialState: .init(),
+                reducer: devicesReducer,
+                environment: DevicesEnvironment(
+                    deviceScanner: .mock
+                )
+            )
+        )
+    }
+}
+
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: Content {
+        build()
+    }
+}

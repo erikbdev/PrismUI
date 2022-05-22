@@ -10,44 +10,54 @@ import IOKit
 
 public struct Device {
     public let id: Int
-    public var properties: Properties?
     public let name: String
+    public let model: Models
 
-    internal let device: IOHIDDevice
-    internal let vendorId: Int
-    internal let productId: Int
-    internal let versionNumber: Int
-    internal let primaryUsagePage: Int
-    internal var controller: Controller?
+    private let controller: Controller?
 
-    public init(hidDevice: IOHIDDevice) throws {
-        self.device = hidDevice
-        id = try hidDevice.getProperty(key: kIOHIDLocationIDKey)
-        name = try hidDevice.getProperty(key: kIOHIDProductKey)
-        vendorId = try hidDevice.getProperty(key: kIOHIDVendorIDKey)
-        productId = try hidDevice.getProperty(key: kIOHIDProductIDKey)
-        versionNumber = try hidDevice.getProperty(key: kIOHIDVersionNumberKey)
-        primaryUsagePage = try hidDevice.getProperty(key: kIOHIDPrimaryUsagePageKey)
+    public init(
+        hidDevice: IOHIDDevice
+    ) throws {
+        id = try hidDevice.getProperty(key: kIOHIDLocationIDKey) as Int
+        name = try hidDevice.getProperty(key: kIOHIDProductKey) as String
+
+        let vendorId = try hidDevice.getProperty(key: kIOHIDVendorIDKey) as Int
+        let productId = try hidDevice.getProperty(key: kIOHIDProductIDKey) as Int
+        let versionNumber = try hidDevice.getProperty(key: kIOHIDVersionNumberKey) as Int
+        let primaryUsagePage = try hidDevice.getProperty(key: kIOHIDPrimaryUsagePageKey) as Int
+
+        model = Models.allCases.first(where: {
+            $0.vendorId == vendorId &&
+            $0.productId == productId &&
+            $0.versionNumber == versionNumber &&
+            $0.primaryUsagePage == primaryUsagePage
+        }) ?? .unknown
 
         if model == .perKey || model == .perKeyGS65 {
-            properties = PerKeyProperties()
-            controller = PerKeyController(device: hidDevice, model: model, properties: properties as! PerKeyProperties)
+            controller = PerKeyController(device: hidDevice, isLongKeyboard: model == .perKey)
         } else {
-            // TODO: Handle devices with no controllers, meaning not supported
+            controller = nil
         }
     }
 
-    public var model: Models {
-        let product = Models.allCases.first(where: {
-            $0.vendorId == self.vendorId &&
-                $0.productId == self.productId &&
-                $0.versionNumber == self.versionNumber &&
-                $0.primaryUsagePage == self.primaryUsagePage
-        })
-        return product ?? .unknown
+    public init(
+        hidDevice: HIDCommunication,
+        id: Int,
+        name: String,
+        model: Models
+    ) {
+        self.id = id
+        self.name = name
+        self.model = model
+
+        if model == .perKey || model == .perKeyGS65 {
+            controller = PerKeyController(device: hidDevice, isLongKeyboard: model == .perKey)
+        } else {
+            controller = nil
+        }
     }
 
-    public func update(data: [Any], force: Bool) {
+    public func update(data: Any, force: Bool) {
         if let controller = controller {
             controller.update(data: data, force: force)
         } else {
@@ -60,7 +70,9 @@ extension Device: Identifiable { }
 
 extension Device: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(device)
+        hasher.combine(id)
+        hasher.combine(name)
+        hasher.combine(model)
     }
 
     public static func == (lhs: Device, rhs: Device) -> Bool {

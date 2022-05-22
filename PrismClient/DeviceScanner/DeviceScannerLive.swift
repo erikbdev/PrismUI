@@ -14,7 +14,7 @@ public extension DeviceScanner {
         var manager = Self()
 
         manager.create = { id, loop, loopMode in
-            Effect.run { subscriber in
+            .run { subscriber in
                 let delegate = DeviceScannerDelegate(subscriber)
                 let manager = IOHIDManagerCreate(with: delegate)
 
@@ -47,13 +47,6 @@ public extension DeviceScanner {
                 dependencies[id]?.manager.open()
             }
         }
-
-//        manager.retrieveDevices = { id in
-//            if let devices = dependencies[id]?.manager.copyDevices() as? Set<IOHIDDevice> {
-//                return devices.compactMap { try? Device(hidDevice: $0) }
-//            }
-//            return nil
-//        }
 
         return manager
     }()

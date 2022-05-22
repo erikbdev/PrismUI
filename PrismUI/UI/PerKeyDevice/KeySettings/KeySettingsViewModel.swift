@@ -18,7 +18,7 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
     final class Input: BindableInputType {
         let selectedKeys = PassthroughSubject<[Key], Never>()
 
-        @Published var selectedMode: Key.KeyModes = .steady
+        @Published var selectedMode: Key.Modes = .steady
 
         // MARK: Common Input
         @Published var speed: CGFloat = 3000 // Speed Settings
@@ -27,16 +27,16 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
         @Published var steady = HSB(hue: 0, saturation: 1, brightness: 1)
 
         // MARK: Common Colorshift and Breathing Input Properties
-        @Published var gradientStyle: MultiColorSliderBackgroundStyle = .gradient
+        @Published var gradientStyle: MultiColorSlider.BackgroundStyle = .gradient
         @Published var colorSelectors = [ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 1.0), position: 0),
                                          ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)]
 
         // MARK: ColorShift Input Properties
         @Published var waveActive = false
-        @Published var direction: KeyEffect.SSPerKeyDirection = .xy
-        @Published var control: KeyEffect.SSPerKeyControl = .inward
+        @Published var direction: KeyEffect.Direction = .xy
+        @Published var control: KeyEffect.Control = .inward
         @Published var pulse: CGFloat = 100
-        @Published var origin: KeyEffect.SSPoint = KeyEffect.SSPoint()
+        @Published var origin: KeyEffect.PerKeyPoint = KeyEffect.PerKeyPoint()
 
         // MARK: Reactive Input Properties
         @Published var active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
@@ -46,7 +46,7 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
     // MARK: - Output data
 
     final class Store: StoredOutputType {
-        @Published var selectedMode: Key.KeyModes = .steady
+        @Published var selectedMode: Key.Modes = .steady
 
         // MARK: Common Oyroyt
         @Published var speed: CGFloat = 3000 // Speed Settings
@@ -55,16 +55,16 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
         @Published var steady = HSB(hue: 0, saturation: 1, brightness: 1)
 
         // MARK: Common Colorshift and Breathing Output Properties
-        @Published var gradientStyle: MultiColorSliderBackgroundStyle = .gradient
+        @Published var gradientStyle: MultiColorSlider.BackgroundStyle = .gradient
         @Published var colorSelectors = [ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 1.0), position: 0),
                                          ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)]
 
         // MARK: ColorShift Output Properties
         @Published var waveActive = false
-        @Published var direction: KeyEffect.SSPerKeyDirection = .xy
-        @Published var control: KeyEffect.SSPerKeyControl = .inward
+        @Published var direction: KeyEffect.Direction = .xy
+        @Published var control: KeyEffect.Control = .inward
         @Published var pulse: CGFloat = 100
-        @Published var origin: KeyEffect.SSPoint = KeyEffect.SSPoint()
+        @Published var origin: KeyEffect.PerKeyPoint = KeyEffect.PerKeyPoint()
 
         // MARK: Reactive Output  Properties
         @Published var active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
@@ -75,7 +75,7 @@ final class KeySettingsViewModel: Machine<KeySettingsViewModel> {
     }
 
     struct Extra: ExtraType {
-        var updateCallback: ((KeyEffects) -> Void)? = nil
+        var updateCallback: ((KeyEffectEvent) -> Void)? = nil
     }
 
     static func polish(input: Publishing<Input>, store: Store, extra: Extra) -> Polished<Output> {
