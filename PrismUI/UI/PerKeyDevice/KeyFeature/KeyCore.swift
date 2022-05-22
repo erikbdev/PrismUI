@@ -14,9 +14,20 @@ struct KeyCore {
         var id: UInt16 {
             key.id
         }
-        
         var key: Key
         var selected = false
+
+        var color: RGB {
+            if let effect = key.effect {
+                let transitions = effect.transitions
+                return RGB.getColorFromTransition(
+                    with: 0,
+                    transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
+                )
+            } else {
+                return key.main
+            }
+        }
     }
 
     enum Action: Equatable {
@@ -26,6 +37,10 @@ struct KeyCore {
     struct Environment {  }
 
     static let reducer = Reducer<KeyCore.State, KeyCore.Action, KeyCore.Environment> { state, action, environment in
+        switch action {
+        case .toggleSelected:
+            state.selected.toggle()
+        }
         return .none
     }
 }

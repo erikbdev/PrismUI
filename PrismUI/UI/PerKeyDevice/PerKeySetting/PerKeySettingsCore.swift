@@ -16,7 +16,7 @@ struct PerKeySettingsCore {
         // MARK: Common Modes
 
         @BindableState var speed: CGFloat = 3000
-        private(set) var speedRange: ClosedRange<CGFloat> = 1000...30000
+        var speedRange: ClosedRange<CGFloat> = 1000...30000
 
         // MARK: Steady Mode
 
@@ -66,8 +66,38 @@ struct PerKeySettingsCore {
     static let reducer = Reducer<PerKeySettingsCore.State, PerKeySettingsCore.Action, PerKeySettingsCore.Environment> { state, action, environment in
         switch action {
         case .binding(\.$mode):
-            print("Mode changed")
-            break
+            switch state.mode {
+            case .steady:
+                state.steady = .init(hue: 0, saturation: 1, brightness: 1)
+            case .colorShift:
+                state.gradientStyle = .gradient
+                state.colorSelectors = [
+                    ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.88), position: 0),
+                    ColorSelector(rgb: .init(red: 1.0, green: 0xea/0xff, blue: 0.0), position: 0.32),
+                    ColorSelector(rgb: .init(red: 0.0, green: 0xcc/0xff, blue: 1.0), position: 0.76)
+                ]
+                state.speedRange = 1000...30000
+                state.speed = 3000
+                state.waveActive = false
+                state.control = .inward
+                state.direction = .xy
+                state.pulse = 100
+            case .breathing:
+                state.gradientStyle = .breathing
+                state.speedRange = 1000...30000
+                state.speed = 4000
+                state.colorSelectors = [
+                    ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)
+                ]
+            case .reactive:
+                state.speedRange = 100...1000
+                state.speed = 300
+                state.rest = HSB(hue: 0, saturation: 0, brightness: 0)
+                state.active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
+            default:
+                break
+            }
+
         case .binding:
             break
         }

@@ -12,14 +12,12 @@ import PrismClient
 struct PerKeyKeyboardCore {
     struct State: Equatable {
         var keys: IdentifiedArrayOf<KeyCore.State> = []
-        var selected = Set<Int>()
         var model: Models = .unknown
     }
 
     enum Action: Equatable {
         case onAppear
         case loadKeys
-        case selectionChanged
         case key(id: KeyCore.State.ID, action: KeyCore.Action)
     }
 
@@ -58,20 +56,8 @@ struct PerKeyKeyboardCore {
                     }
                 }
                 state.keys = keysStore
-            case .selectionChanged:
-                for i in state.keys.map({ $0.id }) {
-                    if let key = state.keys[id: i] {
-                        state.keys[id: i]?.selected = state.selected.contains(Int(key.id))
-                    }
-                }
-                break
             case .key(id: let id, action: .toggleSelected):
-                if state.selected.contains(Int(id)) {
-                    state.selected.remove(Int(id))
-                } else {
-                    state.selected.insert(Int(id))
-                }
-                return .init(value: .selectionChanged)
+                break
             }
             return .none
         }

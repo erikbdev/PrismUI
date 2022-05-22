@@ -14,7 +14,7 @@ class DeviceRouter {
     static func route(device: Device) -> some View {
         switch device.model {
             case .perKey, .perKeyGS65:
-                PerKeyDeviceViewComp(
+                PerKeyDeviceView(
                     store: .init(
                         initialState: .init(),
                         reducer: PerKeyDevice.reducer,

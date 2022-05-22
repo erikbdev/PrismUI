@@ -44,7 +44,8 @@ struct PerKeyKeyboardView: View {
                                         .frame(
                                             minWidth: keyLayout.width,
                                             minHeight: keyLayout.height,
-                                            maxHeight: keyLayout.height)
+                                            maxHeight: keyLayout.height
+                                        )
                                         .offset(y: keyLayout.yOffset)
 
                                     if keyLayout.requiresExtraView {
@@ -53,7 +54,8 @@ struct PerKeyKeyboardView: View {
                                             .frame(
                                                 minWidth: keyLayout.width,
                                                 minHeight: keyLayout.height,
-                                                maxHeight: keyLayout.height)
+                                                maxHeight: keyLayout.height
+                                            )
                                     }
                                 }
                             }
@@ -61,7 +63,7 @@ struct PerKeyKeyboardView: View {
                     }
                 }
             }
-            .animation(.easeIn(duration: 0.25), value: viewStore.selected)
+//            .animation(.easeIn(duration: 0.25), value: viewStore.selected)
             .onAppear {
                 viewStore.send(.onAppear)
             }
