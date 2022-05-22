@@ -202,13 +202,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		130BC27128397BDE002E3BCE /* PerKeyKeyboard */ = {
+		130BC27128397BDE002E3BCE /* PerKeyKeyboardFeature */ = {
 			isa = PBXGroup;
 			children = (
 				130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */,
 				130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */,
 			);
-			path = PerKeyKeyboard;
+			path = PerKeyKeyboardFeature;
 			sourceTree = "<group>";
 		};
 		130CD4BB2839FE7D0050F8D1 /* KeyFeature */ = {
@@ -278,7 +278,7 @@
 				1381F617276AAB9800BF526E /* Components */,
 				13CB78B727585BDD00BC8F07 /* Devices */,
 				13CB78B827585C0500BC8F07 /* Device */,
-				1395D92028372244009D67B8 /* PerKeyDevice */,
+				1395D92028372244009D67B8 /* PerKeyDeviceFeature */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -293,25 +293,25 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		1395D92028372244009D67B8 /* PerKeyDevice */ = {
+		1395D92028372244009D67B8 /* PerKeyDeviceFeature */ = {
 			isa = PBXGroup;
 			children = (
 				130CD4BB2839FE7D0050F8D1 /* KeyFeature */,
-				130BC27128397BDE002E3BCE /* PerKeyKeyboard */,
-				1395D92528372F6E009D67B8 /* PerKeySetting */,
+				130BC27128397BDE002E3BCE /* PerKeyKeyboardFeature */,
+				1395D92528372F6E009D67B8 /* PerKeySettingsFeature */,
 				1395D92128372267009D67B8 /* PerKeyDeviceView.swift */,
 				1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */,
 			);
-			path = PerKeyDevice;
+			path = PerKeyDeviceFeature;
 			sourceTree = "<group>";
 		};
-		1395D92528372F6E009D67B8 /* PerKeySetting */ = {
+		1395D92528372F6E009D67B8 /* PerKeySettingsFeature */ = {
 			isa = PBXGroup;
 			children = (
 				130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */,
 				130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */,
 			);
-			path = PerKeySetting;
+			path = PerKeySettingsFeature;
 			sourceTree = "<group>";
 		};
 		1398CDBA2772FE9F005A0C4E /* MultiColorSlider */ = {
