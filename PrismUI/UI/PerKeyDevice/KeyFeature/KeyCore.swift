@@ -1,67 +1,32 @@
 //
-//  KeyViewModel.swift
-//  PrismSwiftUI
+//  KeyCore.swift
+//  PrismUI
 //
-//  Created by Erik Bautista on 12/1/21.
+//  Created by Erik Bautista on 5/22/22.
 //
 
+import Foundation
+import ComposableArchitecture
 import PrismClient
-import Combine
-import Ricemill
 
-final class KeyViewModel: Machine<KeyViewModel> {
-    typealias Output = Store
-
-    final class Input: BindableInputType {
-        let tappedTrigger = PassthroughSubject<Void, Never>()
-    }
-
-    final class Store: StoredOutputType {
-        @Published var name: String
-        @Published var color: RGB
-        fileprivate var position = 0.0
-
-        init(name: String, color: RGB) {
-            self.name = name
-            self.color = color
+struct KeyCore {
+    struct State: Equatable, Identifiable {
+        var id: UInt16 {
+            key.id
         }
+        
+        var key: Key
+        var selected = false
     }
 
-    struct Extra: ExtraType {
-        let ssKey: Key
-        let tapGestureCallback: () -> Void
+    enum Action: Equatable {
+        case toggleSelected
     }
 
-    static func polish(
-        input: Publishing<Input>,
-        store: Store,
-        extra: Extra
-    ) -> Polished<Store> {
-        var cancellables: [AnyCancellable] = []
+    struct Environment {  }
 
-        input.tappedTrigger
-            .sink {
-                extra.tapGestureCallback()
-            }
-            .store(in: &cancellables)
-
-        return Polished(cancellables: cancellables)
-    }
-
-    static func make(extra: Extra) -> KeyViewModel {
-        let store = Store(name: extra.ssKey.name, color: extra.ssKey.main)
-        return KeyViewModel(input: Input(), store: store, extra: extra)
-    }
-}
-
-extension KeyViewModel: Hashable {
-    static func == (lhs: KeyViewModel, rhs: KeyViewModel) -> Bool {
-        lhs.output.name == rhs.output.name && lhs.output.color == rhs.output.color
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(output.name)
-        hasher.combine(output.color)
+    static let reducer = Reducer<KeyCore.State, KeyCore.Action, KeyCore.Environment> { state, action, environment in
+        return .none
     }
 }
 

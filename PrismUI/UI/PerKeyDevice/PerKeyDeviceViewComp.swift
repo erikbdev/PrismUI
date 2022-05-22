@@ -10,15 +10,15 @@ import ComposableArchitecture
 import PrismClient
 
 struct PerKeyDeviceViewComp: View {
-    let store: Store<PerKeyDeviceState, PerKeyDeviceAction>
+    let store: Store<PerKeyDevice.State, PerKeyDevice.Action>
 
     var body: some View {
         WithViewStore(store) { viewStore in
             HStack(alignment: .top, spacing: 24) {
-                PerKeySettingsViewComp(
+                PerKeySettingsView(
                     store: store.scope(
                         state: \.settingsState,
-                        action: PerKeyDeviceAction.perKeySettings
+                        action: PerKeyDevice.Action.perKeySettings
                     )
                 )
                 .background(ColorManager.contentOverBackground)
@@ -26,10 +26,10 @@ struct PerKeyDeviceViewComp: View {
                 .padding(0)
                 .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
 
-                PerKeyKeyboardViewComp(
+                PerKeyKeyboardView(
                     store: store.scope(
                         state: \.keyboardState,
-                        action: PerKeyDeviceAction.perKeyKeyboard
+                        action: PerKeyDevice.Action.perKeyKeyboard
                     )
                 )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -82,14 +82,14 @@ struct PerKeyDeviceViewComp: View {
                     .labelsHidden()
 
                     Spacer()
-//                    Picker("", selection: viewModel.input.mouseMode) {
-//                        ForEach(PerKeyDeviceViewModel.MouseMode.allCases, id: \.self) { mode in
-//                            if mode != .rectangle {
-//                                Image(systemName: mode.rawValue)
-//                            }
-//                        }
-//                    }
-//                    .pickerStyle(.segmented)
+                    Picker("", selection: viewStore.binding(\.$mouseMode)) {
+                        ForEach(PerKeyDevice.MouseMode.allCases, id: \.self) { mode in
+                            if mode != .rectangle {
+                                Image(systemName: mode.rawValue)
+                            }
+                        }
+                    }
+                    .pickerStyle(.segmented)
                 }
             }
             .onAppear(perform: {
@@ -104,7 +104,7 @@ struct PerKeyDeviceViewComp_Previews: PreviewProvider {
         PerKeyDeviceViewComp(
             store: .init(
                 initialState: .init(),
-                reducer: perKeyDeviceReducer,
+                reducer: PerKeyDevice.reducer,
                 environment: .init(
                     device: .init(
                         hidDevice: HIDCommunicationMock.mock,

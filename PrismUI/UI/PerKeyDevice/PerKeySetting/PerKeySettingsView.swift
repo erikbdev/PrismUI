@@ -1,5 +1,5 @@
 //
-//  PerKeySettingsViewComp.swift
+//  PerKeySettingsView.swift
 //  PrismUI
 //
 //  Created by Erik Bautista on 5/21/22.
@@ -9,8 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 import PrismClient
 
-struct PerKeySettingsViewComp: View {
-    let store: Store<PerKeySettingsState, PerKeySettingsAction>
+struct PerKeySettingsView: View {
+    let store: Store<PerKeySettingsCore.State, PerKeySettingsCore.Action>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -165,13 +165,13 @@ struct PerKeySettingsViewComp: View {
 //    }
 }
     
-struct PerKeySettingsViewComp_Previews: PreviewProvider {
+struct PerKeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        PerKeySettingsViewComp(
+        PerKeySettingsView(
             store: .init(
                 initialState: .init(mode: .colorShift),
-                reducer: perKeySettingsReducer,
-                environment: PerKeySettingsEnvironment()
+                reducer: PerKeySettingsCore.reducer,
+                environment: .init()
             )
         )
     }

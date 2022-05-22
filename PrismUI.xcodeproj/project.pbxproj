@@ -10,11 +10,11 @@
 		1305FC2F27B4F27D004DBDE6 /* KeyEffectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1305FC2E27B4F27D004DBDE6 /* KeyEffectEvent.swift */; };
 		130877E027B1F6DD00BA6FB3 /* Ricemill in Frameworks */ = {isa = PBXBuildFile; productRef = 130877DF27B1F6DD00BA6FB3 /* Ricemill */; };
 		130BC26A28380A40002E3BCE /* PerKeyProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC26928380A40002E3BCE /* PerKeyProperties.swift */; };
-		130BC27028397BCF002E3BCE /* PerKeySettingsViewComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC26F28397BCF002E3BCE /* PerKeySettingsViewComp.swift */; };
-		130BC27328397C96002E3BCE /* PerKeyKeyboardViewComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27228397C96002E3BCE /* PerKeyKeyboardViewComp.swift */; };
+		130BC27028397BCF002E3BCE /* PerKeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */; };
+		130BC27328397C96002E3BCE /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */; };
 		130BC27528397CD3002E3BCE /* PerKeySettingsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */; };
 		130BC27728397CE3002E3BCE /* PerKeyKeyboardCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */; };
-		130CD4BD2839FE910050F8D1 /* KeyComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CD4BC2839FE910050F8D1 /* KeyComp.swift */; };
+		130CD4BD2839FE910050F8D1 /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CD4BC2839FE910050F8D1 /* KeyView.swift */; };
 		130CD4BF2839FE9A0050F8D1 /* KeyCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */; };
 		13185A16277905AC00D881F5 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 13185A15277905AC00D881F5 /* CombineExt */; };
 		13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */; };
@@ -39,9 +39,7 @@
 		1395D92228372267009D67B8 /* PerKeyDeviceViewComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395D92128372267009D67B8 /* PerKeyDeviceViewComp.swift */; };
 		1395D92428372903009D67B8 /* PerKeyDeviceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */; };
 		1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */; };
-		13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A39B6426F7C55800EA2DEE /* KeyView.swift */; };
 		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
-		13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6744E276D6E0100F6287F /* KeySettingsView.swift */; };
 		13A9933228362293001DB03A /* PrismClient.docc in Sources */ = {isa = PBXBuildFile; fileRef = 13A9933128362293001DB03A /* PrismClient.docc */; };
 		13A9933328362293001DB03A /* PrismClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A9933028362293001DB03A /* PrismClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		13A9933E283622C6001DB03A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932728362276001DB03A /* IOKit.framework */; };
@@ -71,19 +69,14 @@
 		13A99382283628B7001DB03A /* IOHIDDevice+GetProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9936B283628B6001DB03A /* IOHIDDevice+GetProperty.swift */; };
 		13A99383283628B7001DB03A /* IOHIDDevice+Write.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */; };
 		13B5B933283484B400D205FA /* DevicesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B5B932283484B400D205FA /* DevicesCore.swift */; };
-		13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */; };
 		13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B9B9E7277182EA000A047A /* SSKey+Utils.swift */; };
-		13C8CA8427B3A078000D991E /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C8CA8327B3A078000D991E /* PerKeyKeyboardView.swift */; };
-		13CB78BC275869F000BC8F07 /* PerKeyDeviceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */; };
 		13D3EFC227A8931800B2B15F /* HSB+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFC127A8931800B2B15F /* HSB+Color.swift */; };
 		13D3EFC927A8C9D500B2B15F /* ColorBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFC827A8C9D500B2B15F /* ColorBoxView.swift */; };
 		13D3EFCB27A8C9E600B2B15F /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFCA27A8C9E600B2B15F /* ColorPickerView.swift */; };
 		13D3EFCE27A8CC1000B2B15F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 13D3EFCD27A8CC1000B2B15F /* Then */; };
 		13D3EFD027A8D19500B2B15F /* ColorHueSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */; };
 		13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* Device+Image.swift */; };
-		13D6594A26F460BB00C1D39A /* PerKeyDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
-		13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2D804275880CC0014883B /* KeyViewModel.swift */; };
 		13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C027AA4849003CE038 /* PopUpColorPicker.swift */; };
 		13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */; };
 /* End PBXBuildFile section */
@@ -115,11 +108,11 @@
 /* Begin PBXFileReference section */
 		1305FC2E27B4F27D004DBDE6 /* KeyEffectEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEffectEvent.swift; sourceTree = "<group>"; };
 		130BC26928380A40002E3BCE /* PerKeyProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerKeyProperties.swift; sourceTree = "<group>"; };
-		130BC26F28397BCF002E3BCE /* PerKeySettingsViewComp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeySettingsViewComp.swift; sourceTree = "<group>"; };
-		130BC27228397C96002E3BCE /* PerKeyKeyboardViewComp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardViewComp.swift; sourceTree = "<group>"; };
+		130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeySettingsView.swift; sourceTree = "<group>"; };
+		130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
 		130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeySettingsCore.swift; sourceTree = "<group>"; };
 		130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardCore.swift; sourceTree = "<group>"; };
-		130CD4BC2839FE910050F8D1 /* KeyComp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyComp.swift; sourceTree = "<group>"; };
+		130CD4BC2839FE910050F8D1 /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCore.swift; sourceTree = "<group>"; };
 		13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+CombineLatestMany.swift"; sourceTree = "<group>"; };
 		1319711026F3DAD300471846 /* PrismUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,9 +138,7 @@
 		1395D92128372267009D67B8 /* PerKeyDeviceViewComp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceViewComp.swift; sourceTree = "<group>"; };
 		1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceCore.swift; sourceTree = "<group>"; };
 		1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSlider.swift; sourceTree = "<group>"; };
-		13A39B6426F7C55800EA2DEE /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
-		13A6744E276D6E0100F6287F /* KeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsView.swift; sourceTree = "<group>"; };
 		13A9932728362276001DB03A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		13A9932E28362293001DB03A /* PrismClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PrismClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A9933028362293001DB03A /* PrismClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrismClient.h; sourceTree = "<group>"; };
@@ -175,18 +166,13 @@
 		13A9936B283628B6001DB03A /* IOHIDDevice+GetProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+GetProperty.swift"; sourceTree = "<group>"; };
 		13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+Write.swift"; sourceTree = "<group>"; };
 		13B5B932283484B400D205FA /* DevicesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesCore.swift; sourceTree = "<group>"; };
-		13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySettingsViewModel.swift; sourceTree = "<group>"; };
 		13B9B9E7277182EA000A047A /* SSKey+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSKey+Utils.swift"; sourceTree = "<group>"; };
-		13C8CA8327B3A078000D991E /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
-		13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceViewModel.swift; sourceTree = "<group>"; };
 		13D3EFC127A8931800B2B15F /* HSB+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HSB+Color.swift"; sourceTree = "<group>"; };
 		13D3EFC827A8C9D500B2B15F /* ColorBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBoxView.swift; sourceTree = "<group>"; };
 		13D3EFCA27A8C9E600B2B15F /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHueSlider.swift; sourceTree = "<group>"; };
 		13D6594726F44D7300C1D39A /* Device+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Image.swift"; sourceTree = "<group>"; };
-		13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceView.swift; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
-		13E2D804275880CC0014883B /* KeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyViewModel.swift; sourceTree = "<group>"; };
 		13E513C027AA4849003CE038 /* PopUpColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpColorPicker.swift; sourceTree = "<group>"; };
 		13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,7 +205,7 @@
 		130BC27128397BDE002E3BCE /* PerKeyKeyboard */ = {
 			isa = PBXGroup;
 			children = (
-				130BC27228397C96002E3BCE /* PerKeyKeyboardViewComp.swift */,
+				130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */,
 				130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */,
 			);
 			path = PerKeyKeyboard;
@@ -228,7 +214,7 @@
 		130CD4BB2839FE7D0050F8D1 /* KeyFeature */ = {
 			isa = PBXGroup;
 			children = (
-				130CD4BC2839FE910050F8D1 /* KeyComp.swift */,
+				130CD4BC2839FE910050F8D1 /* KeyView.swift */,
 				130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */,
 			);
 			path = KeyFeature;
@@ -289,11 +275,10 @@
 		136D5F3626F419040003A744 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				1395D92028372244009D67B8 /* PerKeyDeviceComp */,
+				1395D92028372244009D67B8 /* PerKeyDevice */,
 				1381F617276AAB9800BF526E /* Components */,
 				13CB78B727585BDD00BC8F07 /* Devices */,
 				13CB78B827585C0500BC8F07 /* Device */,
-				13D6594B26F460BE00C1D39A /* PerKeyDevice */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -308,7 +293,7 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		1395D92028372244009D67B8 /* PerKeyDeviceComp */ = {
+		1395D92028372244009D67B8 /* PerKeyDevice */ = {
 			isa = PBXGroup;
 			children = (
 				130CD4BB2839FE7D0050F8D1 /* KeyFeature */,
@@ -317,13 +302,13 @@
 				1395D92128372267009D67B8 /* PerKeyDeviceViewComp.swift */,
 				1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */,
 			);
-			path = PerKeyDeviceComp;
+			path = PerKeyDevice;
 			sourceTree = "<group>";
 		};
 		1395D92528372F6E009D67B8 /* PerKeySetting */ = {
 			isa = PBXGroup;
 			children = (
-				130BC26F28397BCF002E3BCE /* PerKeySettingsViewComp.swift */,
+				130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */,
 				130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */,
 			);
 			path = PerKeySetting;
@@ -336,15 +321,6 @@
 				1333470F277FACCA0070F058 /* ArrowThumbView.swift */,
 			);
 			path = MultiColorSlider;
-			sourceTree = "<group>";
-		};
-		13A6744D276D6DDF00F6287F /* KeySettings */ = {
-			isa = PBXGroup;
-			children = (
-				13A6744E276D6E0100F6287F /* KeySettingsView.swift */,
-				13B9B9E5277170AD000A047A /* KeySettingsViewModel.swift */,
-			);
-			path = KeySettings;
 			sourceTree = "<group>";
 		};
 		13A9932F28362293001DB03A /* PrismClient */ = {
@@ -420,16 +396,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		13C8CA8227B3A058000D991E /* PerKeyKeyboardView */ = {
-			isa = PBXGroup;
-			children = (
-				13C8CA8327B3A078000D991E /* PerKeyKeyboardView.swift */,
-				13A39B6426F7C55800EA2DEE /* KeyView.swift */,
-				13E2D804275880CC0014883B /* KeyViewModel.swift */,
-			);
-			path = PerKeyKeyboardView;
-			sourceTree = "<group>";
-		};
 		13CB78B727585BDD00BC8F07 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,17 +421,6 @@
 				13D3EFCF27A8D19500B2B15F /* ColorHueSlider.swift */,
 			);
 			path = ColorPicker;
-			sourceTree = "<group>";
-		};
-		13D6594B26F460BE00C1D39A /* PerKeyDevice */ = {
-			isa = PBXGroup;
-			children = (
-				13A6744D276D6DDF00F6287F /* KeySettings */,
-				13C8CA8227B3A058000D991E /* PerKeyKeyboardView */,
-				13D6594926F460BB00C1D39A /* PerKeyDeviceView.swift */,
-				13CB78BB275869F000BC8F07 /* PerKeyDeviceViewModel.swift */,
-			);
-			path = PerKeyDevice;
 			sourceTree = "<group>";
 		};
 		13DFD04326F3DBA200F4C273 /* Frameworks */ = {
@@ -653,19 +608,16 @@
 			files = (
 				1395D92228372267009D67B8 /* PerKeyDeviceViewComp.swift in Sources */,
 				1319711D26F3DAD400471846 /* Persistence.swift in Sources */,
-				13B9B9E6277170AD000A047A /* KeySettingsViewModel.swift in Sources */,
 				135D562D27A1173B00BD8592 /* HSB+toRGB.swift in Sources */,
-				13CB78BC275869F000BC8F07 /* PerKeyDeviceViewModel.swift in Sources */,
 				13D3EFD027A8D19500B2B15F /* ColorHueSlider.swift in Sources */,
 				13D3EFCB27A8C9E600B2B15F /* ColorPickerView.swift in Sources */,
 				130BC27728397CE3002E3BCE /* PerKeyKeyboardCore.swift in Sources */,
-				130BC27028397BCF002E3BCE /* PerKeySettingsViewComp.swift in Sources */,
+				130BC27028397BCF002E3BCE /* PerKeySettingsView.swift in Sources */,
 				1362C7B227595D01005BDEDD /* BaseViewModel.swift in Sources */,
 				13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */,
 				13B5B933283484B400D205FA /* DevicesCore.swift in Sources */,
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				1305FC2F27B4F27D004DBDE6 /* KeyEffectEvent.swift in Sources */,
-				13C8CA8427B3A078000D991E /* PerKeyKeyboardView.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
@@ -673,22 +625,18 @@
 				130BC27528397CD3002E3BCE /* PerKeySettingsCore.swift in Sources */,
 				133E49C427769071006B976B /* ColorManager.swift in Sources */,
 				1319712026F3DAD400471846 /* PrismUI.xcdatamodeld in Sources */,
-				13A6744F276D6E0100F6287F /* KeySettingsView.swift in Sources */,
 				1395D92428372903009D67B8 /* PerKeyDeviceCore.swift in Sources */,
-				130CD4BD2839FE910050F8D1 /* KeyComp.swift in Sources */,
+				130CD4BD2839FE910050F8D1 /* KeyView.swift in Sources */,
 				13D3EFC927A8C9D500B2B15F /* ColorBoxView.swift in Sources */,
 				13334710277FACCA0070F058 /* ArrowThumbView.swift in Sources */,
 				13B9B9E8277182EA000A047A /* SSKey+Utils.swift in Sources */,
 				1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */,
 				13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */,
 				13D3EFC227A8931800B2B15F /* HSB+Color.swift in Sources */,
-				13D6594A26F460BB00C1D39A /* PerKeyDeviceView.swift in Sources */,
 				1382F0052835A736006A3636 /* PrismUICore.swift in Sources */,
-				130BC27328397C96002E3BCE /* PerKeyKeyboardViewComp.swift in Sources */,
+				130BC27328397C96002E3BCE /* PerKeyKeyboardView.swift in Sources */,
 				133E49C62776B58F006B976B /* SSPerKeyProperties+Layout.swift in Sources */,
 				13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */,
-				13A39B6526F7C55800EA2DEE /* KeyView.swift in Sources */,
-				13E2D805275880CC0014883B /* KeyViewModel.swift in Sources */,
 				13A67444276D44C800F6287F /* HSB.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */,
 				13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  PerKeyKeyboardViewComp.swift
+//  PerKeyKeyboardView.swift
 //  PrismUI
 //
 //  Created by Erik Bautista on 5/21/22.
@@ -9,8 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 import PrismClient
 
-struct PerKeyKeyboardViewComp: View {
-    let store: Store<PerKeyKeyboardState, PerKeyKeyboardAction>
+struct PerKeyKeyboardView: View {
+    let store: Store<PerKeyKeyboardCore.State, PerKeyKeyboardCore.Action>
 
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -40,7 +40,7 @@ struct PerKeyKeyboardViewComp: View {
                                 )
 
                                 if let keyLayout = keyLayout {
-                                    KeyComp(store: keyStore)
+                                    KeyView(store: keyStore)
                                         .frame(
                                             minWidth: keyLayout.width,
                                             minHeight: keyLayout.height,
@@ -71,10 +71,10 @@ struct PerKeyKeyboardViewComp: View {
 
 struct PerKeyKeyboardViewComp_Previews: PreviewProvider {
     static var previews: some View {
-        PerKeyKeyboardViewComp(
+        PerKeyKeyboardView(
             store: .init(
                 initialState: .init(model: .perKey),
-                reducer: perKeyKeyboardReducer,
+                reducer: PerKeyKeyboardCore.reducer,
                 environment: .init()
             )
         )

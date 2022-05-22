@@ -1,5 +1,5 @@
 //
-//  KeyComp.swift
+//  KeyView.swift
 //  PrismUI
 //
 //  Created by Erik Bautista on 5/22/22.
@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 import PrismClient
 
-struct KeyComp: View {
+struct KeyView: View {
     let store: Store<KeyCore.State, KeyCore.Action>
 
     var body: some View {
@@ -47,9 +47,9 @@ struct KeyComp: View {
     }
 }
 
-//struct KeyComp_Previews: PreviewProvider {
+//struct KeyView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        KeyComp(
+//        KeyView(
 //            store: .init(
 //                initialState: .init(name: <#String#>, color: <#RGB#>),
 //                reducer: KeyCore.reducer,
