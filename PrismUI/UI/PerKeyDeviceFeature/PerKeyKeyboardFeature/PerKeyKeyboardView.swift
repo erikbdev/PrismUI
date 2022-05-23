@@ -11,20 +11,20 @@ import PrismClient
 
 struct PerKeyKeyboardView: View {
     let store: Store<PerKeyKeyboardCore.State, PerKeyKeyboardCore.Action>
-
+    
     var body: some View {
-        WithViewStore(store) { viewStore in
-            let padding = 6.0
+        let padding = 6.0
 
+        WithViewStore(store.scope(state: \.keysLoaded)) { _ in
             VStack(spacing: padding) {
-                let keyCodes = PerKeyProperties.getKeyboardCodes(for: viewStore.model)
+                let keyCodes = PerKeyProperties.getKeyboardCodes(for: ViewStore(store).model)
 
                 ForEach(keyCodes.indices, id: \.self) { row in
                     HStack(alignment: .top, spacing: padding) {
                         ForEach(keyCodes[row].indices, id: \.self) { column in
                             let keyCode = keyCodes[row][column]
                             let keyId: UInt16 = (UInt16(keyCode.0) << 8) | UInt16(keyCode.1)
-
+                            
                             let keyStore = store.scope(
                                 state: { state in
                                     state.keys[id: keyId] ?? .init(key: .empty)
@@ -35,10 +35,10 @@ struct PerKeyKeyboardView: View {
                             WithViewStore(keyStore) { keyViewStore in
                                 let keyLayout = PerKeyProperties.getKeyLayout(
                                     for: keyViewStore.state.key,
-                                       model: viewStore.model,
+                                       model: ViewStore(store).model,
                                        padding: padding
                                 )
-
+                                
                                 if let keyLayout = keyLayout {
                                     KeyView(store: keyStore)
                                         .frame(
@@ -47,7 +47,7 @@ struct PerKeyKeyboardView: View {
                                             maxHeight: keyLayout.height
                                         )
                                         .offset(y: keyLayout.yOffset)
-
+                                    
                                     if keyLayout.requiresExtraView {
                                         Rectangle()
                                             .fill(Color.clear)
@@ -63,10 +63,10 @@ struct PerKeyKeyboardView: View {
                     }
                 }
             }
-//            .animation(.easeIn(duration: 0.25), value: viewStore.selected)
             .onAppear {
-                viewStore.send(.onAppear)
+                ViewStore(store).send(.onAppear)
             }
+
         }
     }
 }

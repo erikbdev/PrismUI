@@ -13,6 +13,7 @@ struct PerKeyKeyboardCore {
     struct State: Equatable {
         var keys: IdentifiedArrayOf<KeyCore.State> = []
         var model: Models = .unknown
+        var keysLoaded = false
     }
 
     enum Action: Equatable {
@@ -56,6 +57,7 @@ struct PerKeyKeyboardCore {
                     }
                 }
                 state.keys = keysStore
+                state.keysLoaded = true
             case .key(id: let id, action: .toggleSelected):
                 break
             }

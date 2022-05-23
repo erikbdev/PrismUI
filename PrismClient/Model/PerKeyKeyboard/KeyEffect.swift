@@ -17,7 +17,7 @@ public struct KeyEffect {
 
     // MARK: Transitions
 
-    public var transitions: [SSPerKeyTransition]
+    public var transitions: [PerKeyTransition]
 
     // MARK: Start color
 
@@ -45,7 +45,7 @@ public struct KeyEffect {
     public var origin = PerKeyPoint()
     public var pulse: UInt16 = 100
 
-    public init(id: UInt8, transitions: [SSPerKeyTransition]) {
+    public init(id: UInt8, transitions: [PerKeyTransition]) {
         self.id = id
         self.transitions = transitions
         self.start = transitions.first?.color ?? RGB()
@@ -84,7 +84,7 @@ public extension KeyEffect {
         }
     }
 
-    struct SSPerKeyTransition: Codable, Hashable {
+    struct PerKeyTransition: Codable, Hashable {
         public var color = RGB()
         public var position: CGFloat = 0x21 / 0xBB8
 
