@@ -10,14 +10,14 @@ import ComposableArchitecture
 import PrismClient
 
 struct PerKeyDeviceView: View {
-    let store: Store<PerKeyDevice.State, PerKeyDevice.Action>
+    let store: Store<PerKeyDeviceCore.State, PerKeyDeviceCore.Action>
 
     var body: some View {
         HStack(alignment: .top, spacing: 24) {
             PerKeySettingsView(
                 store: store.scope(
                     state: \.settingsState,
-                    action: PerKeyDevice.Action.perKeySettings
+                    action: PerKeyDeviceCore.Action.perKeySettings
                 )
             )
             .background(ColorManager.contentOverBackground)
@@ -28,7 +28,7 @@ struct PerKeyDeviceView: View {
             PerKeyKeyboardView(
                 store: store.scope(
                     state: \.keyboardState,
-                    action: PerKeyDevice.Action.perKeyKeyboard
+                    action: PerKeyDeviceCore.Action.perKeyKeyboard
                 )
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -54,22 +54,22 @@ struct PerKeyDeviceView: View {
         .navigationTitle("SteelSeries KLC")
         .toolbar {
             ToolbarItemGroup {
-                Picker("", selection: .constant(0)) {
-                    Text("Preset 1").tag(0)
-                    Text("Preset 2").tag(1)
-                    Text("Preset 3").tag(2)
-                    Text("Preset 4").tag(3)
-                    Text("Preset 5").tag(4)
-                }
-                .pickerStyle(.menu)
-                .labelsHidden()
+//                Picker("", selection: .constant(0)) {
+//                    Text("Preset 1").tag(0)
+//                    Text("Preset 2").tag(1)
+//                    Text("Preset 3").tag(2)
+//                    Text("Preset 4").tag(3)
+//                    Text("Preset 5").tag(4)
+//                }
+//                .pickerStyle(.menu)
+//                .labelsHidden()
 
-                Spacer()
+//                Spacer()
 
                 // MARK: Mouse mode
                 WithViewStore(store) { viewStore in
                     Picker("", selection: viewStore.binding(\.$mouseMode)) {
-                        ForEach(PerKeyDevice.MouseMode.allCases, id: \.self) { mode in
+                        ForEach(PerKeyDeviceCore.MouseMode.allCases, id: \.self) { mode in
                             if mode != .rectangle {
                                 Image(systemName: mode.rawValue)
                             }
@@ -92,8 +92,18 @@ struct PerKeyDeviceView_Previews: PreviewProvider {
         PerKeyDeviceView(
             store: .init(
                 initialState: .init(),
-                reducer: PerKeyDevice.reducer,
+                reducer: PerKeyDeviceCore.reducer,
                 environment: .init(
+                    mainQueue: .main,
+                    backgroundQueue: .init(
+                        DispatchQueue(
+                            label: "background-state-work",
+                            qos: .background,
+                            attributes: [],
+                            autoreleaseFrequency: .inherit,
+                            target: nil
+                        )
+                    ),
                     device: .init(
                         hidDevice: HIDCommunicationMock.mock,
                         id: 0,

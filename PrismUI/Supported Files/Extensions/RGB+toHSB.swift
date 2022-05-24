@@ -46,7 +46,7 @@ extension RGB {
         }
     }
 
-    static func getColorFromTransition(with percentage: CGFloat, transitions: [KeyEffect.PerKeyTransition]) -> RGB {
+    static func getColorFromTransition(with percentage: CGFloat, transitions: [KeyEffect.Transition]) -> RGB {
         let colorSelectors = transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
         return getColorFromTransition(with: percentage, transitions: colorSelectors)
     }

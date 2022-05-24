@@ -17,8 +17,18 @@ class DeviceRouter {
                 PerKeyDeviceView(
                     store: .init(
                         initialState: .init(),
-                        reducer: PerKeyDevice.reducer,
+                        reducer: PerKeyDeviceCore.reducer,
                         environment: .init(
+                            mainQueue: .main,
+                            backgroundQueue: .init(
+                                DispatchQueue(
+                                    label: "background-state-work",
+                                    qos: .background,
+                                    attributes: [],
+                                    autoreleaseFrequency: .inherit,
+                                    target: nil
+                                )
+                            ),
                             device: device
                         )
                     )

@@ -16,18 +16,18 @@ struct KeyView: View {
         WithViewStore(store) { viewStore in
             ZStack {
                 Rectangle()
-                    .fill(viewStore.color.color)
+                    .fill(viewStore.mainColor.color)
                     .opacity(0.4)
                     .overlay(
                         Rectangle()
                             .strokeBorder(
-                                viewStore.color.color,
+                                viewStore.mainColor.color,
                                 lineWidth: viewStore.selected ? 3 : 0
                             )
                     )
 
                 Circle()
-                    .fill(viewStore.color.color)
+                    .fill(viewStore.mainColor.color)
                     .frame(
                         width: 10,
                         height: 10,
@@ -41,9 +41,10 @@ struct KeyView: View {
             }
             .cornerRadius(4)
             .onTapGesture {
-                viewStore.send(.toggleSelected)
+                viewStore.send(.toggleSelection)
             }
             .animation(.easeIn(duration: 0.25), value: viewStore.selected)
+//            .animation(.easeIn, value: viewStore.mainColor)
         }
     }
 }
@@ -57,5 +58,6 @@ struct KeyView_Previews: PreviewProvider {
                 environment: .init()
             )
         )
+        .frame(width: 100, height: 100)
     }
 }

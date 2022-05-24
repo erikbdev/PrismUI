@@ -51,9 +51,6 @@ public struct Key {
     public var mode = Modes.steady {
         didSet {
             self.effect = nil
-            self.duration = 0x012c
-            self.main = RGB()
-            self.active = RGB()
         }
     }
 

@@ -51,7 +51,7 @@ struct PerKeySettingsCore {
         @BindableState var direction = KeyEffect.Direction.xy
         @BindableState var control = KeyEffect.Control.inward
         @BindableState var pulse: CGFloat = 100
-        @BindableState var origin: KeyEffect.PerKeyPoint = KeyEffect.PerKeyPoint()
+        @BindableState var origin: KeyEffect.Point = KeyEffect.Point()
 
         // MARK: Reactive Input Properties
 
@@ -61,7 +61,8 @@ struct PerKeySettingsCore {
 
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<PerKeySettingsCore.State>)
-        case updatedValues(touchUp: Bool)
+        case updateMode                                         // Check and see if there are any mode update
+        case modeUpdated(PerKeySettingsCore.ModeEvent)          // Notify when mode settings has changed
     }
 
     struct Environment {}
@@ -72,7 +73,6 @@ struct PerKeySettingsCore {
             switch state.mode {
             case .steady:
                 state.steady = .init(hue: 0, saturation: 1, brightness: 1)
-                return .init(value: .updatedValues(touchUp: true))
             case .colorShift:
                 state.gradientStyle = .gradient
                 state.colorSelectors = [
@@ -86,7 +86,6 @@ struct PerKeySettingsCore {
                 state.control = .inward
                 state.direction = .xy
                 state.pulse = 100
-                return .init(value: .updatedValues(touchUp: true))
             case .breathing:
                 state.gradientStyle = .breathing
                 state.speedRange = 1000...30000
@@ -94,27 +93,82 @@ struct PerKeySettingsCore {
                 state.colorSelectors = [
                     ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)
                 ]
-                return .init(value: .updatedValues(touchUp: true))
             case .reactive:
                 state.speedRange = 100...1000
                 state.speed = 300
                 state.rest = HSB(hue: 0, saturation: 0, brightness: 0)
                 state.active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
-                return .init(value: .updatedValues(touchUp: true))
-            case .disabled:
-                return .init(value: .updatedValues(touchUp: true))
+                return .init(value: .updateMode)
             default:
                 break
             }
-        case .binding(\.$steady):
-            return .init(value: .updatedValues(touchUp: true))
-
+            return .init(value: .updateMode)
         case .binding:
-            break
-        case .updatedValues(_):
+            return .init(value: .updateMode)
+        case .updateMode:
+            switch state.mode {
+            case .steady:
+                return .init(
+                    value: .modeUpdated(
+                        .steady(
+                            color: state.steady
+                        )
+                    )
+                )
+            case .colorShift:
+                return .init(
+                    value: .modeUpdated(
+                        .colorShift(
+                            colorSelectors: state.colorSelectors,
+                            speed: state.speed,
+                            waveActive: state.waveActive,
+                            direction: state.direction,
+                            control: state.control,
+                            pulse: state.pulse,
+                            origin: state.origin
+                        )
+                    )
+                )
+            case .breathing:
+                return .init(
+                    value: .modeUpdated(
+                        .breathing(
+                            colorSelectors: state.colorSelectors,
+                            speed: state.speed
+                        )
+                    )
+                )
+            case .reactive:
+                return .init(
+                    value: .modeUpdated(
+                        .reactive(
+                            active: state.active,
+                            rest: state.rest,
+                            speed: state.speed
+                        )
+                    )
+                )
+            case .disabled:
+                return .init(
+                    value: .modeUpdated(
+                        .disabled
+                    )
+                )
+            default:
+                break
+            }
+        default:
             break
         }
         return .none
     }
     .binding()
+
+    enum ModeEvent: Equatable {
+        case steady(color: HSB)
+        case colorShift(colorSelectors: [ColorSelector], speed: CGFloat, waveActive: Bool, direction: KeyEffect.Direction, control: KeyEffect.Control, pulse: CGFloat, origin: KeyEffect.Point)
+        case breathing(colorSelectors: [ColorSelector], speed: CGFloat)
+        case reactive(active: HSB, rest: HSB, speed: CGFloat)
+        case disabled
+    }
 }

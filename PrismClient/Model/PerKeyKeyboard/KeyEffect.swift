@@ -13,11 +13,11 @@ public struct KeyEffect {
 
     // MARK: Identifier
     // If id = -1, that means the identifier has not been set yet.
-    public var id: UInt8
+    public var id: UInt8 = 0
 
     // MARK: Transitions
 
-    public var transitions: [PerKeyTransition]
+    public var transitions: [Transition]
 
     // MARK: Start color
 
@@ -42,11 +42,10 @@ public struct KeyEffect {
     }
     public var direction = Direction.xy
     public var control = Control.inward
-    public var origin = PerKeyPoint()
+    public var origin = Point()
     public var pulse: UInt16 = 100
 
-    public init(id: UInt8, transitions: [PerKeyTransition]) {
-        self.id = id
+    public init(transitions: [Transition]) {
         self.transitions = transitions
         self.start = transitions.first?.color ?? RGB()
     }
@@ -84,7 +83,7 @@ public extension KeyEffect {
         }
     }
 
-    struct PerKeyTransition: Codable, Hashable {
+    struct Transition: Codable, Hashable {
         public var color = RGB()
         public var position: CGFloat = 0x21 / 0xBB8
 
@@ -94,7 +93,7 @@ public extension KeyEffect {
         }
     }
 
-    struct PerKeyPoint: Hashable, Codable {
+    struct Point: Hashable, Codable {
         public var x: CGFloat = 0
         public var y: CGFloat = 0
 

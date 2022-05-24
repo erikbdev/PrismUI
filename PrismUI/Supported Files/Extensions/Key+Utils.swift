@@ -7,6 +7,7 @@
 
 import Foundation
 import PrismClient
+import Then
 
 
 extension Key {
@@ -23,4 +24,7 @@ extension Key: Identifiable {
     public var id: UInt16 {
         return (UInt16(region) << 8) | UInt16(keycode)
     }
+}
+
+extension Key: Then {
 }
