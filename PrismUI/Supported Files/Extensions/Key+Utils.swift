@@ -11,13 +11,13 @@ import Then
 
 
 extension Key {
-    func sameEffect(as ssKey: Key) -> Bool {
-        return mode == ssKey.mode &&
-        main == ssKey.main &&
-        active == ssKey.active &&
-        duration == ssKey.duration &&
-        effect == ssKey.effect
-    }
+//    func sameEffect(as ssKey: Key) -> Bool {
+//        return mode == ssKey.mode &&
+//        main == ssKey.main &&
+//        active == ssKey.active &&
+//        duration == ssKey.duration &&
+//        effect == ssKey.effect
+//    }
 }
 
 extension Key: Identifiable {

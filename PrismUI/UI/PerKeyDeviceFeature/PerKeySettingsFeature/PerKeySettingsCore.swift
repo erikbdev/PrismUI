@@ -13,7 +13,7 @@ struct PerKeySettingsCore {
     struct State: Equatable {
         var enabled = false
 
-        @BindableState var mode = Key.Modes.steady
+        @BindableState var mode = Key.Effect.Mode.steady
 
         // MARK: Common Modes
 
@@ -48,10 +48,10 @@ struct PerKeySettingsCore {
         // MARK: ColorShift Input Properties
 
         @BindableState var waveActive = false
-        @BindableState var direction = KeyEffect.Direction.xy
-        @BindableState var control = KeyEffect.Control.inward
+        @BindableState var direction = Key.Effect.Direction.xy
+        @BindableState var control = Key.Effect.Control.inward
         @BindableState var pulse: CGFloat = 100
-        @BindableState var origin: KeyEffect.Point = KeyEffect.Point()
+        @BindableState var origin = Key.Effect.Point()
 
         // MARK: Reactive Input Properties
 
@@ -166,7 +166,7 @@ struct PerKeySettingsCore {
 
     enum ModeEvent: Equatable {
         case steady(color: HSB)
-        case colorShift(colorSelectors: [ColorSelector], speed: CGFloat, waveActive: Bool, direction: KeyEffect.Direction, control: KeyEffect.Control, pulse: CGFloat, origin: KeyEffect.Point)
+        case colorShift(colorSelectors: [ColorSelector], speed: CGFloat, waveActive: Bool, direction: Key.Effect.Direction, control: Key.Effect.Control, pulse: CGFloat, origin: Key.Effect.Point)
         case breathing(colorSelectors: [ColorSelector], speed: CGFloat)
         case reactive(active: HSB, rest: HSB, speed: CGFloat)
         case disabled

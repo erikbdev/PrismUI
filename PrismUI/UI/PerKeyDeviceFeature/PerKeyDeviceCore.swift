@@ -32,7 +32,7 @@ struct PerKeyDeviceCore {
 
         let device: Device
         // Set the controller here rather than in the Device class
-//        let perKeyController: Controller
+//        let perKeyController: PerKeyController
     }
 
     static let reducer = Reducer<PerKeyDeviceCore.State, PerKeyDeviceCore.Action, PerKeyDeviceCore.Environment>.combine(
@@ -61,51 +61,46 @@ struct PerKeyDeviceCore {
                     state.settingsState.enabled = true
 
                     let allSatisfy = selectedKeys.allSatisfy { key in
-                        key.sameEffect(as: firstKey)
+                        key.effect == firstKey.effect
                     }
 
                     if allSatisfy {
                         // Set Current
-                        let mode = firstKey.mode
+                        let mode = firstKey.effect.mode
+                        state.settingsState.mode = mode
                         switch mode {
                         case .steady:
-                            state.settingsState.mode = mode
-                            state.settingsState.steady = firstKey.main.hsb
+                            state.settingsState.steady = firstKey.effect.main.hsb
                         case .colorShift:
-                            if let effect = firstKey.effect {
-                                state.settingsState.mode = mode
-                                state.settingsState.speed = CGFloat(effect.duration)
-                                state.settingsState.gradientStyle = .gradient
-                                state.settingsState.colorSelectors = effect.transitions.compactMap {
-                                    ColorSelector(
-                                        rgb: $0.color,
-                                        position: $0.position
-                                    )
-                                }
-                                state.settingsState.waveActive = effect.waveActive
-                                state.settingsState.direction = effect.direction
-                                state.settingsState.control = effect.control
-                                state.settingsState.pulse = CGFloat(effect.pulse)
-                                state.settingsState.origin = effect.origin
+                            let effect = firstKey.effect
+                            state.settingsState.speed = CGFloat(effect.duration)
+                            state.settingsState.gradientStyle = .gradient
+                            state.settingsState.colorSelectors = effect.transitions.compactMap {
+                                ColorSelector(
+                                    rgb: $0.color,
+                                    position: $0.position
+                                )
                             }
+                            state.settingsState.waveActive = effect.waveActive
+                            state.settingsState.direction = effect.direction
+                            state.settingsState.control = effect.control
+                            state.settingsState.pulse = CGFloat(effect.pulse)
+                            state.settingsState.origin = effect.origin
                         case .breathing:
-                            if let effect = firstKey.effect {
-                                state.settingsState.mode = mode
-                                state.settingsState.speed = CGFloat(effect.duration)
-                                state.settingsState.gradientStyle = .breathing
-                                state.settingsState.colorSelectors = effect.transitions
-                                    .enumerated()
-                                    .filter { $0.offset % 2 == 0 }
-                                    .compactMap { $0.element }
-                                    .compactMap { ColorSelector(rgb: $0.color, position: $0.position) }
-                            }
+                            let effect = firstKey.effect
+                            state.settingsState.speed = CGFloat(effect.duration)
+                            state.settingsState.gradientStyle = .breathing
+                            state.settingsState.colorSelectors = effect.transitions
+                                .enumerated()
+                                .filter { $0.offset % 2 == 0 }
+                                .compactMap { $0.element }
+                                .compactMap { ColorSelector(rgb: $0.color, position: $0.position) }
                         case .reactive:
-                            state.settingsState.mode = mode
-                            state.settingsState.speed = CGFloat(firstKey.duration)
-                            state.settingsState.active = firstKey.active.hsb
-                            state.settingsState.rest = firstKey.main.hsb
+                            state.settingsState.speed = CGFloat(firstKey.effect.duration)
+                            state.settingsState.active = firstKey.effect.active.hsb
+                            state.settingsState.rest = firstKey.effect.main.hsb
                         default:
-                            state.settingsState.mode = mode
+                            break
                         }
                     } else {
                         // Set state to mixed.
@@ -120,7 +115,7 @@ struct PerKeyDeviceCore {
                 // If a key selection is changed, check and see what the mouse mode is and either select all keys or not.
                 if state.mouseMode == .same, let mainKeyState = state.keyboardState.keys[id: identifier] {
                     for tempKeyState in state.keyboardState.keys {
-                        let sameEffect = mainKeyState.key.sameEffect(as: tempKeyState.key)
+                        let sameEffect = mainKeyState.key.effect == tempKeyState.key.effect
                         if mainKeyState.selected {
                             state.keyboardState.keys[id: tempKeyState.id]?.selected = sameEffect
                         } else {
@@ -138,8 +133,8 @@ struct PerKeyDeviceCore {
                 case let .steady(color: color):
                     let steady = color.rgb
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
-                        state.keyboardState.keys[id: id]?.key.mode = .steady
-                        state.keyboardState.keys[id: id]?.key.main = steady
+                        state.keyboardState.keys[id: id]?.key.effect.mode = .steady
+                        state.keyboardState.keys[id: id]?.key.effect.main = steady
                     }
                 case let .colorShift(
                     colorSelectors: colorSelectors,
@@ -151,7 +146,7 @@ struct PerKeyDeviceCore {
                     origin: origin
                 ):
                     let transitions = colorSelectors.compactMap {
-                        KeyEffect.Transition(
+                        Key.Effect.Transition(
                             color: $0.rgb,
                             position: $0.position
                         )
@@ -161,8 +156,9 @@ struct PerKeyDeviceCore {
                     // This makes sure there are transitions
                     guard transitions.count > 0 else { return .none }
 
-                    var effect = KeyEffect(transitions: transitions)
-                    effect.start = transitions[0].color
+                    var effect = Key.Effect()
+                    effect.mode = .colorShift
+                    effect.transitions = transitions
                     effect.duration = UInt16(speed)
                     effect.waveActive = active
                     effect.direction = direction
@@ -171,13 +167,11 @@ struct PerKeyDeviceCore {
                     effect.pulse = UInt16(pulse)
 
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
-                        state.keyboardState.keys[id: id]?.key.mode = .colorShift
                         state.keyboardState.keys[id: id]?.key.effect = effect
-                        state.keyboardState.keys[id: id]?.key.main = effect.start
                     }
                 case let .breathing(colorSelectors: colorSelectors, speed: speed):
                     let transitions = colorSelectors.compactMap {
-                        KeyEffect.Transition(
+                        Key.Effect.Transition(
                             color: $0.rgb,
                             position: $0.position
                         )
@@ -186,14 +180,13 @@ struct PerKeyDeviceCore {
 
                     guard transitions.count > 0 else { return .none }
 
-                    var effect = KeyEffect(transitions: transitions)
-                    effect.start = transitions[0].color
+                    var effect = Key.Effect()
+                    effect.mode = .breathing
+                    effect.transitions = transitions
                     effect.duration = UInt16(speed)
 
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
-                        state.keyboardState.keys[id: id]?.key.mode = .breathing
                         state.keyboardState.keys[id: id]?.key.effect = effect
-                        state.keyboardState.keys[id: id]?.key.main = effect.start
                     }
                 case let .reactive(active: active, rest: rest, speed: speed):
                     let rest = rest.rgb
@@ -201,15 +194,14 @@ struct PerKeyDeviceCore {
                     let speed = UInt16(speed)
 
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
-                        state.keyboardState.keys[id: id]?.key.mode = .reactive
-                        state.keyboardState.keys[id: id]?.key.main = rest
-                        state.keyboardState.keys[id: id]?.key.active = active
-                        state.keyboardState.keys[id: id]?.key.duration = speed
+                        state.keyboardState.keys[id: id]?.key.effect.mode = .reactive
+                        state.keyboardState.keys[id: id]?.key.effect.main = rest
+                        state.keyboardState.keys[id: id]?.key.effect.active = active
+                        state.keyboardState.keys[id: id]?.key.effect.duration = speed
                     }
                 case .disabled:
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
-                        state.keyboardState.keys[id: id]?.key.mode = .disabled
-                        state.keyboardState.keys[id: id]?.key.main = .init()
+                        state.keyboardState.keys[id: id]?.key.effect.mode = .disabled
                     }
                 }
                 

@@ -8,7 +8,7 @@
 import PrismClient
 
 // Layout Map
-extension PerKeyProperties {
+public extension PerKeyProperties {
     // Not exactly equaling to 20 because of some emtpy spaces in between the keys
 
     static let perKeyMap: [[CGFloat]] = [

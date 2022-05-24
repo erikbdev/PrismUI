@@ -18,14 +18,15 @@ struct KeyCore {
         var selected = false
 
         var mainColor: RGB {
-            if let effect = key.effect {
+            let effect = key.effect
+            if effect.mode == .colorShift || effect.mode == .breathing {
                 let transitions = effect.transitions
                 return RGB.getColorFromTransition(
                     with: 0,
                     transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
                 )
             } else {
-                return key.main
+                return effect.main
             }
         }
     }

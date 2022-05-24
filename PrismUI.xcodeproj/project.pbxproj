@@ -74,6 +74,7 @@
 		13D6594826F44D7300C1D39A /* Device+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594726F44D7300C1D39A /* Device+Image.swift */; };
 		13D6594F26F4618F00C1D39A /* DeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D6594E26F4618F00C1D39A /* DeviceRouter.swift */; };
 		13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E513C027AA4849003CE038 /* PopUpColorPicker.swift */; };
+		13F93074283C7FD1007734C0 /* Key+Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F93073283C7FD1007734C0 /* Key+Effect.swift */; };
 		13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
@@ -166,6 +167,7 @@
 		13D6594726F44D7300C1D39A /* Device+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Image.swift"; sourceTree = "<group>"; };
 		13D6594E26F4618F00C1D39A /* DeviceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRouter.swift; sourceTree = "<group>"; };
 		13E513C027AA4849003CE038 /* PopUpColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpColorPicker.swift; sourceTree = "<group>"; };
+		13F93073283C7FD1007734C0 /* Key+Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Key+Effect.swift"; sourceTree = "<group>"; };
 		13F9C8AE2773DE4600B5EE8C /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -346,6 +348,7 @@
 				13A99357283628B6001DB03A /* PerKeyController.swift */,
 				13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */,
 				13A9935A283628B6001DB03A /* Key.swift */,
+				13F93073283C7FD1007734C0 /* Key+Effect.swift */,
 			);
 			path = PerKeyKeyboard;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				13A99380283628B7001DB03A /* IOHIDDevice+FeatureReport.swift in Sources */,
 				13A99381283628B7001DB03A /* IOHIDManager+Configure.swift in Sources */,
 				13A99377283628B6001DB03A /* DeviceManagerMocks.swift in Sources */,
+				13F93074283C7FD1007734C0 /* Key+Effect.swift in Sources */,
 				13A9933228362293001DB03A /* PrismClient.docc in Sources */,
 				13A99376283628B6001DB03A /* DeviceManagerInterface.swift in Sources */,
 				13A9936D283628B6001DB03A /* Controller.swift in Sources */,

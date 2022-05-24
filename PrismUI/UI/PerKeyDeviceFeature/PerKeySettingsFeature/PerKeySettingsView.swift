@@ -23,7 +23,7 @@ struct PerKeySettingsView: View {
                         "Effect",
                         selection: viewStore.binding(\.$mode),
                         content: {
-                            ForEach(Key.Modes.allCases, id: \.self) {
+                            ForEach(Key.Effect.Mode.allCases, id: \.self) {
                                 if $0 == .mixed {
                                     if viewStore.mode == .mixed {
                                         Text($0.description)
@@ -109,7 +109,7 @@ struct PerKeySettingsView: View {
                             isOn: viewStore.binding(\.$waveActive)
                         )
                             .font(.system(size: 12, weight: .bold, design: .rounded))
-                        
+
                         if viewStore.waveActive {
                             Button(action: {
                                 //                            showOriginModal.toggle()
@@ -127,20 +127,20 @@ struct PerKeySettingsView: View {
                                 "Direction",
                                 selection: viewStore.binding(\.$direction)
                             ) {
-                                ForEach(KeyEffect.Direction.allCases, id: \.self) {
+                                ForEach(Key.Effect.Direction.allCases, id: \.self) {
                                     Text($0.description)
                                 }
                             }
                             .font(.system(size: 12, weight: .bold, design: .default))
                             .pickerStyle(.radioGroup)
 
-                            // Wave Control
+                            //  Wave Control
 
                             Picker(
                                 "Control",
                                 selection: viewStore.binding(\.$control)
                             ) {
-                                ForEach(KeyEffect.Control.allCases, id: \.self) {
+                                ForEach(Key.Effect.Control.allCases, id: \.self) {
                                     Text($0.description)
                                 }
                             }
