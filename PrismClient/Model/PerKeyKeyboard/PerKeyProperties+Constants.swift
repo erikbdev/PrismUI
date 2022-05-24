@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension PerKeyProperties {
+public class PerKeyProperties {
     static let packageSize = 0x20c
 
     // MARK: GS65 and PerKey - Region keys

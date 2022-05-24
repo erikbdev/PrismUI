@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		130877E027B1F6DD00BA6FB3 /* Ricemill in Frameworks */ = {isa = PBXBuildFile; productRef = 130877DF27B1F6DD00BA6FB3 /* Ricemill */; };
-		130BC26A28380A40002E3BCE /* PerKeyProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC26928380A40002E3BCE /* PerKeyProperties.swift */; };
 		130BC27028397BCF002E3BCE /* PerKeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */; };
 		130BC27328397C96002E3BCE /* PerKeyKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */; };
 		130BC27528397CD3002E3BCE /* PerKeySettingsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */; };
@@ -46,11 +45,9 @@
 		13A9934C2836287F001DB03A /* PrismClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932E28362293001DB03A /* PrismClient.framework */; };
 		13A9934D2836287F001DB03A /* PrismClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932E28362293001DB03A /* PrismClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13A9936D283628B6001DB03A /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99352283628B6001DB03A /* Controller.swift */; };
-		13A9936E283628B6001DB03A /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99353283628B6001DB03A /* Properties.swift */; };
 		13A9936F283628B6001DB03A /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99354283628B6001DB03A /* Device.swift */; };
 		13A99370283628B6001DB03A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99355283628B6001DB03A /* Models.swift */; };
 		13A99371283628B6001DB03A /* PerKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99357283628B6001DB03A /* PerKeyController.swift */; };
-		13A99373283628B6001DB03A /* KeyEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A99359283628B6001DB03A /* KeyEffect.swift */; };
 		13A99374283628B6001DB03A /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935A283628B6001DB03A /* Key.swift */; };
 		13A99375283628B6001DB03A /* PerKeyProperties+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */; };
 		13A99376283628B6001DB03A /* DeviceManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A9935D283628B6001DB03A /* DeviceManagerInterface.swift */; };
@@ -105,7 +102,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		130BC26928380A40002E3BCE /* PerKeyProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerKeyProperties.swift; sourceTree = "<group>"; };
 		130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeySettingsView.swift; sourceTree = "<group>"; };
 		130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardView.swift; sourceTree = "<group>"; };
 		130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeySettingsCore.swift; sourceTree = "<group>"; };
@@ -142,11 +138,9 @@
 		13A9933028362293001DB03A /* PrismClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrismClient.h; sourceTree = "<group>"; };
 		13A9933128362293001DB03A /* PrismClient.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = PrismClient.docc; sourceTree = "<group>"; };
 		13A99352283628B6001DB03A /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
-		13A99353283628B6001DB03A /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		13A99354283628B6001DB03A /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		13A99355283628B6001DB03A /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		13A99357283628B6001DB03A /* PerKeyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerKeyController.swift; sourceTree = "<group>"; };
-		13A99359283628B6001DB03A /* KeyEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyEffect.swift; sourceTree = "<group>"; };
 		13A9935A283628B6001DB03A /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PerKeyProperties+Constants.swift"; sourceTree = "<group>"; };
 		13A9935D283628B6001DB03A /* DeviceManagerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManagerInterface.swift; sourceTree = "<group>"; };
@@ -338,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				13A99352283628B6001DB03A /* Controller.swift */,
-				13A99353283628B6001DB03A /* Properties.swift */,
 				13A99354283628B6001DB03A /* Device.swift */,
 				13A99355283628B6001DB03A /* Models.swift */,
 				13A99356283628B6001DB03A /* PerKeyKeyboard */,
@@ -350,11 +343,9 @@
 		13A99356283628B6001DB03A /* PerKeyKeyboard */ = {
 			isa = PBXGroup;
 			children = (
-				130BC26928380A40002E3BCE /* PerKeyProperties.swift */,
 				13A99357283628B6001DB03A /* PerKeyController.swift */,
 				13A9935B283628B6001DB03A /* PerKeyProperties+Constants.swift */,
 				13A9935A283628B6001DB03A /* Key.swift */,
-				13A99359283628B6001DB03A /* KeyEffect.swift */,
 			);
 			path = PerKeyKeyboard;
 			sourceTree = "<group>";
@@ -647,14 +638,11 @@
 				13A99375283628B6001DB03A /* PerKeyProperties+Constants.swift in Sources */,
 				13A9937A283628B7001DB03A /* DeviceScannerMocks.swift in Sources */,
 				13A9937D283628B7001DB03A /* Log.swift in Sources */,
-				130BC26A28380A40002E3BCE /* PerKeyProperties.swift in Sources */,
 				1395D91F2836EB93009D67B8 /* HIDCommunication+Mock.swift in Sources */,
 				13A9937B283628B7001DB03A /* DeviceScannerInterface.swift in Sources */,
-				13A99373283628B6001DB03A /* KeyEffect.swift in Sources */,
 				13A99383283628B7001DB03A /* IOHIDDevice+Write.swift in Sources */,
 				13A99380283628B7001DB03A /* IOHIDDevice+FeatureReport.swift in Sources */,
 				13A99381283628B7001DB03A /* IOHIDManager+Configure.swift in Sources */,
-				13A9936E283628B6001DB03A /* Properties.swift in Sources */,
 				13A99377283628B6001DB03A /* DeviceManagerMocks.swift in Sources */,
 				13A9933228362293001DB03A /* PrismClient.docc in Sources */,
 				13A99376283628B6001DB03A /* DeviceManagerInterface.swift in Sources */,
