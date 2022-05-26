@@ -16,13 +16,14 @@ struct KeyCore {
         }
         var key: Key
         var selected = false
+        var colorPosition: CGFloat = 0
 
         var mainColor: RGB {
             let effect = key.effect
             if effect.mode == .colorShift || effect.mode == .breathing {
                 let transitions = effect.transitions
                 return RGB.getColorFromTransition(
-                    with: 0,
+                    with: colorPosition,
                     transitions: transitions.map({ ColorSelector(color: $0.color, position: $0.position) })
                 )
             } else {

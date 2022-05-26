@@ -18,8 +18,6 @@ public struct PrismManager {
 
     var retreiveDevices: (AnyHashable) -> [PrismDevice.State] = { _ in [] }
 
-    var deviceEnvironment: (AnyHashable, Int) -> PrismDevice.Environment? = { _,_ in nil }
-
     public func create(id: AnyHashable) -> Effect<Action, Never> {
         create(id, CFRunLoopGetCurrent(), .defaultMode)
     }
@@ -34,10 +32,6 @@ public struct PrismManager {
 
     public func retreiveDevices(id: AnyHashable) -> [PrismDevice.State] {
         retreiveDevices(id)
-    }
-
-    public func deviceEnvironment(id: AnyHashable, deviceId: Int) -> PrismDevice.Environment? {
-        deviceEnvironment(id, deviceId)
     }
 }
 

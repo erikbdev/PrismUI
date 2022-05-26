@@ -22,6 +22,7 @@ struct ColorPickerView: View {
         }
         .frame(width: 275, height: 200, alignment: .center)
         .padding()
+        .background(ColorManager.background)
     }
 }
 

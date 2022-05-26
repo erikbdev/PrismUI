@@ -30,7 +30,6 @@ struct PerKeyKeyboardCore {
             action: /PerKeyKeyboardCore.Action.key(id:action:),
             environment: { _ in .init() }
         ),
-
         .init { state, action, environment in
             switch action {
             case .onAppear:

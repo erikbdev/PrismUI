@@ -53,7 +53,9 @@ struct KeyView_Previews: PreviewProvider {
     static var previews: some View {
         KeyView(
             store: .init(
-                initialState: .init(key: .empty),
+                initialState: .init(
+                    key: .empty
+                ),
                 reducer: KeyCore.reducer,
                 environment: .init()
             )

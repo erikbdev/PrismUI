@@ -11,20 +11,21 @@ import PrismClient
 
 struct PerKeyKeyboardView: View {
     let store: Store<PerKeyKeyboardCore.State, PerKeyKeyboardCore.Action>
-    
+
     var body: some View {
         let padding = 6.0
 
         WithViewStore(store.scope(state: \.keysLoaded)) { _ in
-            VStack(spacing: padding) {
-                let keyCodes = PerKeyProperties.getKeyboardCodes(for: ViewStore(store).isLongKeyboard ? .perKey : .perKeyShort)
+            let keyboardModel = ViewStore(store).isLongKeyboard ? PrismDevice.Model.perKey : PrismDevice.Model.perKeyShort
+            let keyCodes = PerKeyProperties.getKeyboardCodes(for: keyboardModel)
 
+            VStack(spacing: padding) {
                 ForEach(keyCodes.indices, id: \.self) { row in
                     HStack(alignment: .top, spacing: padding) {
                         ForEach(keyCodes[row].indices, id: \.self) { column in
                             let keyCode = keyCodes[row][column]
                             let keyId: UInt16 = (UInt16(keyCode.0) << 8) | UInt16(keyCode.1)
-                            
+
                             let keyStore = store.scope(
                                 state: { state in
                                     state.keys[id: keyId] ?? .init(key: .empty)
@@ -35,19 +36,21 @@ struct PerKeyKeyboardView: View {
                             WithViewStore(keyStore) { keyViewStore in
                                 let keyLayout = PerKeyProperties.getKeyLayout(
                                     for: keyViewStore.state.key,
-                                    model: ViewStore(store).isLongKeyboard ? .perKey : .perKeyShort,
+                                    model: keyboardModel,
                                     padding: padding
                                 )
-                                
+
                                 if let keyLayout = keyLayout {
-                                    KeyView(store: keyStore)
+                                    KeyView(
+                                        store: keyStore
+                                    )
                                         .frame(
                                             minWidth: keyLayout.width,
                                             minHeight: keyLayout.height,
                                             maxHeight: keyLayout.height
                                         )
                                         .offset(y: keyLayout.yOffset)
-                                    
+
                                     if keyLayout.requiresExtraView {
                                         Rectangle()
                                             .fill(Color.clear)
