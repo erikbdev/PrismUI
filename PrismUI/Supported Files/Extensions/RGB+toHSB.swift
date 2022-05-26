@@ -47,7 +47,7 @@ extension RGB {
     }
 
     static func getColorFromTransition(with percentage: CGFloat, transitions: [Key.Effect.Transition]) -> RGB {
-        let colorSelectors = transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
+        let colorSelectors = transitions.map({ ColorSelector(color: $0.color, position: $0.position) })
         return getColorFromTransition(with: percentage, transitions: colorSelectors)
     }
 
@@ -69,13 +69,13 @@ extension RGB {
                 relative -= floor(relative)
             }
             let newPosition = 1 - (relative / diff)
-            return RGB.linearGradient(fromColor: beforeSelector.rgb,
-                                      toColor: afterSelector.rgb,
+            return RGB.linearGradient(fromColor: beforeSelector.color,
+                                      toColor: afterSelector.color,
                                       percent: newPosition)
         } else if let beforeColor = from {
-            return beforeColor.rgb
+            return beforeColor.color
         } else if let afterColor = to {
-            return afterColor.rgb
+            return afterColor.color
         }
 
         return RGB()

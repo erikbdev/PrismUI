@@ -12,9 +12,13 @@ import PrismClient
 
 struct PerKeyDeviceCore {
     struct State: Equatable {
-        var keyboardState = PerKeyKeyboardCore.State()
+        var keyboardState: PerKeyKeyboardCore.State
         var settingsState = PerKeySettingsCore.State()
         @BindableState var mouseMode = MouseMode.single
+
+        init (device: PrismDevice.State) {
+            keyboardState = .init(isLongKeyboard: device.model == .perKey)
+        }
     }
 
     enum Action: BindableAction, Equatable {
@@ -23,16 +27,14 @@ struct PerKeyDeviceCore {
         case refreshSettings
         case perKeyKeyboard(PerKeyKeyboardCore.Action)
         case perKeySettings(PerKeySettingsCore.Action)
+        case updateKeyboard
         case binding(BindingAction<PerKeyDeviceCore.State>)
     }
 
     struct Environment {
         var mainQueue: AnySchedulerOf<DispatchQueue>
         var backgroundQueue: AnySchedulerOf<DispatchQueue>
-
-        let device: Device
-        // Set the controller here rather than in the Device class
-//        let perKeyController: PerKeyController
+        let perKeyController: PerKeyDeviceController
     }
 
     static let reducer = Reducer<PerKeyDeviceCore.State, PerKeyDeviceCore.Action, PerKeyDeviceCore.Environment>.combine(
@@ -49,10 +51,7 @@ struct PerKeyDeviceCore {
         .init { state, action, environment in
             switch action {
             case .onAppear:
-                print("Device Core: PerKeyDevice appeared!")
-            case .perKeyKeyboard(.onAppear):
-                // Set device model to the keyboard to load the correct keyboard layout
-                state.keyboardState.model = environment.device.model
+                break
             case .refreshSettings:
                 // Update Effect settings based on the selected keys
                 let selectedKeys = state.keyboardState.keys.filter({ $0.selected }).map({ $0.key })
@@ -77,7 +76,7 @@ struct PerKeyDeviceCore {
                             state.settingsState.gradientStyle = .gradient
                             state.settingsState.colorSelectors = effect.transitions.compactMap {
                                 ColorSelector(
-                                    rgb: $0.color,
+                                    color: $0.color,
                                     position: $0.position
                                 )
                             }
@@ -94,7 +93,7 @@ struct PerKeyDeviceCore {
                                 .enumerated()
                                 .filter { $0.offset % 2 == 0 }
                                 .compactMap { $0.element }
-                                .compactMap { ColorSelector(rgb: $0.color, position: $0.position) }
+                                .compactMap { ColorSelector(color: $0.color, position: $0.position) }
                         case .reactive:
                             state.settingsState.speed = CGFloat(firstKey.effect.duration)
                             state.settingsState.active = firstKey.effect.active.hsb
@@ -147,7 +146,7 @@ struct PerKeyDeviceCore {
                 ):
                     let transitions = colorSelectors.compactMap {
                         Key.Effect.Transition(
-                            color: $0.rgb,
+                            color: $0.color,
                             position: $0.position
                         )
                     }
@@ -172,7 +171,7 @@ struct PerKeyDeviceCore {
                 case let .breathing(colorSelectors: colorSelectors, speed: speed):
                     let transitions = colorSelectors.compactMap {
                         Key.Effect.Transition(
-                            color: $0.rgb,
+                            color: $0.color,
                             position: $0.position
                         )
                     }
@@ -204,7 +203,7 @@ struct PerKeyDeviceCore {
                         state.keyboardState.keys[id: id]?.key.effect.mode = .disabled
                     }
                 }
-                
+                return .init(value: .updateKeyboard)
             case .perKeySettings(_):
                 break
             case .binding(_):
@@ -214,6 +213,15 @@ struct PerKeyDeviceCore {
                     state.keyboardState.keys[id: id]?.selected = false
                 }
                 return .init(value: .refreshSettings)
+            case .updateKeyboard:
+                struct UpdateKeyboardDebounceId: Hashable {}
+
+                return environment.perKeyController.updateDevice(
+                    keys: state.keyboardState.keys.map { $0.key }
+                )
+                .debounce(id: UpdateKeyboardDebounceId(), for: .milliseconds(500), scheduler: environment.mainQueue)
+                .eraseToEffect()
+                .fireAndForget()
             }
             return .none
         }

@@ -33,22 +33,22 @@ public extension PerKeyProperties {
 
     static let perKeyGS65KeySize: CGFloat = 60.0
 
-    static func getKeyboardMap(for model: Models) -> [[CGFloat]] {
+    static func getKeyboardMap(for model: PrismDevice.Model) -> [[CGFloat]] {
         switch model {
         case .perKey:
             return perKeyMap
-        case .perKeyGS65:
+        case .perKeyShort:
             return perKeyGS65KeyMap
         default:
             return []
         }
     }
 
-    static func getKeyboardCodes(for model: Models) -> [[(UInt8, UInt8)]] {
+    static func getKeyboardCodes(for model: PrismDevice.Model) -> [[(UInt8, UInt8)]] {
         switch model {
         case .perKey:
             return perKeyRegionKeyCodes
-        case .perKeyGS65:
+        case .perKeyShort:
             return perKeyGS65RegionKeyCodes
         default:
             return []
@@ -66,7 +66,7 @@ extension PerKeyProperties {
         let requiresExtraView: Bool
     }
 
-    public static func getKeyLayout(for key: Key, model: Models, padding: CGFloat) -> KeyLayout? {
+    public static func getKeyLayout(for key: Key, model: PrismDevice.Model, padding: CGFloat) -> KeyLayout? {
         let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: model)
         let keyMaps: [[CGFloat]] = PerKeyProperties.getKeyboardMap(for: model)
         let keySizes: CGFloat = model == .perKey ? PerKeyProperties.perKeyKeySize : PerKeyProperties.perKeyGS65KeySize

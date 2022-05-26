@@ -25,6 +25,7 @@ extension IOHIDDevice {
             data.count
         )
 
+        // This allows to update devices without causing issues
         Thread.sleep(forTimeInterval: 0.05)
 
         guard returnValue == kIOReturnSuccess else {

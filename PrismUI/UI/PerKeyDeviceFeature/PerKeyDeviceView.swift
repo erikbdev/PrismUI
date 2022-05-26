@@ -24,7 +24,7 @@ struct PerKeyDeviceView: View {
             .cornerRadius(12)
             .padding(0)
             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 0)
-            
+
             PerKeyKeyboardView(
                 store: store.scope(
                     state: \.keyboardState,
@@ -54,17 +54,17 @@ struct PerKeyDeviceView: View {
         .navigationTitle("SteelSeries KLC")
         .toolbar {
             ToolbarItemGroup {
-//                Picker("", selection: .constant(0)) {
-//                    Text("Preset 1").tag(0)
-//                    Text("Preset 2").tag(1)
-//                    Text("Preset 3").tag(2)
-//                    Text("Preset 4").tag(3)
-//                    Text("Preset 5").tag(4)
-//                }
-//                .pickerStyle(.menu)
-//                .labelsHidden()
+                Picker("", selection: .constant(0)) {
+                    Text("Preset 1").tag(0)
+                    Text("Preset 2").tag(1)
+                    Text("Preset 3").tag(2)
+                    Text("Preset 4").tag(3)
+                    Text("Preset 5").tag(4)
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
 
-//                Spacer()
+                Spacer()
 
                 // MARK: Mouse mode
                 WithViewStore(store) { viewStore in
@@ -89,26 +89,27 @@ struct PerKeyDeviceView: View {
 
 struct PerKeyDeviceView_Previews: PreviewProvider {
     static var previews: some View {
+        let deviceState = PrismDevice.State.mock(
+            identifier: 1,
+            name: "PerKeyKeybaord",
+            model: .perKeyShort,
+            device: HIDCommunicationMock.mock
+        )
         PerKeyDeviceView(
             store: .init(
-                initialState: .init(),
+                initialState: .init(
+                    device: deviceState
+                ),
                 reducer: PerKeyDeviceCore.reducer,
                 environment: .init(
                     mainQueue: .main,
                     backgroundQueue: .init(
-                        DispatchQueue(
-                            label: "background-state-work",
-                            qos: .background,
-                            attributes: [],
-                            autoreleaseFrequency: .inherit,
-                            target: nil
+                        DispatchQueue.global(
+                            qos: .background
                         )
                     ),
-                    device: .init(
-                        hidDevice: HIDCommunicationMock.mock,
-                        id: 0,
-                        name: "Device 1",
-                        model: .perKey
+                    perKeyController: .mock(
+                        device: deviceState.device
                     )
                 )
             )

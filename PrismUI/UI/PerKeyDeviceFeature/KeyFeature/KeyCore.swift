@@ -23,7 +23,7 @@ struct KeyCore {
                 let transitions = effect.transitions
                 return RGB.getColorFromTransition(
                     with: 0,
-                    transitions: transitions.map({ ColorSelector(rgb: $0.color, position: $0.position) })
+                    transitions: transitions.map({ ColorSelector(color: $0.color, position: $0.position) })
                 )
             } else {
                 return effect.main
@@ -116,7 +116,7 @@ struct KeyCore {
 //    }
 //
 //    func customWaveAnimation(effect: SSKeyEffect) {
-//        let keyboardRegionAndKeycodes = model == .perKeyGS65 ? PerKeyProperties.perKeyGS65RegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
+//        let keyboardRegionAndKeycodes = model == .perKeyShort ? PerKeyProperties.perKeyGS65RegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
 //        let keyboardMap = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65KeyMap : SSPerKeyProperties.perKeyMap
 //        let maxColumnCount = CGFloat(keyboardMap.first?.count ?? 0)
 //        let maxRowCount = CGFloat(keyboardMap.count)

@@ -60,7 +60,7 @@ public extension IOHIDManager {
         IOHIDManagerRegisterDeviceRemovalCallback(self, callback, context)
     }
 
-    func copyDevices() -> CFSet? {
-        IOHIDManagerCopyDevices(self)
+    func copyDevices() -> Set<IOHIDDevice> {
+        IOHIDManagerCopyDevices(self) as? Set<IOHIDDevice> ?? []
     }
 }

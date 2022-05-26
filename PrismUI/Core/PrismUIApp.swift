@@ -15,9 +15,19 @@ struct PrismUIApp: App {
             DevicesView(
                 store: .init(
                     initialState: .init(),
-                    reducer: devicesReducer,
-                    environment: DevicesEnvironment(
-                        deviceScanner: .live
+                    reducer: DevicesCore.reducer,
+                    environment: DevicesCore.Environment.init(
+                        mainQueue: .main,
+                        backgroundQueue: .init(
+                            DispatchQueue(
+                                   label: "background-state-work",
+                                   qos: .background,
+                                   attributes: [],
+                                   autoreleaseFrequency: .inherit,
+                                   target: nil
+                            )
+                        ),
+                        prismManager: .live
                     )
                 )
             )

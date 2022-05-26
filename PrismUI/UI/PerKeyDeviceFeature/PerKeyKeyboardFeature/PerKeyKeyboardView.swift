@@ -17,7 +17,7 @@ struct PerKeyKeyboardView: View {
 
         WithViewStore(store.scope(state: \.keysLoaded)) { _ in
             VStack(spacing: padding) {
-                let keyCodes = PerKeyProperties.getKeyboardCodes(for: ViewStore(store).model)
+                let keyCodes = PerKeyProperties.getKeyboardCodes(for: ViewStore(store).isLongKeyboard ? .perKey : .perKeyShort)
 
                 ForEach(keyCodes.indices, id: \.self) { row in
                     HStack(alignment: .top, spacing: padding) {
@@ -35,8 +35,8 @@ struct PerKeyKeyboardView: View {
                             WithViewStore(keyStore) { keyViewStore in
                                 let keyLayout = PerKeyProperties.getKeyLayout(
                                     for: keyViewStore.state.key,
-                                       model: ViewStore(store).model,
-                                       padding: padding
+                                    model: ViewStore(store).isLongKeyboard ? .perKey : .perKeyShort,
+                                    padding: padding
                                 )
                                 
                                 if let keyLayout = keyLayout {
@@ -75,7 +75,9 @@ struct PerKeyKeyboardViewComp_Previews: PreviewProvider {
     static var previews: some View {
         PerKeyKeyboardView(
             store: .init(
-                initialState: .init(model: .perKey),
+                initialState: .init(
+                    isLongKeyboard: true
+                ),
                 reducer: PerKeyKeyboardCore.reducer,
                 environment: .init()
             )

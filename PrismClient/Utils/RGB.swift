@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import SwiftUI
 
-public struct RGB: Codable {
+public struct RGB {
     public var red: CGFloat = 0 {
         didSet { red.clamped(min: 0.0, max: 1.0) }
     }
@@ -38,17 +37,21 @@ public struct RGB: Codable {
         let gClamped = CGFloat(min(max(green, 0), 255))
         let bClamped = CGFloat(min(max(blue, 0), 255))
         let aClamped = CGFloat(min(max(alpha, 0), 255))
-        self.init(red: rClamped / 255.0,
-                  green: gClamped / 255.0,
-                  blue: bClamped / 255.0,
-                  alpha: aClamped / 255.0)
+        self.init(
+            red: rClamped / 255.0,
+            green: gClamped / 255.0,
+            blue: bClamped / 255.0,
+            alpha: aClamped / 255.0
+        )
     }
 
     public init(red: Int, green: Int, blue: Int, alpha: Int = 255) {
-        self.init(red: UInt8(red),
-                  green: UInt8(green),
-                  blue: UInt8(blue),
-                  alpha: UInt8(alpha))
+        self.init(
+            red: UInt8(red),
+            green: UInt8(green),
+            blue: UInt8(blue),
+            alpha: UInt8(alpha)
+        )
     }
 
     public init(hexString: String) {
@@ -58,30 +61,18 @@ public struct RGB: Codable {
             return
         }
 
-        self.init(red: CGFloat((hexInt >> 16) & 0xFF) / 255.0,
-                  green: CGFloat((hexInt >> 8) & 0xFF) / 255.0,
-                  blue: CGFloat((hexInt >> 0) & 0xFF) / 255.0,
-                  alpha: 1.0)
-    }
-
-    public var color: Color {
-        return Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha)
+        self.init(
+            red: CGFloat((hexInt >> 16) & 0xFF) / 255.0,
+            green: CGFloat((hexInt >> 8) & 0xFF) / 255.0,
+            blue: CGFloat((hexInt >> 0) & 0xFF) / 255.0,
+            alpha: 1.0
+        )
     }
 }
 
-extension RGB: Hashable {
-    public static func == (lhs: RGB, rhs: RGB) -> Bool {
-        return lhs.red == rhs.red &&
-        lhs.green == rhs.green &&
-        lhs.blue == rhs.blue
-    }
+extension RGB: Hashable { }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(red)
-        hasher.combine(green)
-        hasher.combine(blue)
-    }
-}
+extension RGB: Codable { }
 
 private extension CGFloat {
     mutating func clamped(min: CGFloat, max: CGFloat) {

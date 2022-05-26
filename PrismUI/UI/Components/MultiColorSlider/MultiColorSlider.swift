@@ -9,27 +9,16 @@ import SwiftUI
 import PrismClient
 import OrderedCollections
 
-struct ColorSelector {
-    var rgb: RGB
+struct ColorSelector: Hashable {
+    var color: RGB
     var position: CGFloat // Value from 0 to 1.0
     var yOffset: CGFloat = -1
 }
 
-extension ColorSelector: Hashable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.hashValue == rhs.hashValue
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(rgb)
-        hasher.combine(position)
-        hasher.combine(yOffset)
-    }
-}
-
 struct MultiColorSlider: View {
     @Binding var selectors: [ColorSelector]
-    @Binding var backgroundType: BackgroundStyle
+    @Binding var backgroundStyle: BackgroundStyle
+    private let thumbSize = 16.0
 
     enum BackgroundStyle {
         case gradient
@@ -37,23 +26,19 @@ struct MultiColorSlider: View {
     }
 
     private var maxSelectors: Int {
-        if backgroundType == .gradient {
+        if backgroundStyle == .gradient {
             return 14
         } else {
             return 4
         }
     }
 
-    private let thumbSize = 16.0
-
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-
                 // Background gradient
-
                 Background
-                    .shadow(radius: 0, x: 0, y: 0)
+                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                     .onTouch(type: .ended, limitToBounds: true) { point in
                         handleAddingNewSelector(at: point, geometry: geometry)
                     }
@@ -61,40 +46,52 @@ struct MultiColorSlider: View {
                 ForEach(selectors.indices, id: \.self) { index in
                     RoundedTriangle()
                         .modifier(
-                            PopUpColorPicker(hsb: $selectors[index].rgb.hsb)
+                            PopUpColorPicker(hsb: $selectors[index].color.hsb)
                         )
                         .frame(width: thumbSize, height: thumbSize)
                         .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                         .contentShape(Rectangle())
-                        .position(x: getThumbXPosition(size: geometry.size, selector: selectors[index]),
-                                  y: getThumbYOffset(size: geometry.size, selector: selectors[index]))
+                        .position(
+                            x: getThumbXPosition(size: geometry.size, selector: selectors[index]),
+                            y: getThumbYOffset(size: geometry.size, selector: selectors[index])
+                        )
                         .simultaneousGesture(
                             DragGesture(minimumDistance: 0.0)
                                 .onChanged({ value in
-                                    // TODO: Fix thumb position
                                     handleThumbDragged(value: value, index: index, geometry: geometry)
                                 })
                                 .onEnded({ value in
                                     handleThumbDragEnded(value: value, index: index, geometry: geometry)
                                 })
                         )
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 2)
                 }
             }
             .shadow(radius: 0)
             .frame(width: geometry.size.width, height: geometry.size.height)
+            .animation(.linear(duration: 0.25), value: selectors)
         }
     }
 
     @ViewBuilder
     private var Background: some View {
-        RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
+        RoundedRectangle(
+            cornerSize: CGSize(width: 8, height: 8)
+        )
             .fill(
-                LinearGradient(stops: (backgroundType == .gradient ? getGradientColors() : getBreathingColors())
-                                .map({ .init(color: $0.rgb.color,
-                                             location: $0.position) }),
-                               startPoint: .leading,
-                               endPoint: .trailing))
-            .padding(.bottom, thumbSize + 2)
+                LinearGradient(
+                    stops: (backgroundStyle == .gradient ? getGradientColors() : getBreathingColors())
+                        .map({
+                            .init(
+                                color: $0.color.color,
+                                location: $0.position
+                            )
+                        }),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+        )
+        .padding(.bottom, thumbSize + 2)
     }
 }
 
@@ -103,7 +100,7 @@ struct MultiColorSlider: View {
 extension MultiColorSlider {
     private func getGradientColors() -> [ColorSelector] {
         var sortedArray = selectors.sorted(by: { $0.position < $1.position })
-        sortedArray.append(ColorSelector(rgb: selectors[0].rgb, position: 1.0))
+        sortedArray.append(.init(color: selectors[0].color, position: 1.0))
         return sortedArray
     }
 
@@ -123,10 +120,10 @@ extension MultiColorSlider {
             }
 
             newArray.append(selecor)
-            newArray.append(ColorSelector(rgb: RGB(), position: halfDistance))
+            newArray.append(ColorSelector(color: RGB(), position: halfDistance))
         }
 
-        newArray.append(ColorSelector(rgb: selectors[0].rgb, position: 1.0))
+        newArray.append(ColorSelector(color: selectors[0].color, position: 1.0))
         return newArray
     }
 }
@@ -135,7 +132,6 @@ extension MultiColorSlider {
 
 extension MultiColorSlider {
     private func handleAddingNewSelector(at point: CGPoint, geometry: GeometryProxy) {
-
         guard selectors.count < maxSelectors else { return }
 
         // Avoid adding point near or on a selector
@@ -149,11 +145,9 @@ extension MultiColorSlider {
 
         // Add selector
         let color = getColorFromGradient(with: widthPercentage)
-        let newSelector = ColorSelector(rgb: color, position: widthPercentage)
+        let newSelector = ColorSelector(color: color, position: widthPercentage)
 
-        withAnimation {
-            selectors.append(newSelector)
-        }
+        selectors.append(newSelector)
     }
 
     private func handleThumbDragged(value: DragGesture.Value,
@@ -195,13 +189,11 @@ extension MultiColorSlider {
 
         guard selectors.count > 1 else { return }
 
-        withAnimation {
-            if value.location.y - containerHeight > containerHeight {
-                selectors.remove(at: index)
-            } else {
-                if selectors[index].yOffset != minSelectorCenterY {
-                    selectors[index].yOffset = minSelectorCenterY
-                }
+        if value.location.y - containerHeight > containerHeight {
+            selectors.remove(at: index)
+        } else {
+            if selectors[index].yOffset != minSelectorCenterY {
+                selectors[index].yOffset = minSelectorCenterY
             }
         }
     }
@@ -259,7 +251,7 @@ extension MultiColorSlider {
 
         var transitions: [ColorSelector] = []
 
-        if backgroundType == .breathing {
+        if backgroundStyle == .breathing {
             transitions = getBreathingColors()
         } else {
             transitions = getGradientColors()
@@ -272,10 +264,10 @@ struct MultiColorSliderView_Previews: PreviewProvider {
     static var previews: some View {
         MultiColorSlider(selectors: .constant(
             [
-                ColorSelector(rgb: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
-                ColorSelector(rgb: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
-                ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
-            ]), backgroundType: .constant(.gradient))
+                ColorSelector(color: .init(red: 0.0, green: 1.0, blue: 0.5), position: 0),
+                ColorSelector(color: .init(red: 1.0, green: 1.0, blue: 0.0), position: 0.5),
+                ColorSelector(color: .init(red: 1.0, green: 0.0, blue: 1.0), position: 1.0)
+            ]), backgroundStyle: .constant(.gradient))
             .frame(width: 300, height: 60)
     }
 }

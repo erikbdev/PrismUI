@@ -11,42 +11,45 @@ import AppKit.NSSplitViewController
 import ComposableArchitecture
 import PrismClient
 
-struct DevicesState: Equatable {
-    var devices: IdentifiedArrayOf<Device> = []
-}
-
-enum DevicesAction: Equatable {
-    case onAppear
-    case toggleSidebar
-    case devicesManager(DeviceScanner.Event)
-}
-
-struct DevicesEnvironment {
-    let deviceScanner: DeviceScanner
-}
-
-let devicesReducer = Reducer<DevicesState, DevicesAction, DevicesEnvironment>.combine(
-    .init { state, action, environment in
-        struct DevicesManagerId: Hashable {}
-        switch action {
-        case .onAppear:
-            return .merge(
-                environment.deviceScanner.create(id: DevicesManagerId())
-                    .map(DevicesAction.devicesManager),
-                environment.deviceScanner.scan(id: DevicesManagerId())
-                    .fireAndForget()
-            )
-        case .devicesManager(let delegate):
-            switch delegate {
-            case .didDiscover(let device, error: let error):
-                state.devices.append(device)
-            case .didRemove(let device, error: let error):
-                state.devices.remove(device)
-            }
-        case .toggleSidebar:
-            NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-        }
-
-        return .none
+struct DevicesCore {
+    struct State: Equatable {
+        var devices: IdentifiedArrayOf<PrismDevice.State> = []
     }
-)
+
+    enum Action: Equatable {
+        case onAppear
+        case toggleSidebar
+        case devicesManager(PrismManager.Action)
+    }
+
+    struct Environment {
+        var mainQueue: AnySchedulerOf<DispatchQueue>
+        var backgroundQueue: AnySchedulerOf<DispatchQueue>
+        let prismManager: PrismManager
+    }
+
+    static let reducer = Reducer<DevicesCore.State, DevicesCore.Action, DevicesCore.Environment>.combine(
+        .init { state, action, environment in
+            struct DevicesManagerId: Hashable {}
+            switch action {
+            case .onAppear:
+                return .merge(
+                    environment.prismManager.create(id: DevicesManagerId())
+                        .map(DevicesCore.Action.devicesManager),
+                    environment.prismManager.scan(id: DevicesManagerId())
+                        .fireAndForget()
+                )
+            case .toggleSidebar:
+                NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+            case .devicesManager(let delegate):
+                switch delegate {
+                case .didDiscover(let device):
+                    state.devices.append(device)
+                case .didRemove(let device):
+                    state.devices.remove(device)
+                }
+            }
+            return .none
+        }
+    )
+}

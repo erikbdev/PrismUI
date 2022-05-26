@@ -9,7 +9,6 @@ import ComposableArchitecture
 import PrismClient
 
 struct PerKeySettingsCore {
-
     struct State: Equatable {
         var enabled = false
 
@@ -29,7 +28,7 @@ struct PerKeySettingsCore {
         @BindableState var gradientStyle = MultiColorSlider.BackgroundStyle.gradient
         @BindableState var colorSelectors = [
             ColorSelector(
-                rgb: .init(
+                color: .init(
                     red: 1.0,
                     green: 1.0,
                     blue: 1.0
@@ -37,11 +36,11 @@ struct PerKeySettingsCore {
                 position: 0
             ),
             ColorSelector(
-                rgb: .init(
+                color: .init(
                     red: 1.0,
                     green: 0.0,
                     blue: 0.0),
-                position: 0
+                position: 0.5
             )
         ]
 
@@ -72,13 +71,38 @@ struct PerKeySettingsCore {
         case .binding(\.$mode):
             switch state.mode {
             case .steady:
-                state.steady = .init(hue: 0, saturation: 1, brightness: 1)
+                state.steady = .init(
+                    hue: 0,
+                    saturation: 1,
+                    brightness: 1
+                )
             case .colorShift:
                 state.gradientStyle = .gradient
                 state.colorSelectors = [
-                    ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.88), position: 0),
-                    ColorSelector(rgb: .init(red: 1.0, green: 0xea/0xff, blue: 0.0), position: 0.32),
-                    ColorSelector(rgb: .init(red: 0.0, green: 0xcc/0xff, blue: 1.0), position: 0.76)
+                    .init(
+                        color: .init(
+                            red: 1.0,
+                            green: 0.0,
+                            blue: 0.88
+                        ),
+                        position: 0
+                    ),
+                    .init(
+                        color: .init(
+                            red: 1.0,
+                            green: 0.92,
+                            blue: 0.0
+                        ),
+                        position: 0.32
+                    ),
+                    .init(
+                        color: .init(
+                            red: 0.0,
+                            green: 0.8,
+                            blue: 1.0
+                        ),
+                        position: 0.76
+                    )
                 ]
                 state.speedRange = 1000...30000
                 state.speed = 3000
@@ -91,13 +115,28 @@ struct PerKeySettingsCore {
                 state.speedRange = 1000...30000
                 state.speed = 4000
                 state.colorSelectors = [
-                    ColorSelector(rgb: .init(red: 1.0, green: 0.0, blue: 0.0), position: 0)
+                    .init(
+                        color: .init(
+                            red: 1.0,
+                            green: 0.0,
+                            blue: 0.0
+                        ),
+                        position: 0
+                    )
                 ]
             case .reactive:
                 state.speedRange = 100...1000
                 state.speed = 300
-                state.rest = HSB(hue: 0, saturation: 0, brightness: 0)
-                state.active = HSB(hue: 0, saturation: 1.0, brightness: 1.0)
+                state.rest = .init(
+                    hue: 0,
+                    saturation: 0,
+                    brightness: 0
+                )
+                state.active = .init(
+                    hue: 0,
+                    saturation: 1.0,
+                    brightness: 1.0
+                )
                 return .init(value: .updateMode)
             default:
                 break

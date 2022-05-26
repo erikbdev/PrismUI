@@ -157,17 +157,3 @@ extension Key.Effect: Codable {}
 // MARK: - Hash Extension
 
 extension Key.Effect: Hashable {}
-
-//extension Effect: Hashable {
-//    func dataEqual(with effect: KeyEffect) -> Bool {
-//        return self.start == effect.start &&
-//        self.transitions == effect.transitions &&
-//        self.waveActive == effect.waveActive &&
-//        self.direction == effect.direction &&
-//        self.control == effect.control &&
-//        self.pulse == effect.pulse &&
-//        self.duration == effect.duration &&
-//        self.origin == effect.origin
-//    }
-//}
-//

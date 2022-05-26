@@ -11,32 +11,30 @@ import ComposableArchitecture
 
 class DeviceRouter {
     @ViewBuilder
-    static func route(device: Device) -> some View {
+    static func route(device: PrismDevice.State) -> some View {
         switch device.model {
-            case .perKey, .perKeyGS65:
-                PerKeyDeviceView(
-                    store: .init(
-                        initialState: .init(),
-                        reducer: PerKeyDeviceCore.reducer,
-                        environment: .init(
-                            mainQueue: .main,
-                            backgroundQueue: .init(
-                                DispatchQueue(
-                                    label: "background-state-work",
-                                    qos: .background,
-                                    attributes: [],
-                                    autoreleaseFrequency: .inherit,
-                                    target: nil
-                                )
-                            ),
-                            device: device
-                        )
+        case .perKey, .perKeyShort:
+            PerKeyDeviceView(
+                store: .init(
+                    initialState: .init(
+                        device: device
+                    ),
+                    reducer: PerKeyDeviceCore.reducer,
+                    environment: .init(
+                        mainQueue: .main,
+                        backgroundQueue: .init(
+                            DispatchQueue.global(
+                                qos: .background
+                            )
+                        ),
+                        perKeyController: .live(device: device.device)
                     )
                 )
-            case .threeRegion:
-                Text("Model not supported")
-            case .unknown:
-                Text("Model not found")
+            )
+        case .threeRegion:
+            Text("Model not supported")
+        case .unknown:
+            Text("Model not found")
         }
     }
 }

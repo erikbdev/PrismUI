@@ -22,16 +22,17 @@ class PerKeyController: Controller {
     ///
     /// - Parameter data: Array[Key]
     func update(data: Any, force: Bool) {
+        let model = isLongKeyboard ? PrismDevice.Model.perKey : PrismDevice.Model.perKeyShort
         commandMutex.async { [unowned self] in
             guard let updateKeys = data as? [Key] else {
-                Log.error("Cannot update device for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65) because there are no keys")
+                Log.error("Cannot update device for: \(model) because there are no keys")
                 return
             }
  
             let keyCodeCount = isLongKeyboard ? PerKeyProperties.perKeyRegionKeyCodes : PerKeyProperties.perKeyGS65RegionKeyCodes
 
             guard updateKeys.count == keyCodeCount.flatMap({ $0 }).count else {
-                Log.error("Data not matching keyCodes required for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65)")
+                Log.error("Data not matching keyCodes required for: \(model)")
                 return
             }
 
@@ -57,7 +58,7 @@ class PerKeyController: Controller {
 
             var result = self.writeEffectsToKeyboard(effects: effectsWithId)
             guard result == kIOReturnSuccess || result == kIOReturnNotFound else {
-                Log.error("Cannot update effect for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
+                Log.error("Cannot update effect for \(model): \(String(cString: mach_error_string(result)))")
                 return
             }
 
@@ -73,7 +74,7 @@ class PerKeyController: Controller {
                     effectsWithId: effectsWithId
                 )
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for modifiers; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
+                    Log.error("Error sending feature report for modifiers; \(model): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -88,7 +89,7 @@ class PerKeyController: Controller {
                     effectsWithId: effectsWithId
                 )
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for alphanums; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
+                    Log.error("Error sending feature report for alphanums; \(model): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -103,7 +104,7 @@ class PerKeyController: Controller {
                     effectsWithId: effectsWithId
                 )
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for enters; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
+                    Log.error("Error sending feature report for enters; \(model): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -118,7 +119,7 @@ class PerKeyController: Controller {
                     effectsWithId: effectsWithId
                 )
                 if result != kIOReturnSuccess {
-                    Log.error("Error sending feature report for special; \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): " +
+                    Log.error("Error sending feature report for special; \(model): " +
                                 "\(String(cString: mach_error_string(result)))")
                     return
                 }
@@ -128,27 +129,29 @@ class PerKeyController: Controller {
 
             result = self.writeToKeyboard(lastByte: lastByte)
             if result != kIOReturnSuccess {
-                Log.error("Error writing to \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
+                Log.error("Error writing to \(model): \(String(cString: mach_error_string(result)))")
             }
         }
     }
 
     private func writeEffectsToKeyboard(effects: [UInt8: Key.Effect]) -> IOReturn {
+        let model = isLongKeyboard ? PrismDevice.Model.perKey : PrismDevice.Model.perKeyShort
+
         guard effects.count > 0 else {
-            Log.debug("No available effects found for: \(isLongKeyboard ? Models.perKey : Models.perKeyGS65)")
+            Log.debug("No available effects found for: \(model)")
             return kIOReturnNotFound
         }
 
         for (effectId, effect) in effects {
             guard effect.transitions.count > 0 else {
                 // Must have at least one transition or will return error
-                Log.error("An effect has no transitions for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
+                Log.error("An effect has no transitions for \(model). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
                 return kIOReturnError
             }
 
             guard effect.transitions.map({ $0.position }).isUnique else {
                 // Must have unique positions in each transition or keyboard may brick.
-                Log.error("A transition must have unique positions for \(isLongKeyboard ? Models.perKey : Models.perKeyGS65). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
+                Log.error("A transition must have unique positions for \(model). Will not update keyboard with no transitions due to it can cause bricking keyboard.")
                 return kIOReturnError
             }
 
@@ -252,7 +255,7 @@ class PerKeyController: Controller {
 
             let result = hidController.sendFeatureReport(data: data)
             guard result == kIOReturnSuccess else {
-                Log.error("Could not send effect to \(isLongKeyboard ? Models.perKey : Models.perKeyGS65): \(String(cString: mach_error_string(result)))")
+                Log.error("Could not send effect to \(model): \(String(cString: mach_error_string(result)))")
                 return result
             }
         }

@@ -12,7 +12,7 @@ import PrismClient
 struct PerKeyKeyboardCore {
     struct State: Equatable {
         var keys: IdentifiedArrayOf<KeyCore.State> = []
-        var model: Models = .unknown
+        var isLongKeyboard: Bool
         var keysLoaded = false
     }
 
@@ -38,8 +38,8 @@ struct PerKeyKeyboardCore {
                 return .init(value: .loadKeys)
             case .loadKeys:
                 // Load keys based on model
-                let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: state.model)
-                let keyNames: [[String]] = state.model == .perKey ? PerKeyProperties.perKeyNames : PerKeyProperties.perKeyGS65KeyNames
+                let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: state.isLongKeyboard ? .perKey : .perKeyShort)
+                let keyNames: [[String]] = state.isLongKeyboard ? PerKeyProperties.perKeyNames : PerKeyProperties.perKeyGS65KeyNames
 
                 var keysStore: IdentifiedArrayOf<KeyCore.State> = []
 

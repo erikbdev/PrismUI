@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "Ricemill",
-        "repositoryURL": "https://github.com/marty-suzuki/Ricemill",
-        "state": {
-          "branch": null,
-          "revision": "7ef039a0c79704194f4cc082171824106bedbc60",
-          "version": null
-        }
-      },
-      {
         "package": "Sparkle",
         "repositoryURL": "https://github.com/sparkle-project/Sparkle.git",
         "state": {

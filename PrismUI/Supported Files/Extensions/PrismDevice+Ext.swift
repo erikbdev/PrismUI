@@ -1,5 +1,5 @@
 //
-//  Device+Image.swift
+//  PrismDevice+Ext.swift
 //  PrismSwiftUI
 //
 //  Created by Erik Bautista on 9/16/21.
@@ -8,10 +8,10 @@
 import Foundation
 import PrismClient
 
-extension Device {
+extension PrismDevice.State {
     var image: String {
         switch model {
-        case .perKey, .perKeyGS65:
+        case .perKey, .perKeyShort:
             return "PerKeyKeyboard"
         default:
             return ""

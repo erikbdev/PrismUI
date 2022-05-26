@@ -49,6 +49,7 @@ struct PerKeySettingsView: View {
                                 )
                             )
                             .frame(width: 56, height: 28)
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
                     }
                 }
 
@@ -63,6 +64,7 @@ struct PerKeySettingsView: View {
                                     )
                                 )
                                 .frame(width: 56, height: 28)
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
                             Text("Active Color")
                         }
                         .padding(.top, 4)
@@ -76,6 +78,7 @@ struct PerKeySettingsView: View {
                                     )
                                 )
                                 .frame(width: 56, height: 28)
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
                             Text("Rest Color")
                         }
                     }
@@ -85,7 +88,7 @@ struct PerKeySettingsView: View {
                     if viewStore.mode == .colorShift || viewStore.mode == .breathing {
                         MultiColorSlider(
                             selectors: viewStore.binding(\.$colorSelectors),
-                            backgroundType: viewStore.binding(\.$gradientStyle)
+                            backgroundStyle: viewStore.binding(\.$gradientStyle)
                         )
                             .frame(height: 48)
                             .padding(.top, 6)
@@ -112,7 +115,6 @@ struct PerKeySettingsView: View {
 
                         if viewStore.waveActive {
                             Button(action: {
-                                //                            showOriginModal.toggle()
                             }){
                                 Text("Set Origin")
                                     .font(.headline)
@@ -151,6 +153,7 @@ struct PerKeySettingsView: View {
 
                             Slider(
                                 value: viewStore.binding(\.$pulse),
+                                in: 30...1000,
                                 label: {
                                     Text("Pulse")
                                         .fontWeight(.bold)

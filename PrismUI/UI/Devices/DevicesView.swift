@@ -7,56 +7,59 @@
 
 import SwiftUI
 import ComposableArchitecture
-import PrismClient
 
 struct DevicesView: View {
-    let store: Store<DevicesState, DevicesAction>
+    let store: Store<DevicesCore.State, DevicesCore.Action>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
-            NavigationView {
-                List {
-                    ForEach(viewStore.devices, id: \.self) { device in
+        NavigationView {
+            List {
+                WithViewStore(store.scope(state: \.devices)) { devicesViewStore in
+                    ForEach(devicesViewStore.elements, id: \.self) { device in
                         NavigationLink {
-                            LazyView(DeviceRouter.route(device: device))
+                            LazyView(
+                                DeviceRouter.route(device: device)
+                            )
                         } label: {
                             Image(device.image)
                             Text(device.name)
                         }
                     }
                 }
-                .listStyle(.sidebar)
-                .frame(minWidth: 225)
-
-                Text("Welcome to PrismUI!")
             }
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button(action: { viewStore.send(.toggleSidebar) }, label: { // 1
-                        Image(systemName: "sidebar.leading")
-                    })
+            .listStyle(.sidebar)
+            .frame(minWidth: 225)
+
+            Text("Welcome to PrismUI!")
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button {
+                    ViewStore(store).send(.toggleSidebar)
+                } label: {
+                    Image(systemName: "sidebar.leading")
                 }
             }
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
+        }
+        .onAppear {
+            ViewStore(store).send(.onAppear)
         }
     }
 }
 
-struct DevicesView_Previews: PreviewProvider {
-    static var previews: some View {
-        DevicesView(
-            store: Store(
-                initialState: .init(),
-                reducer: devicesReducer,
-                environment: DevicesEnvironment(
-                    deviceScanner: .mock
-                )
-            )
-        )
-    }
-}
+//struct DevicesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DevicesView(
+//            store: .init(
+//                initialState: .init(),
+//                reducer: DevicesCore.reducer,
+//                environment: .init(
+//                    prismManager: .mock
+//                )
+//            )
+//        )
+//    }
+//}
 
 struct LazyView<Content: View>: View {
     let build: () -> Content
