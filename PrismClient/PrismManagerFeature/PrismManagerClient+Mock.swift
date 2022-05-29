@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import Combine
 
-public extension PrismManager {
+public extension PrismManagerClient {
     static let mock: Self = {
         var manager = Self()
 
@@ -77,4 +77,4 @@ public extension PrismManager {
     }()
 }
 
-private var dependencies: [AnyHashable: Effect<PrismManager.Action, Never>.Subscriber] = [:]
+private var dependencies: [AnyHashable: Effect<PrismManagerClient.Action, Never>.Subscriber] = [:]

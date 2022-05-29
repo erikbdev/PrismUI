@@ -25,16 +25,16 @@ struct PerKeyDeviceCore {
         case onAppear
         case touchedOutside
         case refreshSettings
+        case updateKeyboard
         case perKeyKeyboard(PerKeyKeyboardCore.Action)
         case perKeySettings(PerKeySettingsCore.Action)
-        case updateKeyboard
         case binding(BindingAction<PerKeyDeviceCore.State>)
     }
 
     struct Environment {
         var mainQueue: AnySchedulerOf<DispatchQueue>
         var backgroundQueue: AnySchedulerOf<DispatchQueue>
-        let perKeyController: PerKeyDeviceController
+        let perKeyController: PerKeyControllerClient
     }
 
     static let reducer = Reducer<PerKeyDeviceCore.State, PerKeyDeviceCore.Action, PerKeyDeviceCore.Environment>.combine(
@@ -50,8 +50,6 @@ struct PerKeyDeviceCore {
         ),
         .init { state, action, environment in
             switch action {
-            case .onAppear:
-                break
             case .refreshSettings:
                 // Update Effect settings based on the selected keys
                 let selectedKeys = state.keyboardState.keys.filter({ $0.selected }).map({ $0.key })
@@ -93,7 +91,12 @@ struct PerKeyDeviceCore {
                                 .enumerated()
                                 .filter { $0.offset % 2 == 0 }
                                 .compactMap { $0.element }
-                                .compactMap { ColorSelector(color: $0.color, position: $0.position) }
+                                .compactMap {
+                                    ColorSelector(
+                                        color: $0.color,
+                                        position: $0.position
+                                    )
+                                }
                         case .reactive:
                             state.settingsState.speed = CGFloat(firstKey.effect.duration)
                             state.settingsState.active = firstKey.effect.active.hsb
@@ -125,8 +128,6 @@ struct PerKeyDeviceCore {
                     }
                 }
                 return .init(value: .refreshSettings)
-            case .perKeyKeyboard(_):
-                break
             case .perKeySettings(.modeUpdated(let event)):
                 switch event {
                 case let .steady(color: color):
@@ -169,7 +170,7 @@ struct PerKeyDeviceCore {
                         state.keyboardState.keys[id: id]?.key.effect = effect
                     }
                 case let .breathing(colorSelectors: colorSelectors, speed: speed):
-                    let transitions = colorSelectors.compactMap {
+                    let baseTransitions = colorSelectors.compactMap {
                         Key.Effect.Transition(
                             color: $0.color,
                             position: $0.position
@@ -177,7 +178,31 @@ struct PerKeyDeviceCore {
                     }
                     .sorted(by: { $0.position < $1.position })
 
-                    guard transitions.count > 0 else { return .none }
+                    guard baseTransitions.count > 0 else { return .none }
+
+                    var transitions: [Key.Effect.Transition] = []
+
+                    // We add the transitions from baseTransition and also add the half values between
+                    // each transition to have the breathing effect.
+                    for index in baseTransitions.indices {
+                        let firstSelector = baseTransitions[index]
+                        transitions.append(firstSelector)
+
+                        var halfDistance: CGFloat
+                        if (index + 1) < baseTransitions.count {
+                            let secondSelector = baseTransitions[index + 1]
+                            halfDistance = (secondSelector.position + firstSelector.position) / 2
+                        } else {
+                            halfDistance = (1 + firstSelector.position) / 2
+                        }
+
+                        transitions.append(
+                            .init(
+                                color: RGB(),
+                                position: halfDistance
+                            )
+                        )
+                    }
 
                     var effect = Key.Effect()
                     effect.mode = .breathing
@@ -204,10 +229,6 @@ struct PerKeyDeviceCore {
                     }
                 }
                 return .init(value: .updateKeyboard)
-            case .perKeySettings(_):
-                break
-            case .binding(_):
-                break
             case .touchedOutside:
                 for id in state.keyboardState.keys.ids {
                     state.keyboardState.keys[id: id]?.selected = false
@@ -219,9 +240,13 @@ struct PerKeyDeviceCore {
                 return environment.perKeyController.updateDevice(
                     keys: state.keyboardState.keys.map { $0.key }
                 )
-                .debounce(id: UpdateKeyboardDebounceId(), for: .milliseconds(500), scheduler: environment.mainQueue)
-                .eraseToEffect()
-                .fireAndForget()
+                    .subscribe(on: environment.backgroundQueue)
+                    .eraseToEffect()
+                    .debounce(id: UpdateKeyboardDebounceId(), for: .milliseconds(500), scheduler: environment.backgroundQueue)
+                    .receive(on: environment.mainQueue)
+                    .fireAndForget()
+            default:
+                break
             }
             return .none
         }

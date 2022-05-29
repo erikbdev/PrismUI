@@ -10,7 +10,7 @@ import Foundation
 public class PerKeyProperties {
     static let packageSize = 0x20c
 
-    // MARK: GS65 and PerKey - Region keys
+    // MARK: Short and PerKey - Region keys
 
     static let regions: [UInt8] = [
         0x18,   // esc (modifiers)
@@ -19,7 +19,7 @@ public class PerKeyProperties {
         0x24    // f7 (special/numpad) // 0x13 for perKeyShort but works fine on both
     ]
 
-    // MARK: GS65 and PerKey - Modifier Keys
+    // MARK: Short and PerKey - Modifier Keys
 
     static let modifiers: [UInt8] = [
         0x29,   // backspace
@@ -48,7 +48,7 @@ public class PerKeyProperties {
         0xf0    // NULL
     ]
 
-    // MARK: GS65 and PerKey - Alphanums Keys
+    // MARK: Short and PerKey - Alphanums Keys
 
     static let alphanums: [UInt8] = [
         0x04,   // b
@@ -95,7 +95,7 @@ public class PerKeyProperties {
         0x3f    // NULL
     ]
 
-    // MARK: GS65 and PerKey - Enter Keys
+    // MARK: Short and PerKey - Enter Keys
 
     static let enter: [UInt8] = [
         0x28,   // backslash
@@ -152,9 +152,9 @@ public class PerKeyProperties {
         0x63    // NULL
     ]
 
-    // MARK: GS65 Special keys, similar to per key but less keys
+    // MARK: Short Special keys, similar to per key but less keys
 
-    static let specialGS65: [UInt8] = [
+    static let specialShort: [UInt8] = [
         0x40,   // F8
         0x41,   // F9
         0x42,   // F10
@@ -176,7 +176,7 @@ public class PerKeyProperties {
         0x52    // NULL
     ]
 
-    public static let perKeyGS65KeyNames: [[String]] = [
+    public static let perKeyShortKeyNames: [[String]] = [
         ["ESC", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "PRT", "DEL"],
         ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "\u{27f5}", "\u{2302}"],
         ["\u{21B9}", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\", "\u{25b2}"],
@@ -185,7 +185,7 @@ public class PerKeyProperties {
         ["CTRL", "WIN", "ALT", "\u{2423}", "\\", "ALT", "FN", "CTRL", "\u{2190}", "\u{2193}", "\u{2192}"]
     ]
 
-    public static let perKeyGS65RegionKeyCodes: [[(UInt8, UInt8)]] = [
+    public static let perKeyShortRegionKeyCodes: [[(UInt8, UInt8)]] = [
         [(0x18, 0x18),(0x2a, 0x27),(0x2a, 0x3A),(0x2a, 0x3B),(0x2a, 0x3C),(0x2a, 0x3D),(0x2a, 0x3E),(0x24, 0x24),(0x24, 0x40),(0x24, 0x41),(0x24, 0x42),(0x24, 0x43),(0x24, 0x44),(0x24, 0x45),(0x24, 0x4B)],
         [(0x18, 0x34),(0x2a, 0x1D),(0x2a, 0x1E),(0x2a, 0x1F),(0x2a, 0x20),(0x2a, 0x21),(0x2a, 0x22),(0x2a, 0x23),(0x2a, 0x24),(0x2a, 0x25),(0x2a, 0x26),(0x18, 0x2C),(0x18, 0x2D),(0x18, 0x29),(0x24, 0x49)],
         [(0x18, 0x2A),(0x2a, 0x13),(0x2a, 0x19),(0x2a, 0x07),(0x2a, 0x14),(0x2a, 0x16),(0x2a, 0x1B),(0x2a, 0x17),(0x2a, 0x0B),(0x2a, 0x11),(0x2a, 0x12),(0x18, 0x2E),(0x18, 0x2F),(0x0b, 0x28),(0x24, 0x4A)],

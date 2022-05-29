@@ -108,7 +108,7 @@ struct PerKeyDeviceView_Previews: PreviewProvider {
                         )
                     ),
                     perKeyController: .mock(
-                        device: deviceState.device
+                        for: deviceState
                     )
                 )
             )

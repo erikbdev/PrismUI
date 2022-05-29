@@ -10,12 +10,12 @@ import ComposableArchitecture
 import IOKit.hid
 
 private struct Dependencies {
-    let delegate: PrismManager.Delegate
+    let delegate: PrismManagerClient.Delegate
     let manager: IOHIDManager
-    let subscriber: Effect<PrismManager.Action, Never>.Subscriber
+    let subscriber: Effect<PrismManagerClient.Action, Never>.Subscriber
 }
 
-public extension PrismManager {
+public extension PrismManagerClient {
     static let live: Self = {
         var manager = Self()
 
@@ -55,7 +55,7 @@ public extension PrismManager {
             }
         }
 
-        manager.retreiveDevices = { id in
+        manager.retrieveDevices = { id in
             guard let dependency = dependencies[id] else {
                 return []
             }
@@ -92,11 +92,11 @@ public extension PrismManager {
 
 private var dependencies: [AnyHashable: Dependencies] = [:]
 
-extension PrismManager {
+extension PrismManagerClient {
     internal class Delegate: NSObject {
-        let subscriber: Effect<PrismManager.Action, Never>.Subscriber
+        let subscriber: Effect<PrismManagerClient.Action, Never>.Subscriber
 
-        init(_ subscriber: Effect<PrismManager.Action, Never>.Subscriber) {
+        init(_ subscriber: Effect<PrismManagerClient.Action, Never>.Subscriber) {
             self.subscriber = subscriber
         }
 
@@ -112,7 +112,7 @@ extension PrismManager {
     }
 }
 
-private func IOHIDManagerCreate(with delegate: PrismManager.Delegate) -> IOHIDManager {
+private func IOHIDManagerCreate(with delegate: PrismManagerClient.Delegate) -> IOHIDManager {
     let manager = IOKit.IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
     let context = unsafeBitCast(delegate, to: UnsafeMutableRawPointer.self)
     manager.registerDeviceMatchingCallback(delegate.matchingCallback, context: context)

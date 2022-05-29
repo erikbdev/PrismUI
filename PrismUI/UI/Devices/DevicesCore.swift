@@ -19,13 +19,13 @@ struct DevicesCore {
     enum Action: Equatable {
         case onAppear
         case toggleSidebar
-        case devicesManager(PrismManager.Action)
+        case devicesManager(PrismManagerClient.Action)
     }
 
     struct Environment {
         var mainQueue: AnySchedulerOf<DispatchQueue>
         var backgroundQueue: AnySchedulerOf<DispatchQueue>
-        let prismManager: PrismManager
+        let prismManager: PrismManagerClient
     }
 
     static let reducer = Reducer<DevicesCore.State, DevicesCore.Action, DevicesCore.Environment>.combine(
@@ -40,14 +40,16 @@ struct DevicesCore {
                         .fireAndForget()
                 )
             case .toggleSidebar:
-                NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-            case .devicesManager(let delegate):
-                switch delegate {
-                case .didDiscover(let device):
-                    state.devices.append(device)
-                case .didRemove(let device):
-                    state.devices.remove(device)
-                }
+                NSApp.keyWindow?.firstResponder?.tryToPerform(
+                    #selector(
+                        NSSplitViewController.toggleSidebar(_:)
+                    ),
+                    with: nil
+                )
+            case .devicesManager(.didDiscover(let deviceState)):
+                state.devices.append(deviceState)
+            case .devicesManager(.didRemove(let deviceState)):
+                state.devices.remove(deviceState)
             }
             return .none
         }

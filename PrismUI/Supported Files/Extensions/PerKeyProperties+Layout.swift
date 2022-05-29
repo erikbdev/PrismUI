@@ -49,7 +49,7 @@ public extension PerKeyProperties {
         case .perKey:
             return perKeyRegionKeyCodes
         case .perKeyShort:
-            return perKeyGS65RegionKeyCodes
+            return perKeyShortRegionKeyCodes
         default:
             return []
         }

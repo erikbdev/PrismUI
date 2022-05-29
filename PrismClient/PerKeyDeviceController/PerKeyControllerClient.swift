@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public struct PerKeyDeviceController {
+public struct PerKeyControllerClient {
     var updateKeyboard: ([Key]) -> Effect<Never, Never> = { _ in .none }
 
     public func updateDevice(keys: [Key]) -> Effect<Never, Never> {

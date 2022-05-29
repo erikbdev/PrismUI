@@ -117,7 +117,7 @@ struct KeyCore {
 //    }
 //
 //    func customWaveAnimation(effect: SSKeyEffect) {
-//        let keyboardRegionAndKeycodes = model == .perKeyShort ? PerKeyProperties.perKeyGS65RegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
+//        let keyboardRegionAndKeycodes = model == .perKeyShort ? PerKeyProperties.perKeyShortRegionKeyCodes : SSPerKeyProperties.perKeyRegionKeyCodes
 //        let keyboardMap = model == .perKeyGS65 ? SSPerKeyProperties.perKeyGS65KeyMap : SSPerKeyProperties.perKeyMap
 //        let maxColumnCount = CGFloat(keyboardMap.first?.count ?? 0)
 //        let maxRowCount = CGFloat(keyboardMap.count)

@@ -27,7 +27,9 @@ class DeviceRouter {
                                 qos: .background
                             )
                         ),
-                        perKeyController: .live(device: device.device)
+                        perKeyController: .live(
+                            for: device
+                        )
                     )
                 )
             )

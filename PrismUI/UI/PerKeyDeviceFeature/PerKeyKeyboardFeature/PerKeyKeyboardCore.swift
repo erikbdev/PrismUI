@@ -38,7 +38,7 @@ struct PerKeyKeyboardCore {
             case .loadKeys:
                 // Load keys based on model
                 let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: state.isLongKeyboard ? .perKey : .perKeyShort)
-                let keyNames: [[String]] = state.isLongKeyboard ? PerKeyProperties.perKeyNames : PerKeyProperties.perKeyGS65KeyNames
+                let keyNames: [[String]] = state.isLongKeyboard ? PerKeyProperties.perKeyNames : PerKeyProperties.perKeyShortKeyNames
 
                 var keysStore: IdentifiedArrayOf<KeyCore.State> = []
 
