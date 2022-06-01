@@ -53,19 +53,10 @@ struct PerKeyDeviceView: View {
             .navigationTitle("SteelSeries KLC")
             .toolbar {
                 ToolbarItemGroup {
-                    Picker("", selection: .constant(0)) {
-                        Text("Preset 1").tag(0)
-                        Text("Preset 2").tag(1)
-                        Text("Preset 3").tag(2)
-                        Text("Preset 4").tag(3)
-                        Text("Preset 5").tag(4)
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-
-                    Spacer()
+                    // TODO: Add option to set different presets
 
                     // MARK: Mouse mode
+
                     WithViewStore(store) { viewStore in
                         Picker("", selection: viewStore.binding(\.$mouseMode)) {
                             ForEach(PerKeyDeviceCore.MouseMode.allCases, id: \.self) { mode in
@@ -81,7 +72,6 @@ struct PerKeyDeviceView: View {
             .onAppear {
                 viewStore.send(.touchedOutside)
             }
-
         }
     }
 }

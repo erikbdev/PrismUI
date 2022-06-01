@@ -27,7 +27,7 @@ struct PerKeyKeyboardCore {
     static let reducer: Reducer<PerKeyKeyboardCore.State, PerKeyKeyboardCore.Action, PerKeyKeyboardCore.Environment> = .combine(
         KeyCore.reducer.forEach(
             state: \.keys,
-            action: /PerKeyKeyboardCore.Action.key(id:action:),
+            action: /PerKeyKeyboardCore.Action.key,
             environment: { _ in .init() }
         ),
         .init { state, action, environment in
@@ -57,8 +57,6 @@ struct PerKeyKeyboardCore {
                 }
                 state.keys = keysStore
                 state.keysLoaded = true
-            case .key(id: let id, action: .toggleSelection):
-                break
             default:
                 break
             }

@@ -186,22 +186,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		130BC27128397BDE002E3BCE /* PerKeyKeyboardFeature */ = {
+		130BC27128397BDE002E3BCE /* PerKeyKeyboard */ = {
 			isa = PBXGroup;
 			children = (
 				130BC27228397C96002E3BCE /* PerKeyKeyboardView.swift */,
 				130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */,
 			);
-			path = PerKeyKeyboardFeature;
+			path = PerKeyKeyboard;
 			sourceTree = "<group>";
 		};
-		130CD4BB2839FE7D0050F8D1 /* KeyFeature */ = {
+		130CD4BB2839FE7D0050F8D1 /* Key */ = {
 			isa = PBXGroup;
 			children = (
 				130CD4BC2839FE910050F8D1 /* KeyView.swift */,
 				130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */,
 			);
-			path = KeyFeature;
+			path = Key;
 			sourceTree = "<group>";
 		};
 		1319710726F3DAD300471846 = {
@@ -226,15 +226,14 @@
 		1319711226F3DAD300471846 /* PrismUI */ = {
 			isa = PBXGroup;
 			children = (
-				13E513C527AA50DC003CE038 /* Domain */,
-				136D5F3526F4187D0003A744 /* Core */,
-				136D5F3626F419040003A744 /* UI */,
+				13C25F8D2848296200B3832C /* Data */,
+				136D5F3626F419040003A744 /* Application */,
 				13E513C327AA5052003CE038 /* Supported Files */,
 				13E513C227AA504C003CE038 /* Resources */,
+				1319711926F3DAD400471846 /* Preview Content */,
 				1319712126F3DAD400471846 /* Info.plist */,
 				1319712226F3DAD400471846 /* PrismUI.entitlements */,
 				1319711E26F3DAD400471846 /* PrismUI.xcdatamodeld */,
-				1319711926F3DAD400471846 /* Preview Content */,
 			);
 			path = PrismUI;
 			sourceTree = "<group>";
@@ -267,23 +266,16 @@
 			path = PerKeyDeviceController;
 			sourceTree = "<group>";
 		};
-		136D5F3526F4187D0003A744 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				1319711326F3DAD300471846 /* PrismUIApp.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		136D5F3626F419040003A744 /* UI */ = {
+		136D5F3626F419040003A744 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				1381F617276AAB9800BF526E /* Components */,
+				13C25F8C2848290900B3832C /* Main */,
 				13CB78B727585BDD00BC8F07 /* Devices */,
 				13CB78B827585C0500BC8F07 /* Device */,
-				1395D92028372244009D67B8 /* PerKeyDeviceFeature */,
+				1395D92028372244009D67B8 /* PerKeyDevice */,
 			);
-			path = UI;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		1381F617276AAB9800BF526E /* Components */ = {
@@ -296,25 +288,25 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		1395D92028372244009D67B8 /* PerKeyDeviceFeature */ = {
+		1395D92028372244009D67B8 /* PerKeyDevice */ = {
 			isa = PBXGroup;
 			children = (
-				130CD4BB2839FE7D0050F8D1 /* KeyFeature */,
-				130BC27128397BDE002E3BCE /* PerKeyKeyboardFeature */,
-				1395D92528372F6E009D67B8 /* PerKeySettingsFeature */,
+				130CD4BB2839FE7D0050F8D1 /* Key */,
+				130BC27128397BDE002E3BCE /* PerKeyKeyboard */,
+				1395D92528372F6E009D67B8 /* PerKeySettings */,
 				1395D92128372267009D67B8 /* PerKeyDeviceView.swift */,
 				1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */,
 			);
-			path = PerKeyDeviceFeature;
+			path = PerKeyDevice;
 			sourceTree = "<group>";
 		};
-		1395D92528372F6E009D67B8 /* PerKeySettingsFeature */ = {
+		1395D92528372F6E009D67B8 /* PerKeySettings */ = {
 			isa = PBXGroup;
 			children = (
 				130BC26F28397BCF002E3BCE /* PerKeySettingsView.swift */,
 				130BC27428397CD3002E3BCE /* PerKeySettingsCore.swift */,
 			);
-			path = PerKeySettingsFeature;
+			path = PerKeySettings;
 			sourceTree = "<group>";
 		};
 		1398CDBA2772FE9F005A0C4E /* MultiColorSlider */ = {
@@ -374,6 +366,30 @@
 				13A9936C283628B6001DB03A /* IOHIDDevice+Write.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		13C25F8C2848290900B3832C /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				1319711326F3DAD300471846 /* PrismUIApp.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		13C25F8D2848296200B3832C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				13C25F8F28482A7300B3832C /* Clients */,
+				13A67443276D44C800F6287F /* HSB.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		13C25F8F28482A7300B3832C /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Clients;
 			sourceTree = "<group>";
 		};
 		13CB78B727585BDD00BC8F07 /* Devices */ = {
@@ -444,14 +460,6 @@
 				137B872627779CE3003A4953 /* View+OnTouch.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		13E513C527AA50DC003CE038 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				13A67443276D44C800F6287F /* HSB.swift */,
-			);
-			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

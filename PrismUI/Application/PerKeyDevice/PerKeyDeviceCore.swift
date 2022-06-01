@@ -169,7 +169,10 @@ struct PerKeyDeviceCore {
                     for id in state.keyboardState.keys.filter({ $0.selected }).ids {
                         state.keyboardState.keys[id: id]?.key.effect = effect
                     }
-                case let .breathing(colorSelectors: colorSelectors, speed: speed):
+                case let .breathing(
+                    colorSelectors: colorSelectors,
+                    speed: speed
+                ):
                     let baseTransitions = colorSelectors.compactMap {
                         Key.Effect.Transition(
                             color: $0.color,
