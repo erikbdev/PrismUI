@@ -14,7 +14,6 @@
 		130CD4BD2839FE910050F8D1 /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CD4BC2839FE910050F8D1 /* KeyView.swift */; };
 		130CD4BF2839FE9A0050F8D1 /* KeyCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */; };
 		13185A16277905AC00D881F5 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 13185A15277905AC00D881F5 /* CombineExt */; };
-		13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */; };
 		1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1319711326F3DAD300471846 /* PrismUIApp.swift */; };
 		1319711826F3DAD400471846 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711726F3DAD400471846 /* Assets.xcassets */; };
 		1319711B26F3DAD400471846 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1319711A26F3DAD400471846 /* Preview Assets.xcassets */; };
@@ -105,7 +104,6 @@
 		130BC27628397CE3002E3BCE /* PerKeyKeyboardCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyKeyboardCore.swift; sourceTree = "<group>"; };
 		130CD4BC2839FE910050F8D1 /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		130CD4BE2839FE9A0050F8D1 /* KeyCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCore.swift; sourceTree = "<group>"; };
-		13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+CombineLatestMany.swift"; sourceTree = "<group>"; };
 		1319711026F3DAD300471846 /* PrismUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrismUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1319711326F3DAD300471846 /* PrismUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismUIApp.swift; sourceTree = "<group>"; };
 		1319711726F3DAD400471846 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -444,7 +442,6 @@
 				13D6594726F44D7300C1D39A /* PrismDevice+Ext.swift */,
 				133E49C52776B58F006B976B /* PerKeyProperties+Layout.swift */,
 				137B872627779CE3003A4953 /* View+OnTouch.swift */,
-				13185A1727790C4500D881F5 /* Publishers+CombineLatestMany.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -615,7 +612,6 @@
 				13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */,
 				13A67444276D44C800F6287F /* HSB.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */,
-				13185A1827790C4500D881F5 /* Publishers+CombineLatestMany.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

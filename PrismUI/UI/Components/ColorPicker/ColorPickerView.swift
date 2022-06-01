@@ -28,8 +28,20 @@ struct ColorPickerView: View {
 
 struct ColorPicker_Previews: PreviewProvider {
     static var previews: some View {
-        ColorPickerView(color: .constant(.init(hue: 180, saturation: 1.0, brightness: 1.0)))
-            .frame(width: 275, height: 200, alignment: .center)
+        ColorPickerView(
+            color: .constant(
+                .init(
+                    hue: 180,
+                    saturation: 1.0,
+                    brightness: 1.0
+                )
+            )
+        )
+            .frame(
+                width: 275,
+                height: 200,
+                alignment: .center
+            )
             .padding()
     }
 }

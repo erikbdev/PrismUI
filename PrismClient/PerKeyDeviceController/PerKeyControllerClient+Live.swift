@@ -316,7 +316,7 @@ extension PerKeyControllerClient {
         data.append([UInt8](repeating: 0, count: sizeRemaining), count: sizeRemaining)
         return data
     }
-    
+
     private static func serializeWriteOutput(lastByte: UInt8) -> Data {
         var data = Data(capacity: 0x40)
         data.append([0x0d, 0x0, 0x02], count: 3)

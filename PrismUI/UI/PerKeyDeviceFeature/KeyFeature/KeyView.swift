@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ComposableArchitecture
-import PrismClient
 
 struct KeyView: View {
     let store: Store<KeyCore.State, KeyCore.Action>
@@ -37,14 +36,17 @@ struct KeyView: View {
 
                 Text(viewStore.key.name)
                     .fontWeight(.heavy)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .center
+                    )
             }
             .cornerRadius(4)
             .onTapGesture {
                 viewStore.send(.toggleSelection)
             }
             .animation(.easeIn(duration: 0.25), value: viewStore.selected)
-//            .animation(.easeIn, value: viewStore.mainColor)
         }
     }
 }
@@ -54,12 +56,16 @@ struct KeyView_Previews: PreviewProvider {
         KeyView(
             store: .init(
                 initialState: .init(
-                    key: .empty
+                    key: .init(
+                        name: "Test",
+                        region: 0,
+                        keycode: 0
+                    )
                 ),
                 reducer: KeyCore.reducer,
                 environment: .init()
             )
         )
-        .frame(width: 100, height: 100)
+        .frame(width: 75, height: 75)
     }
 }

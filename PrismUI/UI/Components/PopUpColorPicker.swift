@@ -8,22 +8,21 @@
 import SwiftUI
 
 struct PopUpColorPicker: ViewModifier {
-    @Binding var hsb: HSB
-    @State var show = false
+    @Binding var color: HSB
+    @State var isShowingPopover = false
 
     func body(content: Content) -> some View {
         content
-            .foregroundColor(hsb.color)
-            .gesture(
-                TapGesture()
-                    .onEnded {
-                        show.toggle()
-                    }
-            )
-            .popover(isPresented: $show,
-                     attachmentAnchor: .point(.bottom),
-                     arrowEdge: .bottom) {
-                ColorPickerView(color: $hsb)
+            .foregroundColor(color.color)
+            .onTapGesture {
+                isShowingPopover.toggle()
+            }
+            .popover(
+                isPresented: $isShowingPopover,
+                attachmentAnchor: .point(.bottom),
+                arrowEdge: .bottom
+            ) {
+                ColorPickerView(color: $color)
             }
     }
 }

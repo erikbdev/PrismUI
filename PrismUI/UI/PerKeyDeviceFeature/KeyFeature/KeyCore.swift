@@ -5,12 +5,11 @@
 //  Created by Erik Bautista on 5/22/22.
 //
 
-import Foundation
 import ComposableArchitecture
 import PrismClient
 
 struct KeyCore {
-    struct State: Equatable, Identifiable {
+    struct State: Hashable, Identifiable {
         var id: UInt16 {
             key.id
         }
@@ -21,10 +20,10 @@ struct KeyCore {
         var mainColor: RGB {
             let effect = key.effect
             if effect.mode == .colorShift || effect.mode == .breathing {
-                let transitions = effect.transitions
+                let transitions = effect.transitions.map({ ColorSelector(color: $0.color, position: $0.position) })
                 return RGB.getColorFromTransition(
                     with: colorPosition,
-                    transitions: transitions.map({ ColorSelector(color: $0.color, position: $0.position) })
+                    transitions: transitions
                 )
             } else {
                 return effect.main
@@ -34,14 +33,18 @@ struct KeyCore {
 
     enum Action: Equatable {
         case toggleSelection
+        case restartAnimation
     }
 
-    struct Environment {  }
+    struct Environment {
+    }
 
     static let reducer = Reducer<KeyCore.State, KeyCore.Action, KeyCore.Environment> { state, action, environment in
         switch action {
         case .toggleSelection:
             state.selected.toggle()
+        case .restartAnimation:
+            break
         }
         return .none
     }

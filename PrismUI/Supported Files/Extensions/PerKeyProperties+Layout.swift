@@ -22,7 +22,7 @@ public extension PerKeyProperties {
 
     static let perKeyKeySize: CGFloat = 50.0
 
-    static let perKeyGS65KeyMap: [[CGFloat]] = [
+    static let perKeyShortKeyMap: [[CGFloat]] = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],          // 15
         [0.50, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.50, 1],    // 15
         [0.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.25, 1],    // 15
@@ -31,14 +31,14 @@ public extension PerKeyProperties {
         [1.25, 1, 1, 4.75, 1, 1, 1, 1, 1, 1, 1]                 // 15
     ]
 
-    static let perKeyGS65KeySize: CGFloat = 60.0
+    static let perKeyShortKeySize: CGFloat = 60.0
 
     static func getKeyboardMap(for model: PrismDevice.Model) -> [[CGFloat]] {
         switch model {
         case .perKey:
             return perKeyMap
         case .perKeyShort:
-            return perKeyGS65KeyMap
+            return perKeyShortKeyMap
         default:
             return []
         }
@@ -69,7 +69,7 @@ extension PerKeyProperties {
     public static func getKeyLayout(for key: Key, model: PrismDevice.Model, padding: CGFloat) -> KeyLayout? {
         let keyCodes: [[(UInt8, UInt8)]] = PerKeyProperties.getKeyboardCodes(for: model)
         let keyMaps: [[CGFloat]] = PerKeyProperties.getKeyboardMap(for: model)
-        let keySizes: CGFloat = model == .perKey ? PerKeyProperties.perKeyKeySize : PerKeyProperties.perKeyGS65KeySize
+        let keySizes: CGFloat = model == .perKey ? PerKeyProperties.perKeyKeySize : PerKeyProperties.perKeyShortKeySize
 
         let rowIndex = keyCodes.firstIndex { column in
             column.contains { (region, keycode) in
@@ -102,7 +102,12 @@ extension PerKeyProperties {
                    keyYOffset = 0
                 }
 
-                return .init(width: keyWidth, height: keyHeight, yOffset: keyYOffset, requiresExtraView: addExtraView)
+                return .init(
+                    width: keyWidth,
+                    height: keyHeight,
+                    yOffset: keyYOffset,
+                    requiresExtraView: addExtraView
+                )
             }
         }
 

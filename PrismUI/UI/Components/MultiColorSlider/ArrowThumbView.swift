@@ -14,7 +14,7 @@ struct ArrowThumbView: View {
 
     var body: some View {
         RoundedTriangle()
-            .modifier(PopUpColorPicker(hsb: $rgb.hsb))
+            .modifier(PopUpColorPicker(color: $rgb.hsb))
     }
 }
 

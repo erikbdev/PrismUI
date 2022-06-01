@@ -45,10 +45,10 @@ struct MultiColorSlider: View {
 
                 ForEach(selectors.indices, id: \.self) { index in
                     RoundedTriangle()
-                        .modifier(
-                            PopUpColorPicker(hsb: $selectors[index].color.hsb)
-                        )
                         .frame(width: thumbSize, height: thumbSize)
+                        .modifier(
+                            PopUpColorPicker(color: $selectors[index].color.hsb)
+                        )
                         .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                         .contentShape(Rectangle())
                         .position(
@@ -56,7 +56,7 @@ struct MultiColorSlider: View {
                             y: getThumbYOffset(size: geometry.size, selector: selectors[index])
                         )
                         .simultaneousGesture(
-                            DragGesture(minimumDistance: 0.0)
+                            DragGesture(minimumDistance: 0.5)
                                 .onChanged({ value in
                                     handleThumbDragged(value: value, index: index, geometry: geometry)
                                 })
@@ -76,7 +76,10 @@ struct MultiColorSlider: View {
     @ViewBuilder
     private var Background: some View {
         RoundedRectangle(
-            cornerSize: CGSize(width: 8, height: 8)
+            cornerSize: CGSize(
+                width: 8,
+                height: 8
+            )
         )
             .fill(
                 LinearGradient(
@@ -162,7 +165,6 @@ extension MultiColorSlider {
         } else if dragOffsetWidth > 1.0 {
             dragOffsetWidth = 1.0
         }
-
 
         // There are no selectors in range, so we can add a selector
 

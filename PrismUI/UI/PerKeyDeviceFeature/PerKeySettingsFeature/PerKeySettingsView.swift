@@ -45,7 +45,7 @@ struct PerKeySettingsView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .modifier(
                                 PopUpColorPicker(
-                                    hsb: viewStore.binding(\.$steady)
+                                    color: viewStore.binding(\.$steady)
                                 )
                             )
                             .frame(width: 56, height: 28)
@@ -60,7 +60,7 @@ struct PerKeySettingsView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .modifier(
                                     PopUpColorPicker(
-                                        hsb: viewStore.binding(\.$active)
+                                        color: viewStore.binding(\.$active)
                                     )
                                 )
                                 .frame(width: 56, height: 28)
@@ -74,7 +74,7 @@ struct PerKeySettingsView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .modifier(
                                     PopUpColorPicker(
-                                        hsb: viewStore.binding(\.$rest)
+                                        color: viewStore.binding(\.$rest)
                                     )
                                 )
                                 .frame(width: 56, height: 28)
@@ -176,7 +176,10 @@ struct PerKeySettingsView_Previews: PreviewProvider {
     static var previews: some View {
         PerKeySettingsView(
             store: .init(
-                initialState: .init(mode: .colorShift),
+                initialState: .init(
+                    enabled: true,
+                    mode: .colorShift
+                ),
                 reducer: PerKeySettingsCore.reducer,
                 environment: .init()
             )

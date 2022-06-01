@@ -39,7 +39,8 @@ struct PerKeySettingsCore {
                 color: .init(
                     red: 1.0,
                     green: 0.0,
-                    blue: 0.0),
+                    blue: 0.0
+                ),
                 position: 0.5
             )
         ]
@@ -60,7 +61,7 @@ struct PerKeySettingsCore {
 
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<PerKeySettingsCore.State>)
-        case updateMode                                         // Check and see if there are any mode update
+        case updateMode // Check and see if there are any mode update
         case modeUpdated(PerKeySettingsCore.ModeEvent)          // Notify when mode settings has changed
     }
 

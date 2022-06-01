@@ -59,6 +59,8 @@ struct PerKeyKeyboardCore {
                 state.keysLoaded = true
             case .key(id: let id, action: .toggleSelection):
                 break
+            default:
+                break
             }
             return .none
         }
