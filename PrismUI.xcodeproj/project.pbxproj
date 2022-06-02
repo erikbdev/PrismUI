@@ -31,12 +31,12 @@
 		135D562D27A1173B00BD8592 /* HSB+toRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135D562B27A1173B00BD8592 /* HSB+toRGB.swift */; };
 		136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136D5F3A26F41FBB0003A744 /* DevicesView.swift */; };
 		1372CC9C27724F110093171A /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1372CC9B27724F110093171A /* OrderedCollections */; };
+		1373595028483E4F000FFB1D /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373594F28483E4F000FFB1D /* HSB.swift */; };
 		137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B872627779CE3003A4953 /* View+OnTouch.swift */; };
 		1395D91F2836EB93009D67B8 /* HIDCommunication+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395D91E2836EB93009D67B8 /* HIDCommunication+Mock.swift */; };
 		1395D92228372267009D67B8 /* PerKeyDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395D92128372267009D67B8 /* PerKeyDeviceView.swift */; };
 		1395D92428372903009D67B8 /* PerKeyDeviceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */; };
 		1398CDBC2772FEB0005A0C4E /* MultiColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */; };
-		13A67444276D44C800F6287F /* HSB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A67443276D44C800F6287F /* HSB.swift */; };
 		13A9933228362293001DB03A /* PrismClient.docc in Sources */ = {isa = PBXBuildFile; fileRef = 13A9933128362293001DB03A /* PrismClient.docc */; };
 		13A9933328362293001DB03A /* PrismClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A9933028362293001DB03A /* PrismClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		13A9933E283622C6001DB03A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A9932728362276001DB03A /* IOKit.framework */; };
@@ -123,12 +123,12 @@
 		134A7D17283DBA9700F3D8AF /* PrismDevice+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrismDevice+Mock.swift"; sourceTree = "<group>"; };
 		135D562B27A1173B00BD8592 /* HSB+toRGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HSB+toRGB.swift"; sourceTree = "<group>"; };
 		136D5F3A26F41FBB0003A744 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		1373594F28483E4F000FFB1D /* HSB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
 		137B872627779CE3003A4953 /* View+OnTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTouch.swift"; sourceTree = "<group>"; };
 		1395D91E2836EB93009D67B8 /* HIDCommunication+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HIDCommunication+Mock.swift"; sourceTree = "<group>"; };
 		1395D92128372267009D67B8 /* PerKeyDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceView.swift; sourceTree = "<group>"; };
 		1395D92328372903009D67B8 /* PerKeyDeviceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerKeyDeviceCore.swift; sourceTree = "<group>"; };
 		1398CDBB2772FEB0005A0C4E /* MultiColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiColorSlider.swift; sourceTree = "<group>"; };
-		13A67443276D44C800F6287F /* HSB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSB.swift; sourceTree = "<group>"; };
 		13A9932728362276001DB03A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		13A9932E28362293001DB03A /* PrismClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PrismClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A9933028362293001DB03A /* PrismClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrismClient.h; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 		1319711226F3DAD300471846 /* PrismUI */ = {
 			isa = PBXGroup;
 			children = (
-				13C25F8D2848296200B3832C /* Data */,
+				1373594C28483E21000FFB1D /* Data */,
 				136D5F3626F419040003A744 /* Application */,
 				13E513C327AA5052003CE038 /* Supported Files */,
 				13E513C227AA504C003CE038 /* Resources */,
@@ -276,6 +276,14 @@
 				1395D92028372244009D67B8 /* PerKeyDevice */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		1373594C28483E21000FFB1D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1373594F28483E4F000FFB1D /* HSB.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		1381F617276AAB9800BF526E /* Components */ = {
@@ -374,22 +382,6 @@
 				1319711326F3DAD300471846 /* PrismUIApp.swift */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		13C25F8D2848296200B3832C /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				13C25F8F28482A7300B3832C /* Clients */,
-				13A67443276D44C800F6287F /* HSB.swift */,
-			);
-			name = Data;
-			sourceTree = "<group>";
-		};
-		13C25F8F28482A7300B3832C /* Clients */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Clients;
 			sourceTree = "<group>";
 		};
 		13CB78B727585BDD00BC8F07 /* Devices */ = {
@@ -601,6 +593,7 @@
 				1319711426F3DAD300471846 /* PrismUIApp.swift in Sources */,
 				137B872727779CE3003A4953 /* View+OnTouch.swift in Sources */,
 				13E513C127AA4849003CE038 /* PopUpColorPicker.swift in Sources */,
+				1373595028483E4F000FFB1D /* HSB.swift in Sources */,
 				134A7D0F283DA2AA00F3D8AF /* RGB+Color.swift in Sources */,
 				136D5F3B26F41FBB0003A744 /* DevicesView.swift in Sources */,
 				130CD4BF2839FE9A0050F8D1 /* KeyCore.swift in Sources */,
@@ -618,7 +611,6 @@
 				130BC27328397C96002E3BCE /* PerKeyKeyboardView.swift in Sources */,
 				133E49C62776B58F006B976B /* PerKeyProperties+Layout.swift in Sources */,
 				13F9C8AF2773DE4600B5EE8C /* MathUtils.swift in Sources */,
-				13A67444276D44C800F6287F /* HSB.swift in Sources */,
 				131DBDC8275A992900BCD134 /* RGB+toHSB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
